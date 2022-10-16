@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Acetaldehyde",
+    "description": "Green apple-like aroma and flavor"
+  },
+  {
+    "name": "Alcoholic",
+    "description": "The aroma, flavor, and warming effect of ethanol and higher alcohols. Sometimes described as hot."
+  },
+  {
+    "name": "Astringent",
+    "description": "Puckering, lingering harshness and/or dryness in the finish/aftertaste; harsh graininess; huskiness."
+  },
+  {
+    "name": "Diacetyl",
+    "description": "Artificial butter, butterscotch, or toffee aroma and flavor. Sometimes perceived as a slickness on the tongue."
+  },
+  {
+    "name": "DMS (dimethyl sulfide)",
+    "description": "At low levels a sweet, cooked or canned corn-like aroma and flavor."
+  },
+  {
+    "name": "Estery",
+    "description": "Aroma and/or flavor of any ester (fruits, fruit flavorings, or roses)."
+  },
+  {
+    "name": "Grassy",
+    "description": "Aroma/flavor of fresh-cut grass or green leaves."
+  },
+  {
+    "name": "Light-Struck",
+    "description": "Similar to the aroma of a skunk."
+  },
+  {
+    "name": "Metallic",
+    "description": "Tinny, coiny, copper, iron, or blood-like flavor."
+  },
+  {
+    "name": "Musty",
+    "description": "Stale, musty, or moldy aromas/flavors."
+  },
+  {
+    "name": "Oxidized",
+    "description": "Any one or combination of stale, winy/vinous, cardboard, papery, or sherry-like aromas and flavors."
+  },
+  {
+    "name": "Phenolic",
+    "description": "Spicy (clove, pepper), smoky, plastic, plastic adhesive strip, and/or medicinal (chlorophenolic)."
+  },
+  {
+    "name": "Solvent",
+    "description": "Aromas and flavors of higher alcohols (fusel alcohols). Similar to acetone or lacquer thinner aromas."
+  },
+  {
+    "name": "Sour/Acidic",
+    "description": "Tartness in aroma and flavor. Can be sharp and clean (lactic acid), or vinegar-like (acetic acid)."
+  },
+  {
+    "name": "Sulfur",
+    "description": "The aroma of rotten eggs or burning matches."
+  },
+  {
+    "name": "Vegetal",
+    "description": "Cooked, canned, or rotten vegetable aroma and flavor (cabbage, onion, celery, asparagus, etc.)"
+  },
+  {
+    "name": "Yeasty",
+    "description": "A bready, sulfury or yeast-like aroma or flavor."
+  }
+]
