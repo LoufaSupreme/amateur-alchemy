@@ -1,6 +1,11 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+
+// import environmental variables from our variables.env file
+require('dotenv').config({ path: 'variables.env' });
+
+// const cookieParser = require('cookie-parser');
 // const session = require('express-session');
 // const MongoStore = require('connect-mongo');
 // const passport = require('passport');
@@ -25,5 +30,20 @@ app.use(express.urlencoded({ extended: true }));
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
 
-// done! we export it so we can start the site in start.js
-module.exports = app;
+// Connect to our Database and handle any bad connections
+// mongoose.connect(process.env.DATABASE);
+// mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+// mongoose.connection.on('error', (err) => {
+//   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+// });
+
+// import all of our models:
+// require('./models/Store');
+// require('./models/User');
+// require('./models/Review');
+
+// Start our app!
+app.set('port', process.env.PORT || 7778);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
