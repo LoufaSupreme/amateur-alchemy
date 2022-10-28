@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const beerReviewController = require('../controllers/beerReviewController');
+const beerController = require('../controllers/beerController');
 
-router.get('/', beerReviewController.getBeerReviews);
+router.get('/', beerController.getBeers);
 
 ////// API ROUTES //////
 

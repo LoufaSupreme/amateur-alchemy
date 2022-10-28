@@ -23,10 +23,12 @@
   },
   "homepage": "https://github.com/LoufaSupreme/amateur-alchemy#readme",
   "dependencies": {
+    "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.6.5",
     "nodemon": "^2.0.20",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "slugs": "^0.1.3"
   }
 }
