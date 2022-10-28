@@ -1,0 +1,52 @@
+doctype html
+html
+  head
+    title= `${title}`
+    link(rel='stylesheet', href='/styles/main.css')
+    link(rel="shortcut icon" type="image/png" href="/images/icons/doughnut.png")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    block header
+      header
+        .hero 
+        nav.nav
+          .nav__section.nav__secton--logo
+            li.nav__item 
+              .logo AMATEUR ALCHEMY
+          .nav__section.nav__section--pages 
+            li.nav__item 
+              a.nav__link(href="#") Beer Reviews
+            li.nav__item 
+              a.nav__link(href="#") Experiments
+            li.nav__item 
+              a.nav__link(href="#") Tools
+            li.nav__item 
+              a.nav__link(href="#") About
+          .nav__section.nav__section--search 
+            .search
+              input.search__input(type="text" placeholder="Search..." name="search")
+              .search__results
+          .nav__section.nav__section--user
+            li.nav__item 
+              a.nav__link(href="#") Login
+            li.nav__item 
+              a.nav__link(href="#") Register
+
+    block messages
+      if locals.flashes
+        .inner
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    .hero 
+      block hero
+    
+    .content
+      block content
+
+    block scripts
+      script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)

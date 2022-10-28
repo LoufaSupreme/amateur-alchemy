@@ -1,0 +1,84 @@
+/* RESETS */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    background-image: linear-gradient(to right, hsl(0, 0%, 20%) 30%,hsl(0, 0%, 10%));
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    color: white;
+
+}
+
+.nav {
+    display: flex;
+    gap: 3rem;
+    min-height: 50px;
+    justify-content: space-around;
+    align-items: center;
+    padding-inline: 2rem;
+}
+
+.nav__section {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav__section.nav__section--pages {
+
+}
+
+.search__input {
+    max-width: 100%;
+    background-color: transparent;
+    border-radius: 50rem;
+    padding: 0.5rem;
+    margin-inline: 3rem;
+}
+
+.hero {
+    position: relative;
+    display: flex;
+    
+}
+
+.hero__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.hero__text h1 {
+    font-size: 4rem;
+    letter-spacing: 0.3rem;
+}
+
+.hero__text p {
+    font-size: 2rem;
+}
+
+.hero__img-container {
+    display: flex;
+    justify-content: center;
+    right: 10%;
+    margin-left: auto;
+    aspect-ratio: 1;
+    max-height: 600px;
+    flex-shrink: 1;
+}
+

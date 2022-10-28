@@ -98,8 +98,8 @@ const beerReviewSchema = new mongoose.Schema({
         },
     },
     descriptors: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'BeerDescriptor'
+        type: String,
+        trim: true
     }],
     author: {
         type: mongoose.Schema.ObjectId,

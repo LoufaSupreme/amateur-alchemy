@@ -1,2 +1,11 @@
+extends layout 
 
-h1= title 
+block hero
+    .hero__text 
+        h1 AMATEUR ALCHEMY
+        p The search for liquid gold
+    .hero__img-container
+        img(src='/images/beers.png') 
+
+block content 
+    h1 Content
