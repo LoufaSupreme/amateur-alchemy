@@ -12,3 +12,11 @@ exports.getBeers = async (req, res, next) => {
         console.error(err);
     }
 }
+
+exports.editBeer = (req, res) => {
+    res.render('editBeer', { title: 'Add Beer' });
+}
+
+exports.createBeer = async (req, res, next) => {
+
+}

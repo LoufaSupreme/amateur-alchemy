@@ -1,0 +1,11 @@
+extends layout 
+
+include mixins/_beerForm
+
+block content
+    h1= title
+    
+    //- the + is to use a mixin
+    //- if a beer is passed in (from the editbeer route) then the info of that beer will be used to prepopulate the mixin form
+    //- if a beer is not passed in (e.g. from the createbeer route) then beer is null and nothing is passed to the mixin.
+    +beerForm(beer)
