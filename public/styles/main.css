@@ -82,3 +82,10 @@ body {
     flex-shrink: 1;
 }
 
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 50%;
+}
+
