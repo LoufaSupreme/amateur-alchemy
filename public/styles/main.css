@@ -15,12 +15,18 @@ a {
     color: inherit;
 }
 
+input, textarea {
+    background-color: inherit;
+    color: inherit;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.4rem;
+}
+
 body {
     background-image: linear-gradient(to right, hsl(0, 0%, 20%) 30%,hsl(0, 0%, 10%));
     background-repeat: no-repeat;
     min-height: 100vh;
     color: white;
-
 }
 
 .nav {
@@ -82,10 +88,36 @@ body {
     flex-shrink: 1;
 }
 
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .form-card {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    max-width: 50%;
+    /* margin-inline: auto; */
+    width: min(50%, 900px);
+    padding-top: 3rem;
+}
+
+.form-card textarea {
+    min-height: 5rem;
+}
+
+.form-card input {
+    /* min-height: 1.5rem; */
+}
+
+.form-card label {
+
 }
 
