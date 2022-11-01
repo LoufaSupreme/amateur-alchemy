@@ -1,0 +1,62 @@
+/******** BEER FORM ********/
+
+.form-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: 
+        "main sidebar"
+        "wide wide"
+        "btn btn";
+    gap: 1.5rem;
+    /* margin-inline: auto; */
+    width: min(50%, 900px);
+    padding-top: 3rem;
+}
+
+.form-card .bjcp-comment {
+    margin-bottom: 1rem;
+}
+
+.form-card input,
+.form-card textarea {
+    margin-bottom: 1rem;
+    border: 1px solid rgb(0, 0, 5);
+}
+
+.form-card__section {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255,255,255,0.1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.form-card__section--heading {
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+}
+
+.form-card__section.wide {
+    grid-area: wide;
+}
+
+.form-card textarea {
+    min-height: 5rem;
+    background-color: transparent;
+}
+
+.form-card input {
+    background-color: transparent;
+}
+
+.form-card input[type=submit] {
+    grid-area: btn;
+}
+
+.form-card .score-input {
+    margin-left: 1rem;
+    margin-bottom: 0;
+    width: 50px;
+    padding: 0.3rem 0.6rem;
+}
+

@@ -2,6 +2,9 @@ extends layout
 
 include mixins/_beerForm
 
+block stylesheets 
+    link(rel='stylesheet', href='/styles/addBeer.css')
+
 block content
     h1= title
     .container
