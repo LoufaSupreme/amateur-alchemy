@@ -33,16 +33,15 @@ html
             li.nav__item 
               a.nav__link(href="#") Register
 
+    .flash-container
     block messages
       if locals.flashes
-        .inner
-          .flash-messages
-            - const categories = Object.keys(locals.flashes)
-            each category in categories
-              each message in flashes[category]
-                .flash(class=`flash--${category}`)
-                  p.flash__text!= message
-                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+        - const categories = Object.keys(locals.flashes)
+        each category in categories
+          each message in flashes[category]
+            .flash(class=`flash--${category}`)
+              p.flash__text!= message
+              button.flash__remove(onClick="this.parentElement.remove()") &times;
     .hero 
       block hero
     
@@ -51,3 +50,4 @@ html
 
     block scripts
       script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)
+      script(src='/javascript/main.js')

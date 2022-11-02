@@ -113,3 +113,32 @@ body {
     align-items: center;
 }
 
+.flash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 10vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    gap: 0.5rem;
+    z-index: 200;
+}
+
+.flash {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: hsla(var(--clr-white) / 0.86);
+    color: hsl(var(--clr-dark));
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 250ms ease-out;
+}
+
+.flash.hide {
+    opacity: 0;
+}

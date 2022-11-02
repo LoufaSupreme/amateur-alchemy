@@ -1,6 +1,12 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+// for flash messages:
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
+
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
@@ -17,12 +23,9 @@ require('./models/Beer');
 // require('./models/User');
 // require('./models/Review');
 
-// const cookieParser = require('cookie-parser');
-// const session = require('express-session');
 // const MongoStore = require('connect-mongo');
 // const passport = require('passport');
 // const promisify = require('es6-promisify');
-// const flash = require('connect-flash');
 // const expressValidator = require('express-validator');
 
 const routes = require('./routes/index');
@@ -42,6 +45,33 @@ app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work gr
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// populates req.cookies with any cookies that came along with the request
+// needed to use flash messages
+app.use(cookieParser());
+
+// Sessions allow us to store data on visitors from request to request
+// This keeps users logged in and allows us to send flash messages
+app.use(session({
+  secret: process.env.SECRET,
+  key: process.env.KEY,
+  resave: false,
+  saveUninitialized: false,
+  // store: new MongoStore({ mongoUrl: process.env.DATABASE })
+}));
+
+// The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
+app.use(flash());
+
+// pass variables to our templates + all requests
+// passes helpful things like that User object, the custom helper functions, etc to every template
+app.use((req, res, next) => {
+  // res.locals.h = helpers;
+  res.locals.flashes = req.flash();
+  res.locals.user = req.user || null;  // the passport library makes a user variable accessible on req automatically
+  res.locals.currentPath = req.path;
+  next();
+});
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);

@@ -25,16 +25,7 @@ const beerSchema = new mongoose.Schema({
         default: Date.now,
     },
     photo: String,
-    brewery: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Brewery',
-        required: "You must supply a brewery!"
-    },
-    text: {
-        type: String,
-        required: "Your review must have content...",
-        trim: true,
-    },
+    brewery: String,
     bjcp_style: String,
     rating: {
         aroma: {
@@ -93,11 +84,11 @@ const beerSchema = new mongoose.Schema({
             },
         },
     },
-    author: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: 'You must supply an author'
-    },
+    // author: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'User',
+    //     required: 'You must supply an author'
+    // },
 },
 // add additional option to display virtual fields (like our reviews field) when displaying store data in JSON or as objects.
 // without this, virtual fields would still be present, but they wouldn't be displayed when using res.json(), for example. 
@@ -119,8 +110,8 @@ beerSchema.pre('save', async function(next) {
     const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
     const beersWithSlug = await this.constructor.find({ slug: slugRegEx });
     
-    if (beerWithSlug.length) {
-        this.slug = `${this.slug}-${beerWithSlug.length + 1}`;
+    if (beersWithSlug.length) {
+        this.slug = `${this.slug}-${beersWithSlug.length + 1}`;
     }
     next();
 })

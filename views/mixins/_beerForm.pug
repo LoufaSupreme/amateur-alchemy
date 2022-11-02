@@ -1,15 +1,15 @@
 mixin beerForm(beer = {})
-    form(action=`/addBeer/${beer._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+    form(action=`/editBeer/${beer._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Identity
             label(for="name") Name 
             input(type="text" name="name" value=beer.name)
 
-            label(for="Brewery") Brewery
+            label(for="brewery") Brewery
             input(type="text" id="brewery" name="brewery") 
 
             label(for="bjcp-style") Style
-            input(type="select")
+            input(type="select" name="bjcp_style")
 
             label(for="description") Description 
             textarea(name="description") #{beer.description}
@@ -22,43 +22,55 @@ mixin beerForm(beer = {})
         
         .form-card__section.sidebar
             h2.form-card__section--heading Specs
-            //- a starting dash indicates we're strictly writing javascript 
-            - const specs = ['ABV', 'IBU (Reported)', 'IBU (Measured)', 'pH', 'FG','SRM'];
+            label(for="abv") ABV
+            input(type="number" id="abv" name="abv")
 
-            each spec in specs 
-                label(for=spec) #{spec}
-                input(type="number" id=spec name=spec)
+            label(for="ibu_reported") IBU (Reported)
+            input(type="number" id="ibu_reported" name="ibu_reported")
+
+            label(for="ibu_measured") IBU (Measured)
+            input(type="number" id="ibu_measured" name="ibu_measured")
+
+            label(for="pH") pH
+            input(type="number" id="pH" name="pH")
+
+            label(for="final_gravity") Final Gravity
+            input(type="number" id="final_gravity" name="final_gravity")
+
+            label(for="srm") SRM
+            input(type="number" id="srm" name="srm")
+
 
         .form-card__section.wide
             h2.form-card__section--heading BJCP
-            label(for="aroma-descrip") Aroma:
-                input(type="number" name="aroma-score" class="score-input") 
+            label(for="rating[aroma][description]") Aroma:
+                input(type="number" name="rating[aroma][score]" class="score-input") 
                 span / 12
             span.bjcp-comment Malt, hops, esters and other aromatics
-            textarea(name="aroma-descrip" placeholder="Describe the aroma...") #{beer.rating}
+            textarea(name="rating[aroma][description]" placeholder="Describe the aroma...") #{beer.rating}
 
-            label(for="appearance-descrip") Appearance:
-                input(type="number" name="appearance-score" class="score-input")
+            label(for="rating[appearance][description]") Appearance:
+                input(type="number" name="rating[appearance][score]" class="score-input")
                 span / 3
-            span.bjcp-comment Colour, clarity and head (retention, colour, texture)
-            textarea(name="appearance-descrip" placeholder="Describe the appearance...") #{beer.rating}
+            span.bjcp-comment Color, clarity and head (retention, colour, texture)
+            textarea(name="rating[appearance][description]" placeholder="Describe the appearance...") #{beer.rating}
 
-            label(for="flavour-descrip") Flavour:
-                input(type="number" name="flavour-score" class="score-input")
+            label(for="rating[flavor][description]") Flavour:
+                input(type="number" name="rating[flavor][score]" class="score-input")
                 span / 20
-            span.bjcp-comment Malt, hops, fermentation characteristics, balance, finish/aftertaste, and other flavour characteristics
-            textarea(name="flavour-descrip" placeholder="Describe the flavour...") #{beer.rating}
+            span.bjcp-comment Malt, hops, fermentation characteristics, balance, finish/aftertaste, and other flavor characteristics
+            textarea(name="rating[flavor][description]" placeholder="Describe the flavor...") #{beer.rating}
 
-            label(for="mouthfeel-descrip") Mouthfeel:
-                input(type="number" name="mouthfeel-score" class="score-input")
+            label(for="rating[mouthfeel][description]") Mouthfeel:
+                input(type="number" name="rating[mouthfeel][score]" class="score-input")
                 span / 5
             span.bjcp-comment Body, carbonation, warmth, creaminess, astringency, and other palate sensations
-            textarea(name="mouthfeel-descrip" placeholder="Describe the mouthfeel...") #{beer.rating}
+            textarea(name="rating[mouthfeel][description]" placeholder="Describe the mouthfeel...") #{beer.rating}
 
-            label(for="overall-descrip") Overall:
-                input(type="number" name="overall-score" class="score-input")
+            label(for="rating[overall][description]") Overall:
+                input(type="number" name="rating[overall][score]" class="score-input")
                 span / 10
             span.bjcp-comment Overall drinking pleasure and give suggestions for improvement
-            textarea(name="overall-descrip" placeholder="Overall impressions...") #{beer.rating}
+            textarea(name="rating[overall][description]" placeholder="Overall impressions...") #{beer.rating}
 
         input(type="submit" value="Save" class="button")
