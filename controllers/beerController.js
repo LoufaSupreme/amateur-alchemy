@@ -43,7 +43,9 @@ exports.resize = async (req, res, next) => {
 
 exports.getBeers = async (req, res, next) => {
     try {
-        res.render('home', { title: 'Beer Reviews' });
+        console.log('running getBeers')
+        const beers = await Beer.find().sort({ created: 'desc' });
+        res.render('home', { title: 'Beer Reviews', beers: beers });
     }
     catch(err) {
         console.error(err);

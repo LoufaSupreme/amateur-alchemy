@@ -107,12 +107,6 @@ body {
     flex-direction: column;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .flash-container {
     display: flex;
     flex-direction: column;
@@ -141,4 +135,13 @@ body {
 
 .flash.hide {
     opacity: 0;
+}
+
+.beer-reviews {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 1300px;
 }
