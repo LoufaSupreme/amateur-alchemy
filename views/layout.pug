@@ -9,11 +9,11 @@ html
   body
     block header
       header
-        .hero 
         nav.nav
           .nav__section.nav__secton--logo
             li.nav__item 
-              .logo AMATEUR ALCHEMY
+              .logo 
+                a.nav__link(href="/") AMATEUR ALCHEMY
           .nav__section.nav__section--pages 
             li.nav__item 
               a.nav__link(href="#") Beer Reviews
@@ -42,6 +42,7 @@ html
               .flash(class=`flash--${category}`)
                 p.flash__text!= message
                 button.flash__remove(onClick="this.parentElement.remove()") &times;
+
     .hero 
       block hero
     
