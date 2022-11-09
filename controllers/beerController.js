@@ -69,3 +69,19 @@ exports.createBeer = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.beerReview = async (req, res, next) => {
+    try {
+        console.log('running beerReview')
+        const beer = await Beer.findOne({ slug: req.params.slug });
+        if (!beer) {
+            console.error('No beer found in db');
+            return next();
+        }
+        res.render('beerReview', { title: beer.name, beer: beer });
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}

@@ -15,6 +15,10 @@ a {
     color: inherit;
 }
 
+button {
+    cursor: pointer;
+}
+
 input, textarea {
     background-color: inherit;
     color: inherit;
@@ -35,6 +39,11 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook&display=swap');
+
+/* STYLES */
+
 body {
     background-image: linear-gradient(to right, hsl(0, 0%, 20%) 30%,hsl(0, 0%, 10%));
     background-repeat: no-repeat;
@@ -46,11 +55,17 @@ body {
 }
 
 .nav {
-    display: flex;
+    /* display: flex;
     width: 100vw;
     gap: 3rem;
     min-height: 50px;
     justify-content: space-around;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    width: 100vw;
+    justify-content: center;
+    justify-items: center;
     align-items: center;
     padding-inline: 2rem;
     margin-bottom: 2rem;
@@ -66,12 +81,22 @@ body {
 
 }
 
+.nav__section.nav__section--search {
+    width: 100%;
+    padding-inline: 3rem;
+}
+
+.search {
+    width: 100%;
+}
+
 .search__input {
-    max-width: 100%;
+    width: 100%;
+    max-width: 400px;
     background-color: transparent;
     border-radius: 50rem;
     padding: 0.5rem;
-    margin-inline: 3rem;
+    margin: 0.5rem 0;
 }
 
 .hero {
@@ -93,6 +118,21 @@ body {
 .hero__text h1 {
     font-size: 5rem;
     letter-spacing: 0.3rem;
+}
+
+@font-face {
+    font-family: 'MedievalSharp-Regular';
+    src: url('../fonts/MedievalSharp-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'UnifrakturCook-Bold';
+    src: url('../fonts/UnifrakturCook-Bold.ttf');
+}
+
+.alchemy {
+    font-family: 'UnifrakturCook-Bold';
+    font-weight: normal;
 }
 
 .hero__text p {
@@ -151,7 +191,7 @@ body {
 
 .beer-reviews {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
     padding: 1.5rem;
     width: 100%;

@@ -1,0 +1,46 @@
+mixin beerReview(beer)
+    //- pre= h.dump(beer)
+    .img-container
+        img(src=`/uploads/${beer.photo}`, alt=beer.name)
+    .main-specs 
+        h1.name= beer.name
+        .brewery= beer.brewery 
+        .style= beer.bjcp_style 
+        .description= beer.description
+        .date= beer.created
+        - const overallScore = Object.values(beer.rating).reduce((acc, curr) => {return acc += curr.score==null ? 0 : curr.score}, 0);
+        .rating= `${overallScore * 2} / 100`
+    .aux-specs
+        if beer.abv
+            .aux-specs__spec
+                span.aux-specs__spec--title ABV 
+                span.aux-specs__spec--value= beer.abv
+        if beer.ph
+            .aux-specs__spec
+                span.aux-specs__spec--title pH 
+                span.aux-specs__spec--value= beer.pH
+        if beer.ibu_reported
+            .aux-specs__spec
+                span.aux-specs__spec--title Reported IBUs 
+                span.aux-specs__spec--value= beer.ibu_reported
+        if beer.ibu_measured
+            .aux-specs__spec
+                span.aux-specs__spec--title Measured IBUs 
+                span.aux-specs__spec--value= beer.ibu_measured
+        if beer.final_gravity
+            .aux-specs__spec
+                span.aux-specs__spec--title Final Gravity 
+                span.aux-specs__spec--value= beer.final_gravity
+        if beer.srm
+            .aux-specs__spec
+                span.aux-specs__spec--title Color (SRM)
+                span.aux-specs__spec--value= beer.srm
+    .review 
+        each section in Object.entries(beer.rating)
+            .review__section 
+                .review__section--subtitle= h.capitalizeFirst(section[0])
+                .review__section--score= `${section[1].score} / ${section[1].max_score}`
+                .review__section--content= section[1].description
+    
+    if beer.tags
+        .tags= beer.tags.map(tag=>h.capitalizeFirst(tag)).join(', ')

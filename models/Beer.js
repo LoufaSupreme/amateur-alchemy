@@ -34,6 +34,10 @@ const beerSchema = new mongoose.Schema({
                 min: 0,
                 max: 12,
             },
+            max_score: {
+                type: Number,
+                default: 12,
+            },
             description: {
                 type: String,
                 trim: true
@@ -44,6 +48,10 @@ const beerSchema = new mongoose.Schema({
                 type: Number,
                 min: 0,
                 max: 3,
+            },
+            max_score: {
+                type: Number,
+                default: 3,
             },
             description: {
                 type: String,
@@ -56,6 +64,10 @@ const beerSchema = new mongoose.Schema({
                 min: 0,
                 max: 20,
             },
+            max_score: {
+                type: Number,
+                default: 20,
+            },
             description: {
                 type: String,
                 trim: true
@@ -67,6 +79,10 @@ const beerSchema = new mongoose.Schema({
                 min: 0,
                 max: 5,
             },
+            max_score: {
+                type: Number,
+                default: 5,
+            },
             description: {
                 type: String,
                 trim: true
@@ -77,6 +93,10 @@ const beerSchema = new mongoose.Schema({
                 type: Number,
                 min: 0,
                 max: 10,
+            },
+            max_score: {
+                type: Number,
+                default: 10,
             },
             description: {
                 type: String,

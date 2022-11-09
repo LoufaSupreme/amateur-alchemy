@@ -1,0 +1,12 @@
+extends layout 
+
+include mixins/_beerReview
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/beerReview.css')
+
+block content
+    if msg 
+        .msg= msg
+    .container
+        +beerReview(beer)
