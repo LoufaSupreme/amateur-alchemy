@@ -19,6 +19,11 @@ button {
     cursor: pointer;
 }
 
+img {
+    max-width: 100%;
+    width: 100%;
+}
+
 input, textarea {
     background-color: inherit;
     color: inherit;
