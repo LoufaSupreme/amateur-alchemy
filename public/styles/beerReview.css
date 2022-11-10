@@ -1,18 +1,147 @@
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url('../fonts/Inter-Regular.ttf');
+}
+
 .review-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    grid-template-rows: auto auto auto auto;
+    font-family: "Inter-Regular";
+}
+
+.identity {
+    grid-column: 1;
+    font-family: inherit;
 }
 
 .review-container img {
-    max-height: 500px;
+    max-height: 700px;
     object-fit: cover;
     box-shadow: 0px 0px 10px rgb(0 0 0 / 1);
-    grid-row: span 2;
-} 
+    grid-row: 2;
+}
+
+.identity {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.identity .name {
+    font-size: 3rem;
+    color: #FF3B68;
+    font-weight: bold;
+    margin-bottom: -0.4rem;
+}
+
+.brewery {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.style {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.date {
+    font-size: 0.8rem;
+    color: rgb(255 255 255 / 0.7)
+}
+
+.rating-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.rating {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
 
 .ratings {
-    grid-column: span 2;
+    grid-column: 2;
+    grid-row: 1 / -1;
     display: grid;
+    margin-left: 2rem;
+    align-content: center;
+}
+
+.ratings__section {
+    padding: 1.5rem;
+}
+
+.ratings__section:not(:last-child) {
+    border-bottom: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.ratings__section--title {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.ratings__section--subtitle {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.ratings__section--score {
+    font-weight: lighter;
+    color:rgb(255 255 255 / 0.7)
+}
+
+.aux-specs {
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+    background-color: rgb(0 0 0 / 0.5);
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.aux-specs__spec {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
+    padding: 1rem 0;
+}
+
+.aux-specs__spec:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 12.5%;
+    right: 0;
+    width: 1px;
+    height: 75%;
+    background-color: rgb(255 255 255 / 0.2);
+}
+
+.aux-specs__spec--title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.aux-specs__spec--title {
+    color: #FF3B68;
+    font-weight: bold;
+}
+
+.aux-specs__spec--subtitle {
+    color: #FF3B68;
+    font-weight: bold;
+    font-size: 0.5rem;
+}
+
+.tags {
+    grid-row: 4;
+}
+
+beer-description {
+    grid-row: 5;
 }

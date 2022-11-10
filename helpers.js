@@ -7,3 +7,6 @@ exports.dump = (obj) => JSON.stringify(obj, null, 2);
 exports.capitalizeFirst = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+// moment.js is a handy library for displaying dates. We need this in our templates to display things like "Posted 5 minutes ago"
+exports.moment = require('moment');
