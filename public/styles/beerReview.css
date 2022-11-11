@@ -46,8 +46,10 @@
 
 .date {
     font-size: 0.8rem;
-    color: rgb(255 255 255 / 0.7)
+    color: rgb(255 255 255 / 0.7);
 }
+
+/*********** SCORE GRAPHIC ***************/
 
 .score-container {
     display: flex;
@@ -117,6 +119,8 @@
     z-index: 20;
 }
 
+/*********** REVIEW SECTION ***************/
+
 .ratings {
     grid-column: 2;
     grid-row: 1 / -1;
@@ -173,6 +177,8 @@
     color:rgb(255 255 255 / 0.7)
 }
 
+/*********** IMAGE SECTION ***************/
+
 .review-img-container {
     /* position: relative; */
     box-shadow: 0px 0px 10px rgb(0 0 0 / 1);
@@ -180,22 +186,42 @@
     margin-bottom: 2rem;
 }
 
-.review-img {
+.showcase-img {
     max-height: 700px;
     object-fit: cover;
 }
 
+.img-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(40px, 1fr));
+    gap: 0.5rem;
+    max-height: 100px;
+    justify-items: center;
+    margin-top: -3px;
+    margin-bottom: 1px;
+}
+
+.gallery-img {
+    object-fit: cover;
+    max-height: 100%;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.gallery-img.active {
+    border: 2px solid rgb(var(--clr-accent) / 0.75);
+}
+
 .aux-specs {
-    /* grid-row: 3; */
-    /* position: absolute; */
     bottom: 0;
     left: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
     background-color: rgb(0 0 0 / 0.5);
     padding: 0 0.5rem;
-    margin-top: -5px;
-    /* box-shadow: 0px 0px 10px rgb(0 0 0 / 1); */
+    /* margin-top: -5px; */
 }
 
 .aux-specs__spec {

@@ -24,7 +24,7 @@ const beerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    photo: String,
+    photos: [String],
     brewery: String,
     bjcp_style: String,
     rating: {

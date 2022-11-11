@@ -17,22 +17,32 @@ const multerOptions = {
     }
 }
 
-exports.upload = multer(multerOptions).single('photo');
+exports.upload = multer(multerOptions).array('photos');
 
 exports.resize = async (req, res, next) => {
     try {
-        // check if there is no new file to resize
-        if (!req.file) {
+        // check if there is no new files to resize
+        if (!req.files) {
             next(); // skip to next middleware
             return;
         }
-        // console.log(req.file);
-        const fileExtension = req.file.mimetype.split('/')[1]; // get the type of image
-        req.body.photo = `${uuid.v4()}.${fileExtension}`; // create a new unique name for the image
-        // resize photo:
-        const photo = await jimp.read(req.file.buffer); // pass in image buffer to jimp
-        await photo.resize(800, jimp.AUTO); // length and width
-        await photo.write(`./public/uploads/${req.body.photo}`);  // save the resized image to the public folder
+
+        req.body.photos = [];
+        for (const file of req.files) {
+            // get the type of image
+            const fileExtension = file.mimetype.split('/')[1]; 
+
+            // create a new unique name for the image
+            const fileName = `${uuid.v4()}.${fileExtension}`;
+            req.body.photos.push(fileName); 
+
+            // resize photo:
+            // pass in image buffer to jimp
+            const photo = await jimp.read(file.buffer);
+            photo.resize(800, jimp.AUTO); // length and width
+            photo.write(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+        }
+        
         next(); 
     }
     catch(err) {
@@ -62,8 +72,8 @@ exports.createBeer = async (req, res, next) => {
         const savedBeer = await beer.save();
         console.log('New Beer created');
         req.flash('success', `Successfully created ${beer.name}`)
-        // res.redirect(`/beer-reviews/${savedBeer.slug}`)
-        res.redirect('back')
+        res.redirect(`/beer-reviews/${savedBeer.slug}`)
+        // res.render('beerReview', { title: beer.name, beer: beer })
     }
     catch(err) {
         next(err);

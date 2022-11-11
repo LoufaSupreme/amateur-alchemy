@@ -18,7 +18,10 @@ mixin beerReview(beer)
                 .score= `${overallScore * 2}%`
         
         .review-img-container
-            img.review-img(src=`/uploads/${beer.photo}`, alt=beer.name)
+            img.showcase-img(src=`/uploads/${beer.photos[0]}`, alt=beer.name)
+            .img-gallery 
+                each photo in beer.photos
+                    img.gallery-img(src=`/uploads/${photo}`, alt=beer.name)
             .aux-specs
                 if beer.abv
                     .aux-specs__spec
@@ -94,4 +97,17 @@ mixin beerReview(beer)
         else {
             se.style.setProperty('--skew', `${90-((score)/25*90)}deg`);
         }
+
+        // image gallery
+        const gallery = document.querySelector('.img-gallery');
+        const galleryImgs = gallery.querySelectorAll('img');
+        const showcaseImg = document.querySelector('.showcase-img');
+
+        function handleImgClick(e) {
+            galleryImgs.forEach(img => img.classList.remove('active'));
+            e.target.classList.add('active');
+            showcaseImg.src = e.target.src;
+        }
+
+        galleryImgs.forEach(img => img.addEventListener('click', handleImgClick));
 

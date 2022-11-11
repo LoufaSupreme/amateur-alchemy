@@ -15,8 +15,8 @@ mixin beerForm(beer = {})
             textarea(name="description") #{beer.description}
 
             //- image upload
-            label(for="photo") Photo 
-            input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg")
+            label(for="photos") Photo 
+            input(type="file" name="photos" id="photo" accept="image/gif, image/png, image/jpeg" multiple)
             if beer.photo 
                 img(src=`/uploads/${beer.photo}`, alt=beer.name width=200)
         
