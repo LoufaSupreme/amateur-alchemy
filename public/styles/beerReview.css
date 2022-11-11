@@ -85,7 +85,7 @@
 .segment {
     position: absolute;
     background-color: rgb(var(--clr-accent));
-    width: 50%;
+    width: 55%;
     aspect-ratio: 1 / 1;
     top: 50%;
     left: 50%;

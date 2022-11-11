@@ -15,7 +15,7 @@ mixin beerReview(beer)
                     .segment.segment-sw
                     .segment.segment-nw
                     .segment.segment-ne
-                .score= `${overallScore * 2}%`
+                .score(data-score=overallScore*2)= '0%'
         
         .review-img-container
             img.showcase-img(src=`/uploads/${beer.photos[0]}`, alt=beer.name)
@@ -75,28 +75,47 @@ mixin beerReview(beer)
         const ne = document.querySelector('.segment-ne');
         const nw = document.querySelector('.segment-nw');
 
+        const score = document.querySelector('.score');
+
         // all segments start at skew(90) which is not visible
+        const targetScore = +score.dataset.score;
+        let currentScore = parseFloat(score.innerText.slice(0, -1));
 
-        let score = parseFloat(document.querySelector('.score').innerText.substring(0, 2));
+        function setGauge(score) {
+            if (score >= 75) {
+                se.style.setProperty('--skew', '0deg');
+                sw.style.setProperty('--skew', '0deg');
+                nw.style.setProperty('--skew', '0deg');
+                ne.style.setProperty('--skew', `${90-((score-75)/25*90)}deg`);
+            }
+            else if (score >= 50) {
+                se.style.setProperty('--skew', '0deg');
+                sw.style.setProperty('--skew', '0deg');
+                nw.style.setProperty('--skew', `${90-((score-50)/25*90)}deg`);
+            }
+            else if (score >= 25) {
+                se.style.setProperty('--skew', '0deg');
+                sw.style.setProperty('--skew', `${90-((score-25)/25*90)}deg`);
+            }
+            else {
+                se.style.setProperty('--skew', `${90-((score)/25*90)}deg`);
+            }
+        }
 
-        if (score >= 75) {
-            se.style.setProperty('--skew', '0deg');
-            sw.style.setProperty('--skew', '0deg');
-            nw.style.setProperty('--skew', '0deg');
-            ne.style.setProperty('--skew', `${90-((score-75)/25*90)}deg`);
+        function updateScore(delay, speed) {
+            if (currentScore < targetScore) {
+                score.innerText = `${currentScore+1}%`;
+                currentScore = parseFloat(score.innerText.slice(0, -1));
+                setGauge(currentScore);
+                
+                const newDelay = delay * speed;
+                setTimeout(() => {
+                    updateScore(newDelay, speed);
+                }, newDelay);
+            }
         }
-        else if (score >= 50) {
-            se.style.setProperty('--skew', '0deg');
-            sw.style.setProperty('--skew', '0deg');
-            nw.style.setProperty('--skew', `${90-((score-50)/25*90)}deg`);
-        }
-        else if (score >= 25) {
-            se.style.setProperty('--skew', '0deg');
-            sw.style.setProperty('--skew', `${90-((score-25)/25*90)}deg`);
-        }
-        else {
-            se.style.setProperty('--skew', `${90-((score)/25*90)}deg`);
-        }
+
+        updateScore(1, 1.05);
 
         // image gallery
         const gallery = document.querySelector('.img-gallery');
