@@ -3,8 +3,16 @@
     src: url('../fonts/Inter-Regular.ttf');
 }
 
+/* utility class for all outputs of paragraphs */
+.textbox {
+    white-space: pre-wrap;
+    line-height: 1.3rem;
+    font-size: 0.95rem;
+}
+
 .review-container {
     display: grid;
+    gap: 0 4rem;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto auto;
     font-family: "Inter-Regular";
@@ -12,31 +20,23 @@
 
 .identity {
     grid-column: 1;
-    font-family: inherit;
-}
-
-.review-container img {
-    max-height: 700px;
-    object-fit: cover;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 1);
-    grid-row: 2;
-}
-
-.identity {
-    display: flex;
-    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1.75fr 1fr;
+    margin-bottom: 1.5rem;
 }
 
 .identity .name {
     font-size: 3rem;
-    color: #FF3B68;
+    color: rgb(var(--clr-accent));
     font-weight: bold;
-    margin-bottom: -0.4rem;
+    /* margin-bottom: -0.1rem; */
+    line-height: 3.1rem;
 }
 
 .brewery {
     font-size: 2rem;
     font-weight: normal;
+    margin-bottom: 1rem;
 }
 
 .style {
@@ -49,39 +49,118 @@
     color: rgb(255 255 255 / 0.7)
 }
 
-.rating-container {
+.score-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 1;
+    position: relative;
 }
 
-.rating {
-    font-size: 2rem;
+.outer-circle {
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: transparent;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    width: 65%;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+}
+
+.inner-circle {
+    background-color: rgb(44, 44, 44);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    z-index: 10;
+    border-radius: 50%;
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    position: absolute;
+    transform-origin: 0 0;
+    top: 10%;
+    left: 10%;
+}
+
+.segment {
+    position: absolute;
+    background-color: rgb(var(--clr-accent));
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+}
+
+.segment-se {
+    --skew: 90deg;
+    transform: skew(var(--skew));
+}
+
+.segment-sw {
+    --skew: 90deg;
+    transform: rotate(90deg) skew(var(--skew));
+}
+
+.segment-nw {
+    --skew: 90deg;
+    transform: rotate(180deg) skew(var(--skew));
+}
+
+.segment-ne {
+    --skew: 90deg;
+    transform: rotate(270deg) skew(var(--skew));
+}
+
+.score {
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
+    z-index: 20;
 }
 
 .ratings {
     grid-column: 2;
     grid-row: 1 / -1;
     display: grid;
-    margin-left: 2rem;
+    /* margin-left: 4rem; */
     align-content: center;
 }
 
 .ratings__section {
-    padding: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .ratings__section:not(:last-child) {
     border-bottom: 1px solid rgb(255 255 255 / 0.2);
 }
 
+.brewer-notes {
+    padding-top: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.brewer-notes__title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    /* border-bottom: 2px dotted rgb(var(--clr-accent) / 0.6); */
+    padding-bottom: 0.5rem;
+}
+
+.brewer-notes__title.tasting {
+    margin-bottom: 0;
+    padding-bottom: 0rem;
+}
+
+.brewer-notes__content {
+    border-bottom: 2px dotted rgb(var(--clr-accent) / 0.6);
+    padding-bottom: 2.5rem;
+}
+
 .ratings__section--title {
     display: flex;
     gap: 1.5rem;
     padding-bottom: 1rem;
+    align-items: baseline;
 }
 
 .ratings__section--subtitle {
@@ -94,13 +173,29 @@
     color:rgb(255 255 255 / 0.7)
 }
 
+.review-img-container {
+    /* position: relative; */
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 1);
+    grid-row: 2;
+    margin-bottom: 2rem;
+}
+
+.review-img {
+    max-height: 700px;
+    object-fit: cover;
+}
+
 .aux-specs {
-    grid-row: 3;
+    /* grid-row: 3; */
+    /* position: absolute; */
+    bottom: 0;
+    left: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
     background-color: rgb(0 0 0 / 0.5);
     padding: 0 0.5rem;
-    margin-bottom: 1rem;
+    margin-top: -5px;
+    /* box-shadow: 0px 0px 10px rgb(0 0 0 / 1); */
 }
 
 .aux-specs__spec {
@@ -128,20 +223,17 @@
 }
 
 .aux-specs__spec--title {
-    color: #FF3B68;
+    color: rgb(var(--clr-accent));
     font-weight: bold;
 }
 
 .aux-specs__spec--subtitle {
-    color: #FF3B68;
+    color: rgb(var(--clr-accent));
     font-weight: bold;
     font-size: 0.5rem;
 }
 
 .tags {
-    grid-row: 4;
+    /* grid-row: span 1 / -1; */
 }
 
-beer-description {
-    grid-row: 5;
-}

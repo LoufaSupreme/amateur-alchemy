@@ -1,7 +1,6 @@
 mixin beerReview(beer)
     //- pre= h.dump(beer)
     .review-container
-        img(src=`/uploads/${beer.photo}`, alt=beer.name)
         .identity
             .name-container 
                 h1.name= beer.name
@@ -9,46 +8,90 @@ mixin beerReview(beer)
                 h3.style= beer.bjcp_style 
                 .date= h.moment(beer.created).format("MMM Qo, YYYY")
                 - const overallScore = Object.values(beer.rating).reduce((acc, curr) => {return acc += curr.score==null ? 0 : curr.score}, 0);
-            .rating-container 
-                .rating= `${overallScore * 2}%`
-        .beer-description 
-            .description= beer.description
-        .aux-specs
-            if beer.abv
-                .aux-specs__spec
-                    span.aux-specs__spec--title ABV:
-                    span.aux-specs__spec--value= `${beer.abv}%`
-            if beer.ph
-                .aux-specs__spec
-                    span.aux-specs__spec--title pH: 
-                    span.aux-specs__spec--value= beer.pH
-            if beer.ibu_reported
-                .aux-specs__spec
-                    .aux-specs__spec--title-container
-                        span.aux-specs__spec--title IBU:
-                        span.aux-specs__spec--subtitle REPORTED
-                    span.aux-specs__spec--value= beer.ibu_reported
-            if beer.ibu_measured
-                .aux-specs__spec
-                    .aux-specs__spec--title-container
-                        span.aux-specs__spec--title IBU:
-                        span.aux-specs__spec--subtitle MEASURED
-                    span.aux-specs__spec--value= beer.ibu_measured
-            if beer.final_gravity
-                .aux-specs__spec
-                    span.aux-specs__spec--title FG:
-                    span.aux-specs__spec--value= beer.final_gravity
-            if beer.srm
-                .aux-specs__spec
-                    span.aux-specs__spec--title SRM:
-                    span.aux-specs__spec--value= beer.srm
+            .score-container 
+                .outer-circle 
+                    .inner-circle
+                    .segment.segment-se
+                    .segment.segment-sw
+                    .segment.segment-nw
+                    .segment.segment-ne
+                .score= `${overallScore * 2}%`
+        
+        .review-img-container
+            img.review-img(src=`/uploads/${beer.photo}`, alt=beer.name)
+            .aux-specs
+                if beer.abv
+                    .aux-specs__spec
+                        span.aux-specs__spec--title ABV:
+                        span.aux-specs__spec--value= `${beer.abv}%`
+                if beer.ph
+                    .aux-specs__spec
+                        span.aux-specs__spec--title pH: 
+                        span.aux-specs__spec--value= beer.pH
+                if beer.ibu_reported
+                    .aux-specs__spec
+                        .aux-specs__spec--title-container
+                            span.aux-specs__spec--title IBU:
+                            span.aux-specs__spec--subtitle REPORTED
+                        span.aux-specs__spec--value= beer.ibu_reported
+                if beer.ibu_measured
+                    .aux-specs__spec
+                        .aux-specs__spec--title-container
+                            span.aux-specs__spec--title IBU:
+                            span.aux-specs__spec--subtitle MEASURED
+                        span.aux-specs__spec--value= beer.ibu_measured
+                if beer.final_gravity
+                    .aux-specs__spec
+                        span.aux-specs__spec--title FG:
+                        span.aux-specs__spec--value= beer.final_gravity
+                if beer.srm
+                    .aux-specs__spec
+                        span.aux-specs__spec--title SRM:
+                        span.aux-specs__spec--value= beer.srm
+            
         .ratings 
+            .brewer-notes
+                h2.brewer-notes__title Brewer's Notes
+                .brewer-notes__content.textbox= beer.description
+
+            h2.brewer-notes__title.tasting Tasting Notes    
             each section in Object.entries(beer.rating)
                 .ratings__section 
                     .ratings__section--title 
                         .ratings__section--subtitle= h.capitalizeFirst(section[0])
                         .ratings__section--score= `${section[1].score} / ${section[1].max_score}`
-                    .ratings__section--content= section[1].description
+                    .ratings__section--content.textbox= section[1].description
         
         if beer.tags
             .tags= `Tags: ${beer.tags.map(tag=>h.capitalizeFirst(tag)).join(', ')}`
+
+    script.
+        // draw score bar: 
+        const se = document.querySelector('.segment-se'); 
+        const sw = document.querySelector('.segment-sw');
+        const ne = document.querySelector('.segment-ne');
+        const nw = document.querySelector('.segment-nw');
+
+        // all segments start at skew(90) which is not visible
+
+        let score = parseFloat(document.querySelector('.score').innerText.substring(0, 2));
+
+        if (score >= 75) {
+            se.style.setProperty('--skew', '0deg');
+            sw.style.setProperty('--skew', '0deg');
+            nw.style.setProperty('--skew', '0deg');
+            ne.style.setProperty('--skew', `${90-((score-75)/25*90)}deg`);
+        }
+        else if (score >= 50) {
+            se.style.setProperty('--skew', '0deg');
+            sw.style.setProperty('--skew', '0deg');
+            nw.style.setProperty('--skew', `${90-((score-50)/25*90)}deg`);
+        }
+        else if (score >= 25) {
+            se.style.setProperty('--skew', '0deg');
+            sw.style.setProperty('--skew', `${90-((score-25)/25*90)}deg`);
+        }
+        else {
+            se.style.setProperty('--skew', `${90-((score)/25*90)}deg`);
+        }
+

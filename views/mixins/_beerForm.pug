@@ -3,10 +3,10 @@ mixin beerForm(beer = {})
         .form-card__section.main
             h2.form-card__section--heading Identity
             label(for="name") Name 
-            input(type="text" name="name" value=beer.name)
+            input(type="text" name="name" required value=beer.name)
 
             label(for="brewery") Brewery
-            input(type="text" id="brewery" name="brewery") 
+            input(type="text" id="brewery" required name="brewery") 
 
             label(for="bjcp-style") Style
             input(type="select" name="bjcp_style")
@@ -23,22 +23,22 @@ mixin beerForm(beer = {})
         .form-card__section.sidebar
             h2.form-card__section--heading Specs
             label(for="abv") ABV
-            input(type="number" id="abv" name="abv")
+            input(type="number" id="abv" required name="abv" step="any")
 
             label(for="ibu_reported") IBU (Reported)
-            input(type="number" id="ibu_reported" name="ibu_reported")
+            input(type="number" id="ibu_reported" name="ibu_reported" step="any")
 
             label(for="ibu_measured") IBU (Measured)
-            input(type="number" id="ibu_measured" name="ibu_measured")
+            input(type="number" id="ibu_measured" name="ibu_measured" step="any")
 
             label(for="pH") pH
-            input(type="number" id="pH" name="pH")
+            input(type="number" id="pH" name="pH" step="any")
 
             label(for="final_gravity") Final Gravity
-            input(type="number" id="final_gravity" name="final_gravity")
+            input(type="number" id="final_gravity" name="final_gravity" step="any")
 
             label(for="srm") SRM
-            input(type="number" id="srm" name="srm")
+            input(type="number" id="srm" name="srm" step="any")
 
 
         .form-card__section.wide

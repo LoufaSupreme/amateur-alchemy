@@ -49,6 +49,10 @@ input[type=number] {
 
 /* STYLES */
 
+:root {
+    --clr-accent: 255 61 106;
+}
+
 body {
     background-image: linear-gradient(to right, hsl(0, 0%, 20%) 30%,hsl(0, 0%, 10%));
     background-repeat: no-repeat;
@@ -60,12 +64,6 @@ body {
 }
 
 .nav {
-    /* display: flex;
-    width: 100vw;
-    gap: 3rem;
-    min-height: 50px;
-    justify-content: space-around;
-    align-items: center; */
     display: grid;
     grid-template-columns: 1fr 2fr 2fr 1fr;
     width: 100vw;
@@ -201,9 +199,13 @@ body {
 
 .beer-reviews {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
     padding: 1.5rem;
     width: 100%;
     max-width: 1300px;
+}
+
+.footer {
+    margin-top: 3rem;
 }
