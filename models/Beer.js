@@ -27,6 +27,60 @@ const beerSchema = new mongoose.Schema({
     photos: [String],
     brewery: String,
     bjcp_style: String,
+    attributes: {
+        hoppy: {
+            descriptor: String,
+            rank: Number
+        },
+        bitter: {
+            descriptor: String,
+            rank: Number
+        },
+        malty: {
+            descriptor: String,
+            rank: Number
+        },
+        yeast_character: {
+            descriptor: String,
+            rank: Number
+        },
+        acidic: {
+            descriptor: String,
+            rank: Number
+        },
+        carbonation: {
+            descriptor: String,
+            rank: Number
+        },
+        head_retention: {
+            descriptor: String,
+            rank: Number
+        },
+        color: {
+            descriptor: String,
+            rank: Number
+        },
+        clarity: {
+            descriptor: String,
+            rank: Number
+        },
+        body: {
+            descriptor: String,
+            rank: Number
+        },
+        dryness: {
+            descriptor: String,
+            rank: Number
+        },
+        boozy: {
+            descriptor: String,
+            rank: Number
+        },
+        crushability: {
+            descriptor: String,
+            rank: Number
+        },
+    },
     rating: {
         aroma: {
             score: {

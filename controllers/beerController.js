@@ -40,7 +40,10 @@ exports.resize = async (req, res, next) => {
             // pass in image buffer to jimp
             const photo = await jimp.read(file.buffer);
             photo.resize(800, jimp.AUTO); // length and width
+
+            // write photo into uploads folder
             photo.write(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+            
         }
         
         next(); 
