@@ -2,31 +2,50 @@
 
 .form-card {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr;
     grid-template-areas: 
-        "main sidebar"
-        "wide wide"
-        "btn btn";
+        "main specs attrs"
+        "wide wide attrs"
+        "wide wide tags"
+        "btn btn btn";
     gap: 1.5rem;
     /* margin-inline: auto; */
     width: min(50%, 900px);
     padding-top: 3rem;
 }
 
-.form-card .bjcp-comment {
+.form-card .comment {
     margin-bottom: 1rem;
 }
 
+.form-card label {
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+}
+
 .form-card input,
+.form-card select,
 .form-card textarea {
     margin-bottom: 1rem;
     border: 1px solid rgb(0, 0, 5);
+    background-color: inherit;
+    color: white;
+}
+
+.form-card select {
+    color: rgb(158, 158, 158);
+    background-color: rgb(65, 65, 65);
+}
+
+.form-card select > option {
+    background-color: rgb(34, 34, 34);
+    color: white;
 }
 
 .form-card__section {
     display: flex;
     flex-direction: column;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgb(255 255 255 / 0.1);
     padding: 1.5rem;
     border-radius: 1rem;
 }
@@ -34,10 +53,35 @@
 .form-card__section--heading {
     text-transform: uppercase;
     padding-bottom: 1rem;
+    color: black;
+    font-weight: bold;
 }
 
 .form-card__section.wide {
     grid-area: wide;
+}
+
+.form-card__section.attrs {
+    grid-area: attrs;
+}
+
+.form-card__section.specs {
+    grid-area: specs;
+}
+
+.form-card__section.tags {
+    grid-area: tags;
+    min-height: 400px;
+}
+
+.form-card__section.tags textarea {
+    height: 100%;
+}
+
+.attr-selection {
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
 }
 
 .form-card textarea {
@@ -51,10 +95,16 @@
 
 .form-card input[type=submit] {
     grid-area: btn;
+    background-color: rgb(var(--clr-accent));
+}
+
+.form-card input[type=submit]:hover {
+    background-color: rgb(var(--clr-accent) / 0.7);
 }
 
 .form-card .score-input {
     margin-left: 1rem;
+    margin-right: 0.5rem;
     margin-bottom: 0;
     width: 50px;
     padding: 0.3rem 0.6rem;
