@@ -116,3 +116,22 @@
     padding: 0.3rem 0.6rem;
 }
 
+.img-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(40px, 1fr));
+    gap: 0.5rem;
+    max-height: 100px;
+    justify-items: center;
+    margin-top: -3px;
+    margin-bottom: 1px;
+}
+
+.gallery-img {
+    object-fit: cover;
+    max-height: 100%;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    padding: 2px;
+}
+

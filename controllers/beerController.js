@@ -3,6 +3,8 @@ const Beer = mongoose.model('Beer');  // schema from Beer.js
 const multer = require("multer"); // package for uplaoding multiple files.  Needed since our _storeForm.pug has a form w/ enctype=multipart/form-data
 const jimp = require("jimp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
+const slug = require('slugs');
+
 
 const multerOptions = {
     storage: multer.memoryStorage(),  // initially load file into local memory
@@ -104,14 +106,13 @@ exports.editBeer = async (req, res, next) => {
 
 exports.updateBeer = async (req, res, next) => {
     try {
+        const tags = req.body.tags.split(', ');
+        req.body.tags = tags;
+        req.body.slug = slug(req.body.name);
         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true, // return newly updated store, not the old unupdated version
             runValidators: true, // forces validation of the options set in the Store model, e.g. required:true for name and trim:true for description, etc
         }).exec(); // run the query
-
-        // save doc again so pre('save') hook runs in Beer.js
-        // doing pre('update') hook instead doesn't work, b/c "this" doesn't get passed to functions with the update hook, only with the save hook...
-        await beer.save(); 
 
         req.flash('success', `Successfully updated <strong>${beer.name}</strong>`);
         res.redirect(`/beer-reviews/${beer.slug}`);

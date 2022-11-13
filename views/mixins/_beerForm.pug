@@ -9,7 +9,7 @@ mixin beerForm(beer = {})
             input(type="text" id="brewery" required name="brewery" value=beer.brewery) 
 
             label(for="bjcp-style") Style
-            input(type="select" name="bjcp_style")
+            input(type="text" name="bjcp_style" value=beer.bjcp_style)
 
             label(for="description") Description 
             textarea(name="description") #{beer.description}
@@ -21,8 +21,10 @@ mixin beerForm(beer = {})
             //- image upload
             label(for="photos") Photo 
             input(type="file" name="photos" id="photo" accept="image/gif, image/png, image/jpeg" multiple)
-            if beer.photo 
-                img(src=`/uploads/${beer.photo}`, alt=beer.name width=200)
+            if beer.photos
+                .img-gallery
+                    each photo of beer.photos
+                        img.gallery-img(src=`/uploads/${photo}`, alt=beer.name width=100)
         
         .form-card__section.specs
             h2.form-card__section--heading Specs
@@ -86,7 +88,7 @@ mixin beerForm(beer = {})
                 .attr-selection
                     label(for=`attributes[${attr}]`) #{formatted}
                     select(name=`attributes[${attr}]` id=attr class="attr-input")
-                        option(value=null disabled selected=!beer.attributes) Select perceived level
+                        option(value=null disabled selected=!beer.attributes[`${attr}`]) Select perceived level
                         option(value=0 selected=beer.attributes && beer.attributes[`${attr}`] == 0) 0  Indetectable, Very low, Very light
                         option(value=1 selected=beer.attributes && beer.attributes[`${attr}`] == 1) 1  Low, Subtle, Light
                         option(value=2 selected=beer.attributes && beer.attributes[`${attr}`] == 2) 2  Moderate
@@ -97,7 +99,5 @@ mixin beerForm(beer = {})
         .form-card__section.tags
             h2.form-card__section--heading Tags 
             textarea(name="tags")= beer.tags && beer.tags.join(', ')
-
-
 
         input(type="submit" value="Save" class="button")
