@@ -102,20 +102,30 @@ mixin beerReview(beer)
             }
         }
 
-        function updateScore(delay, speed) {
+        // linearly maps value from the range (a..b) to (c..d)
+        function mapRange (value, a, b, c, d) {
+            // first map value from (a..b) to (0..1)
+            value = (value - a) / (b - a);
+            // then map it from (0..1) to (c..d) and return it
+            return c + value * (d - c);
+        }
+
+        function updateScore(speed) {
             if (currentScore < targetScore) {
                 score.innerText = `${currentScore+1}%`;
                 currentScore = parseFloat(score.innerText.slice(0, -1));
                 setGauge(currentScore);
+
+                delay = mapRange(currentScore, 0, targetScore, 0, speed);
                 
-                const newDelay = delay * speed;
+                //- const newDelay = delay;
                 setTimeout(() => {
-                    updateScore(newDelay, speed);
-                }, newDelay);
+                    updateScore(speed);
+                }, delay);
             }
         }
 
-        updateScore(1, 1.05);
+        updateScore(50);
 
         // image gallery
         const gallery = document.querySelector('.img-gallery');
