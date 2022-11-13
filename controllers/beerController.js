@@ -36,13 +36,15 @@ exports.resize = async (req, res, next) => {
             const fileName = `${uuid.v4()}.${fileExtension}`;
             req.body.photos.push(fileName); 
 
-            // resize photo:
-            // pass in image buffer to jimp
+            // // resize photo:
+            // // pass in image buffer to jimp
             const photo = await jimp.read(file.buffer);
-            photo.resize(800, jimp.AUTO); // length and width
+            console.log(photo)
 
-            // write photo into uploads folder
-            photo.write(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+            await photo.resize(800, jimp.AUTO); // length and width
+            
+            // // write photo into uploads folder
+            await photo.write(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
             
         }
         
@@ -65,25 +67,62 @@ exports.getBeers = async (req, res, next) => {
     }
 }
 
-exports.editBeer = (req, res) => {
+exports.addBeer = (req, res) => {
     res.render('editBeer', { title: 'Add Beer' });
 }
 
 exports.createBeer = async (req, res, next) => {
     try {
+        const tags = req.body.tags.split(', ');
+        req.body.tags = tags;
         const beer = new Beer(req.body);
         const savedBeer = await beer.save();
         console.log('New Beer created');
         req.flash('success', `Successfully created ${beer.name}`)
         res.redirect(`/beer-reviews/${savedBeer.slug}`)
-        // res.render('beerReview', { title: beer.name, beer: beer })
     }
     catch(err) {
         next(err);
     }
 }
 
-exports.beerReview = async (req, res, next) => {
+exports.editBeer = async (req, res, next) => {
+    try {
+        const beer_slug = req.params.slug;
+        const beer = await Beer.findOne({ slug: beer_slug });
+
+        res.render('editBeer', {
+            title: `Edit ${beer.name}`,
+            beer: beer,
+        });
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+exports.updateBeer = async (req, res, next) => {
+    try {
+        const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
+            new: true, // return newly updated store, not the old unupdated version
+            runValidators: true, // forces validation of the options set in the Store model, e.g. required:true for name and trim:true for description, etc
+        }).exec(); // run the query
+
+        // save doc again so pre('save') hook runs in Beer.js
+        // doing pre('update') hook instead doesn't work, b/c "this" doesn't get passed to functions with the update hook, only with the save hook...
+        await beer.save(); 
+
+        req.flash('success', `Successfully updated <strong>${beer.name}</strong>`);
+        res.redirect(`/beer-reviews/${beer.slug}`);
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+exports.displayReview = async (req, res, next) => {
     try {
         console.log('running beerReview')
         const beer = await Beer.findOne({ slug: req.params.slug });

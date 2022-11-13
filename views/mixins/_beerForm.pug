@@ -1,5 +1,5 @@
 mixin beerForm(beer = {})
-    form(action=`/editBeer/${beer._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+    form(action=`/add-beer/${beer._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Identity
             label(for="name") Name 
@@ -27,7 +27,7 @@ mixin beerForm(beer = {})
         .form-card__section.specs
             h2.form-card__section--heading Specs
             label(for="abv") ABV
-            input(type="number" id="abv" required name="abv" step="any" value=beer.abv)
+            input(type="number" id="abv" name="abv" step="any" value=beer.abv)
 
             label(for="ibu_reported") IBU (Reported)
             input(type="number" id="ibu_reported" name="ibu_reported" step="any" value=beer.ibu_reported)
@@ -84,8 +84,8 @@ mixin beerForm(beer = {})
             each attr of attrs 
                 - let formatted = h.capitalizeFirst(attr).replace('_', ' ');
                 .attr-selection
-                    label(for=attr) #{formatted}
-                    select(name=attr id=attr class="attr-input")
+                    label(for=`attributes[${attr}]`) #{formatted}
+                    select(name=`attributes[${attr}]` id=attr class="attr-input")
                         option(value=null disabled selected=!beer.attributes) Select perceived level
                         option(value=0 selected=beer.attributes && beer.attributes[`${attr}`] == 0) 0  Indetectable, Very low, Very light
                         option(value=1 selected=beer.attributes && beer.attributes[`${attr}`] == 1) 1  Low, Subtle, Light
@@ -96,7 +96,7 @@ mixin beerForm(beer = {})
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 
-            textarea(name="tags")= beer.tags && beer.tags.join(' ,')
+            textarea(name="tags")= beer.tags && beer.tags.join(', ')
 
 
 

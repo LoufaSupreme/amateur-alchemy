@@ -3,9 +3,9 @@ mixin beerCard(beer)
         a(href=`/beer-reviews/${beer.slug}`)
             //- .beer-card__image
             if beer.photo
-                img.beer-card__image(src=`/uploads/${beer.photo}` alt=beer.name)
+                img.beer-card__image(src=`/uploads/${beer.photos[0]}` alt=beer.name)
             else 
-                img.beer-card__image(src="/images/beers.png", alt="mystery beer")
+                img.beer-card__image(src="/images/MysteryBeer.jpg", alt="mystery beer")
         .beer-card__content
             h2= beer.name 
             span= beer.brewery
