@@ -19,7 +19,7 @@ mixin beerForm(beer = {})
             //- input(type="file" name="video" id="video" accept='.mp4,.webm,.avi,.mpeg,.flv,.mov,.3gp')
 
             //- image upload
-            label(for="photos") Photo 
+            label(for="photos") Photos 
             input(type="file" name="photos" id="photo" accept="image/gif, image/png, image/jpeg" multiple)
             if beer.photos
                 .img-gallery
@@ -80,24 +80,74 @@ mixin beerForm(beer = {})
             textarea(name="rating[overall][description]" placeholder="Overall impressions...") #{beer.rating && beer.rating.overall.description}
 
         .form-card__section.attrs
-            - const attrs = ['hoppy', 'bitter', 'malty', 'yeast_character', 'acidic', 'effervescence', 'head_retention', 'color', 'clarity', 'body', 'dryness', 'boozy', 'crushability'];
+            - 
+                const attrs = [
+                    { 
+                        name: 'crushability',
+                        label: 'crushable'
+                    }, 
+                    { 
+                        name: 'hop_character',
+                        label: 'hoppy'
+                    }, 
+                    { 
+                        name: 'bitterness',
+                        label: 'bitter'
+                    }, 
+                    { 
+                        name: 'yeast_character',
+                        label: 'yeast character'
+                    }, 
+                    { 
+                        name: 'acidity',
+                        label: 'acidic'
+                    }, 
+                    { 
+                        name: 'effervescence',
+                        label: 'effervescent'
+                    }, 
+                    { 
+                        name: 'head_retention',
+                        label: null
+                    }, 
+                    { 
+                        name: 'color',
+                        label: null
+                    }, 
+                    { 
+                        name: 'clarity',
+                        label: 'hazy'
+                    }, 
+                    { 
+                        name: 'body',
+                        label: null
+                    }, 
+                    { 
+                        name: 'dryness',
+                        label: 'dry'
+                    }, 
+                    { 
+                        name: 'malt_character',
+                        label: 'malty'
+                    }
+                ];
 
             h2.form-card__section--heading Perceived Attributes
             each attr of attrs 
-                - let formatted = h.capitalizeFirst(attr).replace('_', ' ');
+                - let formatted = h.capitalizeFirst(attr.name).replace('_', ' ');
                 .attr-selection
-                    label(for=`attributes[${attr}]`) #{formatted}
-                    select(name=`attributes[${attr}]` id=attr class="attr-input")
-                        option(value=null disabled selected=!beer && !beer.attributes[`${attr}`]) Select perceived level
-                        option(value=0 selected=beer.attributes && beer.attributes[`${attr}`] == 0) 0  Indetectable, Very low, Very light
-                        option(value=1 selected=beer.attributes && beer.attributes[`${attr}`] == 1) 1  Low, Subtle, Light
-                        option(value=2 selected=beer.attributes && beer.attributes[`${attr}`] == 2) 2  Moderate
-                        option(value=3 selected=beer.attributes && beer.attributes[`${attr}`] == 3) 3  High, Firm, Dark
-                        option(value=4 selected=beer.attributes && beer.attributes[`${attr}`] == 4) 4  Very high, Aggressive, Very dark
-                        option(value=5 selected=beer.attributes && beer.attributes[`${attr}`] == 5) 5  Insane, Pitch Black
+                    label(for=`attributes[${attr.name}]`) #{formatted}
+                    select(name=`attributes[${attr.name}]` id=attr.name class="attr-input" data-label=attr.label)
+                        option(value=null disabled selected=!beer && !beer.attributes[`${attr.name}`]) Select perceived level
+                        option(value=0 selected=beer.attributes && beer.attributes[`${attr.name}`] == 0) 0  Extremely Low
+                        option(value=1 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1  Low
+                        option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2  Moderate
+                        option(value=3 selected=beer.attributes && beer.attributes[`${attr.name}`] == 3) 3  High
+                        option(value=4 selected=beer.attributes && beer.attributes[`${attr.name}`] == 4) 4  Very high
+                        option(value=5 selected=beer.attributes && beer.attributes[`${attr.name}`] == 5) 5  Insane
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 
-            textarea(name="tags")= beer.tags && beer.tags.join(', ')
+            textarea(name="tags" id='tags-input')= beer.tags && beer.tags.join(', ')
 
         input(type="submit" value="Save" class="button")

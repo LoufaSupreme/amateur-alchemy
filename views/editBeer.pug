@@ -15,3 +15,19 @@ block content
         //- if a beer is not passed in (e.g. from the createbeer route) then beer is null and nothing is passed to the mixin.
         +beerForm(beer)
 
+    script. 
+        const attr_inputs = document.querySelectorAll('.attr-input');
+        const tags_input = document.querySelector('#tags-input');
+        let currentTags = tags_input.value;
+
+        function addTags() {
+            if (this.id != 'clarity' && this.value > 2) {
+                currentTags += currentTags == "" ? this.dataset.label : `, ${this.dataset.label}`;
+            }
+            else if (this.id === 'clarity' && this.value <= 2) {
+                currentTags += currentTags == "" ? this.dataset.label : `, ${this.dataset.label}`;
+            }
+            tags_input.value = currentTags;
+        }
+
+        attr_inputs.forEach(input => input.addEventListener('change', addTags));
