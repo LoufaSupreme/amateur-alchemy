@@ -1,4 +1,4 @@
-mixin beerReview(beer)
+mixin reviewBody(beer)
     //- pre= h.dump(beer)
     .review-container
         .identity
@@ -46,7 +46,7 @@ mixin beerReview(beer)
                 if beer.final_gravity
                     .aux-specs__spec
                         span.aux-specs__spec--title FG:
-                        span.aux-specs__spec--value= beer.final_gravity
+                        span.aux-specs__spec--value= beer.final_gravity.toFixed(3)
                 if beer.srm
                     .aux-specs__spec
                         span.aux-specs__spec--title SRM:
@@ -68,75 +68,7 @@ mixin beerReview(beer)
         if beer.tags
             .tags= `Tags: ${beer.tags.map(tag=>h.capitalizeFirst(tag)).join(', ')}`
 
-    script.
-        // draw score bar: 
-        const se = document.querySelector('.segment-se'); 
-        const sw = document.querySelector('.segment-sw');
-        const ne = document.querySelector('.segment-ne');
-        const nw = document.querySelector('.segment-nw');
+        .radar-container
+            canvas#radar(width="400" height="400")
 
-        const score = document.querySelector('.score');
-
-        // all segments start at skew(90) which is not visible
-        const targetScore = +score.dataset.score;
-        let currentScore = parseFloat(score.innerText.slice(0, -1));
-
-        function setGauge(score) {
-            if (score >= 75) {
-                se.style.setProperty('--skew', '0deg');
-                sw.style.setProperty('--skew', '0deg');
-                nw.style.setProperty('--skew', '0deg');
-                ne.style.setProperty('--skew', `${90-((score-75)/25*90)}deg`);
-            }
-            else if (score >= 50) {
-                se.style.setProperty('--skew', '0deg');
-                sw.style.setProperty('--skew', '0deg');
-                nw.style.setProperty('--skew', `${90-((score-50)/25*90)}deg`);
-            }
-            else if (score >= 25) {
-                se.style.setProperty('--skew', '0deg');
-                sw.style.setProperty('--skew', `${90-((score-25)/25*90)}deg`);
-            }
-            else {
-                se.style.setProperty('--skew', `${90-((score)/25*90)}deg`);
-            }
-        }
-
-        // linearly maps value from the range (a..b) to (c..d)
-        function mapRange (value, a, b, c, d) {
-            // first map value from (a..b) to (0..1)
-            value = (value - a) / (b - a);
-            // then map it from (0..1) to (c..d) and return it
-            return c + value * (d - c);
-        }
-
-        function updateScore(speed) {
-            if (currentScore < targetScore) {
-                score.innerText = `${currentScore+1}%`;
-                currentScore = parseFloat(score.innerText.slice(0, -1));
-                setGauge(currentScore);
-
-                delay = mapRange(currentScore, 0, targetScore, 0, speed);
-                
-                //- const newDelay = delay;
-                setTimeout(() => {
-                    updateScore(speed);
-                }, delay);
-            }
-        }
-
-        updateScore(50);
-
-        // image gallery
-        const gallery = document.querySelector('.img-gallery');
-        const galleryImgs = gallery.querySelectorAll('img');
-        const showcaseImg = document.querySelector('.showcase-img');
-
-        function handleImgClick(e) {
-            galleryImgs.forEach(img => img.classList.remove('active'));
-            e.target.classList.add('active');
-            showcaseImg.src = e.target.src;
-        }
-
-        galleryImgs.forEach(img => img.addEventListener('click', handleImgClick));
-
+    

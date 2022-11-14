@@ -1,6 +1,6 @@
 extends layout 
 
-include mixins/_beerReview
+include mixins/_reviewBody
 
 block stylesheets 
     link(rel='stylesheet', href='/styles/beerReview.css')
@@ -11,4 +11,8 @@ block content
     form.control-panel(method="POST")
         a.btn.btn-edit(href=`/beer-reviews/${beer.slug}/edit`) Edit
         button.btn.btn-delete(type="submit" formaction=`/api/beer-reviews/${beer._id}/delete`) Delete
-    +beerReview(beer)
+    +reviewBody(beer)
+
+block scripts 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    script(src='/javascript/beerReview.js')

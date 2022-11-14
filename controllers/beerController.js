@@ -151,3 +151,17 @@ exports.deleteReview = async (req, res, next) => {
         next(err);
     }
 }
+
+// get details of one beer and send json object
+exports.getBeer = async (req, res, next) => {
+    try {
+        const beer = await Beer.findOne({ slug: req.params.slug });
+        console.log(`Got beer data for ${req.params.slug}`);
+        res.json({ beer });
+    }
+    catch(err) {
+        console.log(err);
+        res.json({'error': `Could not get beer info for ${req.params.slug}`});
+        next(err);
+    }
+}

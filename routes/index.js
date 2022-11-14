@@ -27,6 +27,7 @@ router.post('/add-beer/:id',
 
 ////// API ROUTES //////
 
-router.post('/api/beer-reviews/:id/delete', beerController.deleteReview) 
+router.post('/api/beer-reviews/:id/delete', beerController.deleteReview);
+router.get('/api/get-beer/:slug', beerController.getBeer)
 
 module.exports = router;

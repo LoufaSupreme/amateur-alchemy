@@ -52,7 +52,7 @@
     display: grid;
     gap: 0 4rem;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: repeat(4, auto);
     font-family: "Inter-Regular";
 }
 
@@ -160,7 +160,7 @@
 
 .ratings {
     grid-column: 2;
-    grid-row: 1 / -1;
+    grid-row: 1 / -2;
     display: grid;
     /* margin-left: 4rem; */
     align-content: center;
@@ -236,6 +236,7 @@
     justify-items: center;
     margin-top: -3px;
     margin-bottom: 1px;
+    padding: 2px;
 }
 
 .gallery-img {
@@ -244,7 +245,6 @@
     max-width: 100px;
     aspect-ratio: 1 / 1;
     cursor: pointer;
-    padding: 2px;
 }
 
 .gallery-img.active {
@@ -298,5 +298,15 @@
 
 .tags {
     /* grid-row: span 1 / -1; */
+}
+
+/* ***********  RADAR CHART  *********** */
+
+.radar-container {
+    position: relative;
+}
+
+#radar {
+    grid-row: span 2 / -1;
 }
 
