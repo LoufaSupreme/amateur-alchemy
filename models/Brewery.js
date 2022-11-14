@@ -27,7 +27,7 @@ const brewerySchema = new mongoose.Schema({
         coordinates: [Number],
         address: String,
     },
-    photo: String,
+    photos: [String],
     // author: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'User',
