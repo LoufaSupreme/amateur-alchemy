@@ -296,8 +296,37 @@
     font-size: 0.5rem;
 }
 
-.tags {
-    /* grid-row: span 1 / -1; */
+.tags-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.tags-container__title {
+    margin-bottom: 1rem;
+}
+
+.tags-container__tags {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.tags-container__tags--tag {
+    border-radius: 1rem;
+    padding: 0.5em 1em;
+    background: linear-gradient(90deg, rgb(var(--clr-accent)) 0%, rgb(var(--clr-accent-2)) 100%);    
+    background-clip: padding-box;
+    border: 2px solid rgb(255 255 255 / 0.1);
+    background-size: 150% 100%;
+    opacity: 0.8;
+    color: white;
+    background-position: left;
+    transition: background-position 750ms ease-in-out;
+    cursor: pointer;
+}
+
+.tags-container__tags--tag:hover {
+    background-position: right;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 /* ***********  RADAR CHART  *********** */

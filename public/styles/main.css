@@ -51,6 +51,7 @@ input[type=number] {
 
 :root {
     --clr-accent: 255 61 106;
+    --clr-accent-2: 63 94 251;
 }
 
 body {

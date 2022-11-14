@@ -41,12 +41,12 @@ exports.resize = async (req, res, next) => {
             // // resize photo:
             // // pass in image buffer to jimp
             const photo = await jimp.read(file.buffer);
-            console.log(photo)
+            // console.log(photo)
 
             await photo.resize(800, jimp.AUTO); // length and width
             
             // // write photo into uploads folder
-            await photo.write(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+            await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
             
         }
         
@@ -73,10 +73,15 @@ exports.addBeer = (req, res) => {
     res.render('editBeer', { title: 'Add Beer' });
 }
 
+// turn the text from the tags input into an array of tags
+function parseTags(rawTags) {
+    const tagsArray = rawTags.split(', ').map(tag => tag.toLowerCase());
+    return tagsArray;
+}
+
 exports.createBeer = async (req, res, next) => {
     try {
-        const tags = req.body.tags.split(', ');
-        req.body.tags = tags;
+        req.body.tags = parseTags(req.body.tags);
         const beer = new Beer(req.body);
         const savedBeer = await beer.save();
         console.log('New Beer created');
@@ -106,8 +111,7 @@ exports.editBeer = async (req, res, next) => {
 
 exports.updateBeer = async (req, res, next) => {
     try {
-        const tags = req.body.tags.split(', ');
-        req.body.tags = tags;
+        req.body.tags = parseTags(req.body.tags);
         req.body.slug = slug(req.body.name);
         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true, // return newly updated store, not the old unupdated version

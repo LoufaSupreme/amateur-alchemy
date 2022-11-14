@@ -41,7 +41,7 @@ mixin beerForm(beer = {})
             input(type="number" id="pH" name="pH" step="any" value=beer.pH)
 
             label(for="final_gravity") Final Gravity
-            input(type="number" id="final_gravity" name="final_gravity" step="any" value=beer.final_gravity)
+            input(type="number" id="final_gravity" name="final_gravity" step="any" value=beer.final_gravity.toFixed(3))
 
             label(for="srm") SRM
             input(type="number" id="srm" name="srm" step="any" value=beer.srm)
@@ -139,12 +139,12 @@ mixin beerForm(beer = {})
                     label(for=`attributes[${attr.name}]`) #{formatted}
                     select(name=`attributes[${attr.name}]` id=attr.name class="attr-input" data-label=attr.label)
                         option(value=null disabled selected=!beer && !beer.attributes[`${attr.name}`]) Select perceived level
-                        option(value=0 selected=beer.attributes && beer.attributes[`${attr.name}`] == 0) 0  Extremely Low
-                        option(value=1 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1  Low
-                        option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2  Moderate
-                        option(value=3 selected=beer.attributes && beer.attributes[`${attr.name}`] == 3) 3  High
-                        option(value=4 selected=beer.attributes && beer.attributes[`${attr.name}`] == 4) 4  Very high
-                        option(value=5 selected=beer.attributes && beer.attributes[`${attr.name}`] == 5) 5  Insane
+                        option(value=0 selected=beer.attributes && beer.attributes[`${attr.name}`] == 0) 0 - Extremely Low
+                        option(value=1 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1 - Low
+                        option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2 - Moderate
+                        option(value=3 selected=beer.attributes && beer.attributes[`${attr.name}`] == 3) 3 - High
+                        option(value=4 selected=beer.attributes && beer.attributes[`${attr.name}`] == 4) 4 - Very high
+                        option(value=5 selected=beer.attributes && beer.attributes[`${attr.name}`] == 5) 5 - Insane
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 
