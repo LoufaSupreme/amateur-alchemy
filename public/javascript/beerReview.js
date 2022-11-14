@@ -88,10 +88,11 @@ async function getBeerJSON(slug) {
     
         // set default chart size for chart.js
         Chart.defaults.font.size = 14;
-
+        
         // make new chart
         const myChart = new Chart(ctx, {
             type: 'radar',
+            plugins: [ChartDeferred],
             data: {
                 labels: beerAttributes,
                 datasets: [{
@@ -141,6 +142,11 @@ async function getBeerJSON(slug) {
                             color: transparentWhite,
                             display: true
                         },
+                    },
+                    deferred: {
+                        xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+                        yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
+                        delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
                     },
                     tooltip: {
                         callbacks: {

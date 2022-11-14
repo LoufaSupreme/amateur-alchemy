@@ -1,9 +1,9 @@
 extends layout 
 
-include mixins/_beerForm
+include mixins/_breweryForm
 
 block stylesheets 
-    link(rel='stylesheet', href='/styles/addBeer.css')
+    link(rel='stylesheet', href='/styles/addBrewery.css')
 
 block content
     h1= title
@@ -13,7 +13,7 @@ block content
         //- the + is to use a mixin
         //- if a beer is passed in (from the editbeer route) then the info of that beer will be used to prepopulate the mixin form
         //- if a beer is not passed in (e.g. from the createbeer route) then beer is null and nothing is passed to the mixin.
-        +beerForm(beer)
+        +breweryForm(beer)
 
 block scripts 
-    script(src='/javascript/editBeer.js')
+    script(src='/javascript/editBrewery.js')

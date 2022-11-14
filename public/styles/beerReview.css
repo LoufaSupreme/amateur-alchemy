@@ -308,11 +308,12 @@
 .tags-container__tags {
     display: flex;
     gap: 0.4rem;
+    flex-wrap: wrap;
 }
 
 .tags-container__tags--tag {
     border-radius: 1rem;
-    padding: 0.5em 1em;
+    padding: 0.4em 1em;
     background: linear-gradient(90deg, rgb(var(--clr-accent)) 0%, rgb(var(--clr-accent-2)) 100%);    
     background-clip: padding-box;
     border: 2px solid rgb(255 255 255 / 0.1);
@@ -322,6 +323,7 @@
     background-position: left;
     transition: background-position 750ms ease-in-out;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .tags-container__tags--tag:hover {

@@ -1,0 +1,19 @@
+extends layout 
+
+include mixins/_beerForm
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/addBeer.css')
+
+block content
+    h1= title
+    if msg 
+        .msg= msg
+    .container
+        //- the + is to use a mixin
+        //- if a beer is passed in (from the editbeer route) then the info of that beer will be used to prepopulate the mixin form
+        //- if a beer is not passed in (e.g. from the createbeer route) then beer is null and nothing is passed to the mixin.
+        +beerForm(beer)
+
+block scripts 
+    script(src='/javascript/addBeer.js')

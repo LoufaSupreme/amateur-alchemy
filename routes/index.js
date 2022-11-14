@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const beerController = require('../controllers/beerController');
+const breweryController = require('../controllers/breweryController');
 
 // home page
 router.get('/', beerController.getBeers);
@@ -22,6 +23,14 @@ router.post('/add-beer/:id',
     beerController.upload, 
     beerController.resize, 
     beerController.updateBeer
+);
+
+// add new brewery
+router.get('/add-brewery', breweryController.addBrewery);
+router.post('/add-brewery', 
+    breweryController.upload,
+    breweryController.resize,
+    breweryController.createBrewery,
 );
 
 

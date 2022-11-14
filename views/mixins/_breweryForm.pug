@@ -1,0 +1,153 @@
+mixin breweryForm(brewery = {})
+    form(action=`/add-brewery/${brewery._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+        .form-card__section.main
+            h2.form-card__section--heading Identity
+            label(for="name") Name 
+            input(type="text" name="name" required value=beer.name)
+
+            label(for="brewery") Brewery
+            input(type="text" id="brewery" required name="brewery" value=beer.brewery) 
+
+            label(for="bjcp-style") Style
+            input(type="text" name="bjcp_style" value=beer.bjcp_style)
+
+            label(for="description") Description 
+            textarea(name="description") #{beer.description}
+
+            //- video upload
+            //- label(for="video") Video 
+            //- input(type="file" name="video" id="video" accept='.mp4,.webm,.avi,.mpeg,.flv,.mov,.3gp')
+
+            //- image upload
+            label(for="photos") Photos 
+            input(type="file" name="photos" id="photo" accept="image/gif, image/png, image/jpeg" multiple)
+            if beer.photos
+                .img-gallery
+                    each photo of beer.photos
+                        img.gallery-img(src=`/uploads/${photo}`, alt=beer.name width=100)
+        
+        .form-card__section.specs
+            h2.form-card__section--heading Specs
+            label(for="abv") ABV
+            input(type="number" id="abv" name="abv" step="any" value=beer.abv)
+
+            label(for="ibu_reported") IBU (Reported)
+            input(type="number" id="ibu_reported" name="ibu_reported" step="any" value=beer.ibu_reported)
+
+            label(for="ibu_measured") IBU (Measured)
+            input(type="number" id="ibu_measured" name="ibu_measured" step="any" value=beer.ibu_measured)
+
+            label(for="pH") pH
+            input(type="number" id="pH" name="pH" step="any" value=beer.pH)
+
+            label(for="final_gravity") Final Gravity
+            input(type="number" id="final_gravity" name="final_gravity" step="any" value=beer.final_gravity.toFixed(3))
+
+            label(for="srm") SRM
+            input(type="number" id="srm" name="srm" step="any" value=beer.srm)
+
+
+        .form-card__section.wide
+            h2.form-card__section--heading BJCP
+            label(for="rating[aroma][description]") Aroma:
+                input(type="number" name="rating[aroma][score]" class="score-input" value=beer.rating && beer.rating.aroma.score) 
+                span / 12
+            span.comment Malt, hops, esters and other aromatics
+            textarea(name="rating[aroma][description]" placeholder="Describe the aroma...") #{beer.rating && beer.rating.aroma.description}
+
+            label(for="rating[appearance][description]") Appearance:
+                input(type="number" name="rating[appearance][score]" class="score-input" value=beer.rating && beer.rating.appearance.score)
+                span / 3
+            span.comment Color, clarity and head (retention, colour, texture)
+            textarea(name="rating[appearance][description]" placeholder="Describe the appearance...") #{beer.rating && beer.rating.appearance.description}
+
+            label(for="rating[flavor][description]") Flavour:
+                input(type="number" name="rating[flavor][score]" class="score-input" value=beer.rating && beer.rating.flavor.score)
+                span / 20
+            span.comment Malt, hops, fermentation characteristics, balance, finish/aftertaste, and other flavor characteristics
+            textarea(name="rating[flavor][description]" placeholder="Describe the flavor...") #{beer.rating && beer.rating.flavor.description}
+
+            label(for="rating[mouthfeel][description]") Mouthfeel:
+                input(type="number" name="rating[mouthfeel][score]" class="score-input" value=beer.rating && beer.rating.mouthfeel.score)
+                span / 5
+            span.comment Body, carbonation, warmth, creaminess, astringency, and other palate sensations
+            textarea(name="rating[mouthfeel][description]" placeholder="Describe the mouthfeel...") #{beer.rating && beer.rating.mouthfeel.description}
+
+            label(for="rating[overall][description]") Overall:
+                input(type="number" name="rating[overall][score]" class="score-input" value= beer.rating && beer.rating.overall.score)
+                span / 10
+            span.comment Overall drinking pleasure and give suggestions for improvement
+            textarea(name="rating[overall][description]" placeholder="Overall impressions...") #{beer.rating && beer.rating.overall.description}
+
+        .form-card__section.attrs
+            - 
+                const attrs = [
+                    { 
+                        name: 'crushability',
+                        label: 'crushable'
+                    }, 
+                    { 
+                        name: 'hop_character',
+                        label: 'hoppy'
+                    }, 
+                    { 
+                        name: 'bitterness',
+                        label: 'bitter'
+                    }, 
+                    { 
+                        name: 'yeast_character',
+                        label: 'yeast character'
+                    }, 
+                    { 
+                        name: 'acidity',
+                        label: 'acidic'
+                    }, 
+                    { 
+                        name: 'effervescence',
+                        label: 'effervescent'
+                    }, 
+                    { 
+                        name: 'head_retention',
+                        label: null
+                    }, 
+                    { 
+                        name: 'color',
+                        label: null
+                    }, 
+                    { 
+                        name: 'clarity',
+                        label: 'hazy'
+                    }, 
+                    { 
+                        name: 'body',
+                        label: null
+                    }, 
+                    { 
+                        name: 'dryness',
+                        label: 'dry'
+                    }, 
+                    { 
+                        name: 'malt_character',
+                        label: 'malty'
+                    }
+                ];
+
+            h2.form-card__section--heading Perceived Attributes
+            each attr of attrs 
+                - let formatted = h.capitalizeFirst(attr.name).replace('_', ' ');
+                .attr-selection
+                    label(for=`attributes[${attr.name}]`) #{formatted}
+                    select(name=`attributes[${attr.name}]` id=attr.name class="attr-input" data-label=attr.label)
+                        option(value=null disabled selected=!beer && !beer.attributes[`${attr.name}`]) Select perceived level
+                        option(value=0 selected=beer.attributes && beer.attributes[`${attr.name}`] == 0) 0 - Extremely Low
+                        option(value=1 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1 - Low
+                        option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2 - Moderate
+                        option(value=3 selected=beer.attributes && beer.attributes[`${attr.name}`] == 3) 3 - High
+                        option(value=4 selected=beer.attributes && beer.attributes[`${attr.name}`] == 4) 4 - Very high
+                        option(value=5 selected=beer.attributes && beer.attributes[`${attr.name}`] == 5) 5 - Insane
+
+        .form-card__section.tags
+            h2.form-card__section--heading Tags 
+            textarea(name="tags" id='tags-input')= beer.tags && beer.tags.join(', ')
+
+        input(type="submit" value="Save" class="button")

@@ -70,7 +70,7 @@ exports.getBeers = async (req, res, next) => {
 }
 
 exports.addBeer = (req, res) => {
-    res.render('editBeer', { title: 'Add Beer' });
+    res.render('addBeer', { title: 'Add Beer' });
 }
 
 // turn the text from the tags input into an array of tags
@@ -98,7 +98,7 @@ exports.editBeer = async (req, res, next) => {
         const beer_slug = req.params.slug;
         const beer = await Beer.findOne({ slug: beer_slug });
 
-        res.render('editBeer', {
+        res.render('addBeer', {
             title: `Edit ${beer.name}`,
             beer: beer,
         });
