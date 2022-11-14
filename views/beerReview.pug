@@ -8,4 +8,8 @@ block stylesheets
 block content
     if msg 
         .msg= msg
+    .control-panel  
+        form(method="POST")
+            a.btn.btn-edit(href=`/beer-reviews/${beer.slug}/edit`) Edit
+            button.btn.btn-edit(type="submit" formaction=`/api/beer-reviews/${beer._id}/delete`) Delete
     +beerReview(beer)

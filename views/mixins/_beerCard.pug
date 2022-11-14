@@ -2,7 +2,7 @@ mixin beerCard(beer)
     .card.beer-card
         a(href=`/beer-reviews/${beer.slug}`)
             //- .beer-card__image
-            if beer.photo
+            if beer.photos.length > 0
                 img.beer-card__image(src=`/uploads/${beer.photos[0]}` alt=beer.name)
             else 
                 img.beer-card__image(src="/images/MysteryBeer.jpg", alt="mystery beer")

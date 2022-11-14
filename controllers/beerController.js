@@ -138,3 +138,16 @@ exports.displayReview = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.deleteReview = async (req, res, next) => {
+    try {
+        await Beer.deleteOne({ _id: req.params.id });
+        console.log('Beer review deleted')
+        req.flash('success', `Beer review successfully deleted`);
+        res.redirect('/');
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
