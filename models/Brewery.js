@@ -19,6 +19,10 @@ const brewerySchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    beers: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Beer',
+    }],
     location: {
         type: {
             type: String,
@@ -28,6 +32,7 @@ const brewerySchema = new mongoose.Schema({
         address: String,
     },
     photos: [String],
+    completed: Boolean,
     // author: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'User',
@@ -57,6 +62,13 @@ async function setSlug(next) {
 
     next();
 }
+
+// mongodb indexes:
+brewerySchema.index({
+    name: 'text',
+    description: 'text',
+    address: 'text'
+})
 
 brewerySchema.pre('save', setSlug);
 

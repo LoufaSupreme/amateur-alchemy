@@ -3,10 +3,16 @@ mixin beerForm(beer = {})
         .form-card__section.main
             h2.form-card__section--heading Identity
             label(for="name") Name 
-            input(type="text" name="name" required value=beer.name)
+            input(type="text" name="name" required value=beer.name data-test="testing")
 
             label(for="brewery") Brewery
-            input(type="text" id="brewery" required name="brewery" value=beer.brewery) 
+            .search-area
+                input(type="text" id="brewery-name-input" required name="brewery-name" value=beer.brewery data-id=beer.brewery && beer.brewery._id) 
+                .search-area__results 
+
+            //- hidden input form to store an existing breweries _id
+            //- this gets autofilled when user clicks on brewery dropdown from addBeer.js
+            input(type="hidden" id="brewery-hidden" required name="brewery" value=beer.brewery && beer.brewery._id) 
 
             label(for="bjcp-style") Style
             input(type="text" name="bjcp_style" value=beer.bjcp_style)
@@ -41,7 +47,7 @@ mixin beerForm(beer = {})
             input(type="number" id="pH" name="pH" step="any" value=beer.pH)
 
             label(for="final_gravity") Final Gravity
-            input(type="number" id="final_gravity" name="final_gravity" step="any" value=beer.final_gravity.toFixed(3))
+            input(type="number" id="final_gravity" name="final_gravity" step="any" value=beer.final_gravity && beer.final_gravity.toFixed(3))
 
             label(for="srm") SRM
             input(type="number" id="srm" name="srm" step="any" value=beer.srm)
@@ -138,7 +144,7 @@ mixin beerForm(beer = {})
                 .attr-selection
                     label(for=`attributes[${attr.name}]`) #{formatted}
                     select(name=`attributes[${attr.name}]` id=attr.name class="attr-input" data-label=attr.label)
-                        option(value=null disabled selected=!beer && !beer.attributes[`${attr.name}`]) Select perceived level
+                        option(value=null disabled selected=Object.keys(beer).length===0) Select perceived level
                         option(value=0 selected=beer.attributes && beer.attributes[`${attr.name}`] == 0) 0 - Extremely Low
                         option(value=1 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1 - Low
                         option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2 - Moderate

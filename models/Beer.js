@@ -25,7 +25,11 @@ const beerSchema = new mongoose.Schema({
         default: Date.now,
     },
     photos: [String],
-    brewery: String,
+    brewery: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Brewery',
+    },
+    // brewery: String,
     bjcp_style: String,
     attributes: {
         crushability: Number,

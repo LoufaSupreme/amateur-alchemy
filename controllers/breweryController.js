@@ -92,6 +92,33 @@ exports.createBrewery = async (req, res, next) => {
     }
 }
 
+// API END POINTS
+
+// uses mongodb brewery index of name, description, address
+exports.searchBreweries = async (req, res, next) => {
+    try {
+        const breweries = await Brewery.find({
+            $text: {
+                $search: req.query.q,
+
+            }
+        },
+        // metadata to "rank" how applicable the search results are:
+        {
+            search_score: { $meta: 'textScore' }
+        }).sort({
+            search_score: { $meta: 'textScore' }
+        }).limit(10);
+
+        res.json(breweries);
+    }
+    catch(err) {
+        req.error = err;
+        console.log(err);
+        next(err);
+    }
+}
+
 // exports.editBeer = async (req, res, next) => {
 //     try {
 //         const beer_slug = req.params.slug;

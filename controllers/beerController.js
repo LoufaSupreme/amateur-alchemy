@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Beer = mongoose.model('Beer');  // schema from Beer.js
+const Brewery = mongoose.model('Brewery');  // schema from Brewery.js
 const multer = require("multer"); // package for uplaoding multiple files.  Needed since our _storeForm.pug has a form w/ enctype=multipart/form-data
 const jimp = require("jimp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
@@ -47,7 +48,6 @@ exports.resize = async (req, res, next) => {
             
             // // write photo into uploads folder
             await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
-            
         }
         
         next(); 
@@ -79,12 +79,61 @@ function parseTags(rawTags) {
     return tagsArray;
 }
 
+// create a new beer review
+// also add this beer to the brewery's beers array, or create a new brewery if it doesn't already exist
 exports.createBeer = async (req, res, next) => {
     try {
+        // parse the tags
         req.body.tags = parseTags(req.body.tags);
+
+        // if the beer's brewery already exists, update it with completed:false
+        // if it doesn't already exist, then create it
+
+        // create query criteria to find the brewery:
+        const queryCriteria = [{ name: req.body["brewery-name"] }];
+        if (mongoose.Types.ObjectId.isValid(req.body.brewery)) {
+            queryCriteria.push({ _id: req.body.brewery })
+        };
+
+        // use query criteria to find and update brewery (or create, aka upsert, a new brewery)
+        let brewery = await Brewery.findOneAndUpdate(
+            { 
+                $or: queryCriteria
+            }, 
+            { 
+                $set: {
+                    completed: false
+                } 
+            },
+            { 
+                upsert: true, 
+                new: true 
+            },
+        );
+
+        // call the save function so that pre-save hooks fire (in our case, this will generate a slug for the brewery)
+        // calling save is not required for an update operation, but an update op won't trigger the pre-save hook
+        brewery.save();
+
+        // set the requests brewery field to the updated or new brewery ID
+        req.body.brewery = brewery._id;
+
+        // create a new beer review
         const beer = new Beer(req.body);
         const savedBeer = await beer.save();
         console.log('New Beer created');
+
+        // add the new beer's ID to the brewery's beers array
+        await Brewery.updateOne(
+            {
+                _id: brewery._id
+            },
+            {
+                $push: { beers: savedBeer._id }
+            }
+        );
+
+        // celebrate
         req.flash('success', `Successfully created ${beer.name}`)
         res.redirect(`/beer-reviews/${savedBeer.slug}`)
     }

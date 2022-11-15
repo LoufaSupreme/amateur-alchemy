@@ -6,7 +6,7 @@ mixin breweryForm(brewery = {})
             input(type="text" name="name" required value=brewery.name)
 
             label(for="brewery") Website
-            input(type="text" id="website" required name="website" value=brewery.website) 
+            input(type="text" id="website" name="website" value=brewery.website) 
 
             label(for="description") Description 
             textarea(name="description" id="description") #{brewery.description}

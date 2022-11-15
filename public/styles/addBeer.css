@@ -4,6 +4,10 @@
     justify-content: center;
 }
 
+input {
+    width: 100%;
+}
+
 .form-card {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
@@ -26,6 +30,28 @@
 .form-card label {
     margin-bottom: 0.3rem;
     font-weight: bold;
+}
+
+.search-area {
+    position: relative;
+}
+
+.search-area__results {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+}
+
+.search-area__results > * {
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-bottom: 1px solid grey;
+    background: rgb(255 255 255 / 0.9);
+    color: black;
+    cursor: pointer;
 }
 
 .form-card input,
