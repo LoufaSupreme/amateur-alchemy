@@ -4,7 +4,7 @@ mixin reviewBody(beer)
         .identity
             .name-container 
                 h1.name= beer.name
-                h2.brewery= beer.brewery 
+                h2.brewery= beer.brewery && beer.brewery.name 
                 h3.style= beer.bjcp_style 
                 .date= h.moment(beer.created).format("MMM Qo, YYYY")
                 - const overallScore = Object.values(beer.rating).reduce((acc, curr) => {return acc += curr.score==null ? 0 : curr.score}, 0);

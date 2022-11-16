@@ -7,7 +7,7 @@ mixin beerForm(beer = {})
 
             label(for="brewery") Brewery
             .search-area
-                input(type="text" id="brewery-name-input" required name="brewery-name" value=beer.brewery data-id=beer.brewery && beer.brewery._id) 
+                input(type="text" id="brewery-name-input" required name="brewery-name" value=beer.brewery) 
                 .search-area__results 
 
             //- hidden input form to store an existing breweries _id

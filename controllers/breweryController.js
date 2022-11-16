@@ -95,6 +95,8 @@ exports.createBrewery = async (req, res, next) => {
 // API END POINTS
 
 // uses mongodb brewery index of name, description, address
+// used in the typeAhead dropdown in the newBeer form
+// returns a json string of all the matching breweries
 exports.searchBreweries = async (req, res, next) => {
     try {
         const breweries = await Brewery.find({

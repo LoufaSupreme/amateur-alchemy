@@ -31,6 +31,7 @@ const searchResults = document.querySelector('.search-area__results');
 function populateInput(elem) {
     breweryHiddenInput.value = elem.dataset.id;
     breweryNameInput.value = elem.innerText;
+    searchResults.style.display = "none";
 }
 
 function generateSearchResults(results) {
@@ -45,7 +46,11 @@ function generateSearchResults(results) {
 
 async function searchBreweries() {
     try {
-        const res = await fetch(`api/search/breweries?q=${breweryNameInput.value}`);
+        // set the hidden input value, for mongodb
+        breweryHiddenInput.value = breweryNameInput.value;
+
+        // fetch array of breweries that match the input string
+        const res = await fetch(`/api/search/breweries?q=${breweryNameInput.value}`);
         const data = await res.json();
         if (!data.length) {
             searchResults.style.display = "none";
