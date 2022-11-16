@@ -62,7 +62,7 @@ exports.resize = async (req, res, next) => {
 exports.getBeers = async (req, res, next) => {
     try {
         console.log('running getBeers')
-        const beers = await Beer.find().sort({ created: 'desc' });
+        const beers = await Beer.find().sort({ created: 'desc' }).populate('brewery');
         res.render('home', { title: 'Beer Reviews', beers: beers });
     }
     catch(err) {
@@ -164,7 +164,7 @@ exports.editBeer = async (req, res, next) => {
     console.log('Running editBeer');
     try {
         const beer_slug = req.params.slug;
-        const beer = await Beer.findOne({ slug: beer_slug });
+        const beer = await Beer.findOne({ slug: beer_slug }).populate('brewery');
 
         res.render('addBeer', {
             title: `Edit ${beer.name}`,
@@ -214,7 +214,7 @@ exports.updateBeer = async (req, res, next) => {
 exports.displayReview = async (req, res, next) => {
     try {
         console.log('running beerReview')
-        const beer = await Beer.findOne({ slug: req.params.slug });
+        const beer = await Beer.findOne({ slug: req.params.slug }).populate('brewery');
         if (!beer) {
             console.error('No beer found in db');
             return next();
@@ -246,7 +246,7 @@ exports.deleteReview = async (req, res, next) => {
 // get details of one beer and send json object
 exports.getBeer = async (req, res, next) => {
     try {
-        const beer = await Beer.findOne({ slug: req.params.slug });
+        const beer = await Beer.findOne({ slug: req.params.slug }).populate('brewery');
         console.log(`Got beer data for ${req.params.slug}`);
         res.json({ beer });
     }

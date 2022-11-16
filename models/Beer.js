@@ -152,14 +152,6 @@ async function setSlug(next) {
     next();
 }
 
-// populates a field that field that references another models ObjectId with the full data
-// function autoPopulate(next) {
-//     this.populate('brewery');
-//     next();
-// }
-
-// beerSchema.pre('find', autoPopulate);
-// beerSchema.pre('findOne', autoPopulate);
 beerSchema.pre('save', setSlug);
 
 module.exports = mongoose.model('Beer', beerSchema);
