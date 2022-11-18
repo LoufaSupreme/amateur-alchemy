@@ -92,6 +92,16 @@ exports.createBrewery = async (req, res, next) => {
     }
 }
 
+exports.displayBrewery = async (req, res, next) => {
+    try {
+        res.send(`Brewery page for ${req.params.slug}`)
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 // API END POINTS
 
 // uses mongodb brewery index of name, description, address

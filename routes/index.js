@@ -33,6 +33,9 @@ router.post('/add-brewery',
     breweryController.createBrewery,
 );
 
+// display brewery page
+router.get('/breweries/:slug', breweryController.displayBrewery);
+
 
 ////// API ROUTES //////
 

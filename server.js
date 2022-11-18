@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 const helpers = require('./helpers');
+const errorHandlers = require('./handlers/errorHandler');
 
 
 // import environmental variables from our variables.env file
@@ -77,6 +78,12 @@ app.use((req, res, next) => {
 
 // After allllll that above middleware, we finally handle our own routes!
 app.use('/', routes);
+
+// If that above routes didnt work, we 404 them and forward to error handler
+app.use(errorHandlers.notFound);
+
+// One of our error handlers will see if these errors are just validation errors
+app.use(errorHandlers.flashValidationErrors);
 
 // Start our app!
 app.set('port', process.env.PORT || 7778);
