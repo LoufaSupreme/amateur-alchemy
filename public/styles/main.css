@@ -47,12 +47,42 @@ input[type=number] {
 /* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook&display=swap');
 
-/* STYLES */
+/* GLOBAL STYLES */
 
 :root {
-    --clr-accent: 255 61 106;
-    --clr-accent-2: 63 94 251;
+    --clr-accent: 255 61 106; /* pink */
+    --clr-accent-2: 63 94 251; /* purple */
+    --clr-accent-3: 0 255 136; /* green */
+    --accent-gradient: linear-gradient(90deg, rgb(var(--clr-accent)) 0%, rgb(var(--clr-accent-2)) 50%, rgb(var(--clr-accent-3)) 100%);
 }
+
+a.custom-link > * {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 350% 100%;
+    color: transparent;
+    font-weight: bold;
+    background-position: right;
+    display: inline-block !important;
+    width: auto;
+    animation: bg-gradient-left 20s ease-in-out infinite alternate;
+}
+
+@keyframes bg-gradient-right {
+    100% {
+        background-position: right;
+    }
+}
+
+@keyframes bg-gradient-left {
+    100% {
+        background-position: left;
+    }
+}
+
+
+/*  HOME STYLES  */
 
 body {
     background-image: linear-gradient(to right, hsl(0, 0%, 20%) 30%,hsl(0, 0%, 10%));

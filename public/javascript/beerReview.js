@@ -42,7 +42,9 @@ function mapRange (value, a, b, c, d) {
 
 function updateScore(speed) {
     if (currentScore < targetScore) {
+        // const inc = Math.floor(mapRange(currentScore, 0, targetScore, 10, 0.1));
         score.innerText = `${currentScore+1}%`;
+        // score.innerText = `${currentScore+inc}%`;
         currentScore = parseFloat(score.innerText.slice(0, -1));
         setGauge(currentScore);
 
@@ -55,7 +57,7 @@ function updateScore(speed) {
     }
 }
 
-updateScore(50);
+updateScore(60);
 
 // image gallery
 const gallery = document.querySelector('.img-gallery');
