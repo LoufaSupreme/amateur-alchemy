@@ -7,7 +7,7 @@ mixin beerForm(beer = {})
 
             label(for="brewery") Brewery
             .search-area
-                input(type="text" id="brewery-name-input" required name="brewery-name" value=beer.brewery.name) 
+                input(type="text" id="brewery-name-input" required name="brewery-name" value=beer.brewery && beer.brewery.name) 
                 .search-area__results 
 
             //- hidden input form to store an existing breweries _id
@@ -21,8 +21,8 @@ mixin beerForm(beer = {})
             textarea(name="description") #{beer.description}
 
             //- video upload
-            //- label(for="video") Video 
-            //- input(type="file" name="video" id="video" accept='.mp4,.webm,.avi,.mpeg,.flv,.mov,.3gp')
+            label(for="video") Video 
+            input(type="file" name="video" id="video" accept='.mp4,.webm,.avi,.mpeg,.flv,.mov,.3gp')
 
             //- image upload
             label(for="photos") Photos 

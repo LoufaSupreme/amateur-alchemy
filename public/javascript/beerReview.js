@@ -63,11 +63,21 @@ updateScore(60);
 const gallery = document.querySelector('.img-gallery');
 const galleryImgs = gallery.querySelectorAll('img');
 const showcaseImg = document.querySelector('.showcase-img');
+const showcaseVid = document.querySelector('.showcase-vid');
 
 function handleImgClick(e) {
     galleryImgs.forEach(img => img.classList.remove('active'));
     e.target.classList.add('active');
-    showcaseImg.src = e.target.src;
+    
+    if (e.target.dataset.type === 'video') {
+        showcaseVid.classList.remove('hide');
+        showcaseImg.classList.add('hide');
+    }
+    else {
+        showcaseVid.classList.add('hide');
+        showcaseImg.classList.remove('hide');
+        showcaseImg.src = e.target.src
+    }
 }
 
 galleryImgs.forEach(img => img.addEventListener('click', handleImgClick));

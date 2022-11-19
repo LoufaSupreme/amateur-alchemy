@@ -4,7 +4,7 @@
   If we hit a route that is not found, we mark it as 404 and pass it along to the next error handler to display
 */
 exports.notFound = (req, res, next) => {
-    const err = new Error('Not Found');
+    const err = new Error(`Not Found: ${req.path}`);
     err.status = 404;
     next(err); // if you pass next an argument, it assumes it is an error
 };

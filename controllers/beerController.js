@@ -5,14 +5,34 @@ const multer = require("multer"); // package for uplaoding multiple files.  Need
 const jimp = require("jimp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
 const slug = require('slugs');
-const { findOne } = require('../models/Brewery');
+const fs = require('fs/promises');
 
+// const multerVideoOptions = {
+//     storage: multer.diskStorage({
+//         destination: './public/uploads/',
+//         filename: (req, file, cb) => {
+//             const fileExtension = file.mimetype.split('/')[1]; 
+//             const fileName = `${uuid.v4()}.${fileExtension}`;
+//             req.body.video = fileName; 
+//             console.log(`Video: ${fileName}`)
+//             cb(null, fileName);
+//         }
+//     }),
+//     fileFilter: function(req, file, cb) {
+//         const isVideo = file.mimetype.startsWith('video/');
+//         if (isVideo) cb(null, true);
+//         else {
+//             cb("That filetype isn't allowed!", false);
+//         }
+//     }
+// }
 
-const multerOptions = {
+const multerImageOptions = {
     storage: multer.memoryStorage(),  // initially load file into local memory
     fileFilter: function(req, file, next) {
         const isPhoto = file.mimetype.startsWith('image/');
-        if (isPhoto) {
+        const isVideo = file.mimetype.startsWith('video/');
+        if (isPhoto || isVideo) {
             next(null, true);
         }
         else {
@@ -21,49 +41,71 @@ const multerOptions = {
     }
 }
 
-exports.upload = multer(multerOptions).array('photos');
+// exports.uploadImage = multer(multerImageOptions).array('photos');
+// exports.uploadVideo = multer(multerVideoOptions).single('video');
+// exports.uploadVideo = multer(multerVideoOptions).fields([
+//     { name: 'video' },
+//     { name: 'photos' }
+// ]);
+exports.uploadImage = multer(multerImageOptions).fields([
+    { name: 'video' },
+    { name: 'photos' }
+]);
 
-exports.resize = async (req, res, next) => {
+exports.resizeImage = async (req, res, next) => {
     try {
+        // console.log(req.files);
+
         // check if there is no new files to resize
         if (!req.files) {
             next(); // skip to next middleware
             return;
         }
-
+        
         req.body.photos = [];
-        for (const file of req.files) {
+        for (const fileInput in req.files) {
+            file = req.files[fileInput][0];
+            // console.log(file)
             // get the type of image
             const fileExtension = file.mimetype.split('/')[1]; 
 
             // create a new unique name for the image
             const fileName = `${uuid.v4()}.${fileExtension}`;
-            req.body.photos.push(fileName); 
 
-            // // resize photo:
-            // // pass in image buffer to jimp
-            const photo = await jimp.read(file.buffer);
-            // console.log(photo)
+            if (file.mimetype.startsWith('video/')) {
+                fs.writeFile(`./public/uploads/${fileName}`, file.buffer);
+                req.body.video = fileName;
+            }
+            else {
+                req.body.photos.push(fileName); 
 
-            await photo.resize(800, jimp.AUTO); // length and width
-            
-            // // write photo into uploads folder
-            await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+                // // resize photo:
+                // // pass in image buffer to jimp
+                const photo = await jimp.read(file.buffer);
+                // console.log(photo)
+    
+                await photo.resize(800, jimp.AUTO); // length and width
+                
+                // // write photo into uploads folder
+                await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+            }
         }
 
         next(); 
     }
     catch(err) {
         req.error = err;
+        console.log(err);
+        console.log('ERROR');
         next(err);
     }
 }
 
-exports.getBeers = async (req, res, next) => {
+exports.home = async (req, res, next) => {
     try {
-        console.log('running getBeers')
+        console.log('running home')
         const beers = await Beer.find().sort({ created: 'desc' }).populate('brewery');
-        res.render('home', { title: 'Beer Reviews', beers: beers });
+        res.render('home', { title: 'Amateur Alchemy', beers: beers });
     }
     catch(err) {
         console.error(err);

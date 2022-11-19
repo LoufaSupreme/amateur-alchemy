@@ -31,7 +31,7 @@ require('./models/Brewery');
 // const promisify = require('es6-promisify');
 // const expressValidator = require('express-validator');
 
-const routes = require('./routes/index');
+const routes = require('./routes/index');  // has to be after requiring the models
 // const helpers = require('./helpers');
 // const errorHandlers = require('./handlers/errorHandlers');
 

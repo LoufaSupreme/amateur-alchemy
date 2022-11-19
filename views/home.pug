@@ -14,7 +14,7 @@ block hero
         img(src='/images/beers.png') 
 
 block content 
-    h1.content--title= title
+    h1.content--title Beer Reviews
     .beer-reviews
         each beer in beers 
             +beerCard(beer)

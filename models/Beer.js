@@ -24,12 +24,12 @@ const beerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    video: String,
     photos: [String],
     brewery: {
         type: mongoose.Schema.ObjectId,
         ref: 'Brewery',
     },
-    // brewery: String,
     bjcp_style: String,
     attributes: {
         crushability: Number,

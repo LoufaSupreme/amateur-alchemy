@@ -4,13 +4,13 @@ const beerController = require('../controllers/beerController');
 const breweryController = require('../controllers/breweryController');
 
 // home page
-router.get('/', beerController.getBeers);
+router.get('/', beerController.home);
 
 // add new beer review
 router.get('/add-beer', beerController.addBeer);
 router.post('/add-beer', 
-    beerController.upload, 
-    beerController.resize, 
+    beerController.uploadImage, 
+    beerController.resizeImage, 
     beerController.createBeer
 );
 
@@ -20,8 +20,8 @@ router.get('/beer-reviews/:slug', beerController.displayReview);
 // update existing beer review
 router.get('/beer-reviews/:slug/edit', beerController.editBeer);
 router.post('/add-beer/:id',
-    beerController.upload, 
-    beerController.resize, 
+    beerController.uploadImage, 
+    beerController.resizeImage, 
     beerController.updateBeer
 );
 

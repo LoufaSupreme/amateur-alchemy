@@ -19,10 +19,17 @@ mixin reviewBody(beer)
                 .score(data-score=overallScore*2)= '0%'
         
         .review-img-container
-            img.showcase-img(src=`/uploads/${beer.photos[0]}`, alt=beer.name)
+            if beer.video 
+                video.showcase-vid(autoplay='true' loop='true' muted='true' playsinline='true' disablepictureinpicture controls controlslist='nodownload notimeline noremoteplayback')
+                    source(src=`/uploads/${beer.video}`)
+                img.showcase-img.hide(src=`/uploads/${beer.photos[0]}`, alt=beer.name)
+            else
+                img.showcase-img(src=`/uploads/${beer.photos[0]}`, alt=beer.name)
             .img-gallery 
+                if beer.video
+                    img.gallery-img.play(src="/images/video_default_thumbnail.png" alt="pour video" data-type="video")
                 each photo in beer.photos
-                    img.gallery-img(src=`/uploads/${photo}`, alt=beer.name)
+                    img.gallery-img(src=`/uploads/${photo}` alt=beer.name)
             .aux-specs
                 if beer.abv
                     .aux-specs__spec
