@@ -271,8 +271,15 @@ exports.displayReview = async (req, res, next) => {
 
 exports.deleteReview = async (req, res, next) => {
     try {
-        await Beer.deleteOne({ _id: req.params.id });
-        console.log('Beer review deleted')
+        const beer = await Beer.findOneAndDelete({ _id: req.params.id });
+        console.log(`${beer.name} deleted`);
+
+        // remove this beer from all breweries:
+        const breweriesWithBeer = await Brewery.updateMany(
+            { beers: mongoose.Types.ObjectId(beer._id) },
+            { $pull : { beers: beer._id } }
+        )
+        
         req.flash('success', `Beer review successfully deleted`);
         res.redirect('/');
     }

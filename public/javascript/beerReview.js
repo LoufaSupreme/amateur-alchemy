@@ -59,7 +59,7 @@ function updateScore(speed) {
 
 updateScore(60);
 
-// image gallery
+//// IMAGE GALLERY
 const gallery = document.querySelector('.img-gallery');
 const galleryImgs = gallery.querySelectorAll('img');
 const showcaseImg = document.querySelector('.showcase-img');
@@ -82,7 +82,7 @@ function handleImgClick(e) {
 
 galleryImgs.forEach(img => img.addEventListener('click', handleImgClick));
 
-// radar chart setup
+//// RADAR CHART
 
 const slug = window.location.href.split('/').at(-1);
 const ctx = document.getElementById('radar').getContext('2d');
