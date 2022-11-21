@@ -73,6 +73,7 @@ exports.getBreweries = async (req, res, next) => {
 
 // render the add brewery page 
 exports.addBrewery = (req, res) => {
+    console.log('Running addBrewery');
     res.render('addBrewery', { title: 'Add Brewery' });
 }
 
@@ -82,10 +83,26 @@ function parseTags(rawTags) {
     return tagsArray;
 }
 
+// check if all fields are filled out
+function isComplete(req) {
+    if (
+        req.body.name !== "" &&
+        req.body.description !== "" &&
+        req.body.location.address !== "" &&
+        req.body.location.coordinates[0] !== "" &&
+        req.body.location.coordinates[1] !== "" &&
+        req.body.tags !== ""
+        // req.body.photos.length > 0
+    ) return true;
+}
+
 // creates a new brewery instance in db
 exports.createBrewery = async (req, res, next) => {
+    console.log('Running createBrewery');
     try {
+        console.log(req.body)
         req.body.tags = parseTags(req.body.tags);
+        if (isComplete(req)) req.body.completed = true;
         const brewery = new Brewery(req.body);
         const savedBrewery = await brewery.save();
         console.log('New Brewery created');
@@ -99,8 +116,14 @@ exports.createBrewery = async (req, res, next) => {
 
 // render the individual brewery page
 exports.displayBrewery = async (req, res, next) => {
+    console.log('Running displayBrewery');
     try {
-        res.send(`Brewery page for ${req.params.slug}`)
+        const brewery = await Brewery.findOne({slug: req.params.slug});
+        if (!brewery) {
+            console.error('No brewery found in db');
+            return next();
+        }
+        res.render('brewery', { title: brewery.name, brewery });
     }
     catch(err) {
         console.log(err);
@@ -131,6 +154,7 @@ exports.updateBrewery = async (req, res, next) => {
     try {
         req.body.tags = parseTags(req.body.tags);
         req.body.slug = slug(req.body.name);
+        if (isComplete(req)) req.body.completed = true;
         const brewery = await Brewery.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true, // return newly updated obj, not the old unupdated version
             runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
@@ -175,23 +199,6 @@ exports.searchBreweries = async (req, res, next) => {
 }
 
 
-
-
-// exports.displayReview = async (req, res, next) => {
-//     try {
-//         console.log('running beerReview')
-//         const beer = await Beer.findOne({ slug: req.params.slug });
-//         if (!beer) {
-//             console.error('No beer found in db');
-//             return next();
-//         }
-//         res.render('beerReview', { title: beer.name, beer: beer });
-//     }
-//     catch(err) {
-//         console.error(err);
-//         next(err);
-//     }
-// }
 
 // exports.deleteReview = async (req, res, next) => {
 //     try {

@@ -28,7 +28,7 @@ const brewerySchema = new mongoose.Schema({
             type: String,
             default: 'Point',
         },
-        coordinates: [Number],
+        coordinates: [Number], // lng, lat
         address: String,
     },
     photos: [String],

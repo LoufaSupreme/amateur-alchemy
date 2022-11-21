@@ -1,0 +1,7 @@
+extends layout 
+
+block content 
+    h1= title
+    h3= brewery.name 
+    p= `Website: ${brewery.website}`
+    pre= h.dump(brewery)
