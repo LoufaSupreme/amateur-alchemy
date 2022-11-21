@@ -16,4 +16,5 @@ block content
         +breweryForm(beer)
 
 block scripts 
-    script(src='/javascript/editBrewery.js')
+    //- note that type="module" is needed here so we can use import statements
+    script(type="module" src='/javascript/addBrewery.js')

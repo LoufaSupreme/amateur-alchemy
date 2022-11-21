@@ -118,7 +118,7 @@ exports.addBeer = (req, res) => {
 
 // turn the text from the tags input into an array of tags
 function parseTags(rawTags) {
-    const tagsArray = rawTags.split(', ').map(tag => tag.toLowerCase());
+    const tagsArray = rawTags !== "" ? rawTags.split(', ').map(tag => tag.toLowerCase()) : [];
     return tagsArray;
 }
 
@@ -279,7 +279,7 @@ exports.deleteReview = async (req, res, next) => {
             { beers: mongoose.Types.ObjectId(beer._id) },
             { $pull : { beers: beer._id } }
         )
-        
+
         req.flash('success', `Beer review successfully deleted`);
         res.redirect('/');
     }

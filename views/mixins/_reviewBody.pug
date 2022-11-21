@@ -73,7 +73,7 @@ mixin reviewBody(beer)
                         .ratings__section--score= `${section[1].score} / ${section[1].max_score}`
                     .ratings__section--content.textbox= section[1].description
         
-        if beer.tags
+        if beer.tags.length > 0
             .tags-container
                 h3.tags-container__title Tags 
                 .tags-container__tags 

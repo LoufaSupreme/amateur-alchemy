@@ -5,9 +5,6 @@ mixin breweryForm(brewery = {})
             label(for="name") Name 
             input(type="text" name="name" required value=brewery.name)
 
-            label(for="brewery") Website
-            input(type="text" id="website" name="website" value=brewery.website) 
-
             label(for="description") Description 
             textarea(name="description" id="description") #{brewery.description}
 
@@ -18,8 +15,9 @@ mixin breweryForm(brewery = {})
                 .img-gallery
                     each photo of brewery.photos
                         img.gallery-img(src=`/uploads/${photo}`, alt=brewery.name width=100)
+
             //- address, long and lat:
-            label(for="address") Address
+            label(for="address" placeholder="Enter a location") Address
             //- the value checks if there is a brewery.location, and if there is it inputs the brewery.location.address
             input(type="text" id="address" name="location[address]" value=brewery.location && brewery.location.address) 
 
@@ -27,6 +25,9 @@ mixin breweryForm(brewery = {})
             input(type="text" id="lng" name="location[coordinates][0]" value=brewery.location && brewery.location.coordinates[0])
             label(for="lat") Address Latitude
             input(type="text" id="lat" name="location[coordinates][1]" value=brewery.location && brewery.location.coordinates[1])
+
+            label(for="brewery") Website
+            input(type="text" id="website" name="website" value=brewery.website) 
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 

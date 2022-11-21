@@ -52,7 +52,9 @@ html
     block footer
       .footer 
 
+    //- Google maps
     script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)
+    //- our global javascript
     script(src='/javascript/main.js')
     block scripts
       
