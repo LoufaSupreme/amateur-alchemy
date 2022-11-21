@@ -36,6 +36,13 @@ router.post('/add-brewery',
 // display brewery page
 router.get('/breweries/:slug', breweryController.displayBrewery);
 
+// update existing brewery
+router.get('/breweries/:slug/edit', breweryController.editBrewery);
+router.post('/add-brewery/:id',
+    breweryController.upload, 
+    breweryController.resize, 
+    breweryController.updateBrewery
+);
 
 ////// API ROUTES //////
 

@@ -231,8 +231,8 @@ exports.updateBeer = async (req, res, next) => {
         req.body.brewery = brewery._id;
 
         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
-            new: true, // return newly updated store, not the old unupdated version
-            runValidators: true, // forces validation of the options set in the Store model, e.g. required:true for name and trim:true for description, etc
+            new: true, // return newly updated obj, not the old unupdated version
+            runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
         }).exec(); // run the query
 
         // remove this beer from all breweries:

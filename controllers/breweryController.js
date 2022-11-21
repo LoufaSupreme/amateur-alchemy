@@ -57,6 +57,8 @@ exports.resize = async (req, res, next) => {
     }
 }
 
+
+// render the /breweries page with all breweries
 exports.getBreweries = async (req, res, next) => {
     try {
         console.log('running getBreweries')
@@ -65,9 +67,11 @@ exports.getBreweries = async (req, res, next) => {
     }
     catch(err) {
         console.error(err);
+        next(err);
     }
 }
 
+// render the add brewery page 
 exports.addBrewery = (req, res) => {
     res.render('addBrewery', { title: 'Add Brewery' });
 }
@@ -78,6 +82,7 @@ function parseTags(rawTags) {
     return tagsArray;
 }
 
+// creates a new brewery instance in db
 exports.createBrewery = async (req, res, next) => {
     try {
         req.body.tags = parseTags(req.body.tags);
@@ -92,9 +97,47 @@ exports.createBrewery = async (req, res, next) => {
     }
 }
 
+// render the individual brewery page
 exports.displayBrewery = async (req, res, next) => {
     try {
         res.send(`Brewery page for ${req.params.slug}`)
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// renders the addBrewery page with preloaded brewery info
+exports.editBrewery = async (req, res, next) => {
+    try {
+        const brewery_slug = req.params.slug;
+        const brewery = await Brewery.findOne({ slug: brewery_slug });
+
+        res.render('addBrewery', {
+            title: `Edit ${brewery.name}`,
+            brewery: brewery,
+        });
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// updates existing beer instance in db
+exports.updateBrewery = async (req, res, next) => {
+    console.log('Running updateBrewery');
+    try {
+        req.body.tags = parseTags(req.body.tags);
+        req.body.slug = slug(req.body.name);
+        const brewery = await Brewery.findOneAndUpdate({ _id: req.params.id }, req.body, {
+            new: true, // return newly updated obj, not the old unupdated version
+            runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
+        }).exec(); // run the query
+
+        req.flash('success', `Successfully updated <strong>${brewery.name}</strong>`);
+        res.redirect(`/breweries/${brewery.slug}`);
     }
     catch(err) {
         console.log(err);
@@ -131,39 +174,8 @@ exports.searchBreweries = async (req, res, next) => {
     }
 }
 
-// exports.editBeer = async (req, res, next) => {
-//     try {
-//         const beer_slug = req.params.slug;
-//         const beer = await Beer.findOne({ slug: beer_slug });
 
-//         res.render('editBeer', {
-//             title: `Edit ${beer.name}`,
-//             beer: beer,
-//         });
-//     }
-//     catch(err) {
-//         console.log(err);
-//         next(err);
-//     }
-// }
 
-// exports.updateBeer = async (req, res, next) => {
-//     try {
-//         req.body.tags = parseTags(req.body.tags);
-//         req.body.slug = slug(req.body.name);
-//         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
-//             new: true, // return newly updated store, not the old unupdated version
-//             runValidators: true, // forces validation of the options set in the Store model, e.g. required:true for name and trim:true for description, etc
-//         }).exec(); // run the query
-
-//         req.flash('success', `Successfully updated <strong>${beer.name}</strong>`);
-//         res.redirect(`/beer-reviews/${beer.slug}`);
-//     }
-//     catch(err) {
-//         console.log(err);
-//         next(err);
-//     }
-// }
 
 // exports.displayReview = async (req, res, next) => {
 //     try {
