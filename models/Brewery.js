@@ -38,6 +38,13 @@ const brewerySchema = new mongoose.Schema({
     },
     updateCount: Number,
     lastModified: Date,
+    google_place_data: {
+        place_id: String,
+        icon: String,
+        map_url: String,
+        tags: [String],
+        phone: String,
+    }
 
     // author: {
     //     type: mongoose.Schema.ObjectId,

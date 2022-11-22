@@ -3,8 +3,10 @@
 ## TODO
 - reset IP whitelist on mongodb atlas when deployed
 - bring in beerAdvocate and untappd scores
-- convert video to gif and display as primary review image
 - underlay style attributes on radar chart
+
+## Important Notes:
+The add-brewery pages uses a Google Maps API Place Autocomplete, which places a getPlaces() API call.  This incurs a billable charge after $200 / month (approx. 12,000 api calls per month).
 
 ## Inspo
 #### Style
@@ -23,4 +25,3 @@
 #### Reviews & Calculators
 - https://beerandbrewing.com/review/ipa-avery/
 - https://beermebc.com/reviews/container-brewing-ltd-frostbite-cold-ipa/
-- 

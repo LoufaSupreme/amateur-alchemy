@@ -2,7 +2,10 @@
 // promisify the getCurrentPosition function, so we can await it
 function getUserLocation() {
     return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
+        navigator.geolocation.getCurrentPosition(
+            location => resolve(location), 
+            error => reject(error)
+        );
     })
 }
 
@@ -67,17 +70,32 @@ async function loadPlaces(map, lat=43.96 , lng=-78.97) {
 async function makeMap(mapDiv) {
     if (!mapDiv) return;
     console.log('Generating map...');
-    const location = await getUserLocation();
-    const { latitude, longitude } = location.coords;
+
+    const location = {
+        user: false,
+        latitude: 43.96,
+        longitude: -78.97
+    };
+
+    // try to get users current position
+    try {
+        const userLocation = await getUserLocation();
+        location.user = true;
+        location.latitude = userLocation.coords.latitude;
+        location.longitude = userLocation.coords.longitude;
+    }
+    catch(err) {
+        console.log(err.message);
+    }
 
     const mapOptions = {
-        center: { lat: latitude, lng: longitude},
+        center: { lat: location.latitude, lng: location.longitude},
         zoom: 10,
         maxZoom: 15
     }
 
     const map = new google.maps.Map(mapDiv, mapOptions);
-    loadPlaces(map, latitude, longitude);
+    loadPlaces(map, location.latitude, location.longitude);
     const searchInput = document.querySelector('[name="geolocate"]');
     const autocomplete = new google.maps.places.Autocomplete(searchInput);
 }
