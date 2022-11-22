@@ -29,6 +29,13 @@ mixin breweryForm(brewery = {})
             label(for="brewery") Website
             input(type="text" id="website" name="website" value=brewery.website) 
 
+            //- hidden inputs for google Place data
+            input(type="hidden" name="google_data[place_id]" value=brewery.google_data && brewery.google_data.place_id)
+            input(type="hidden" name="google_data[map_url]" value=brewery.google_data && brewery.google_data.map_url)
+            input(type="hidden" name="google_data[tags]" value=brewery.google_data && brewery.google_data.tags)
+            input(type="hidden" name="google_data[phone]" value=brewery.google_data && brewery.google_data.phone)
+            input(type="hidden" name="google_data[images]" value=brewery.google_data && brewery.google_data.images)
+
         .form-card__section.tags
             h2.form-card__section--heading Tags 
             textarea(name="tags" id='tags-input')= brewery.tags && brewery.tags.join(', ')

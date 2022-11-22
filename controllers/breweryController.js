@@ -78,9 +78,9 @@ exports.addBrewery = (req, res) => {
 }
 
 // turn the text from the tags input into an array of tags
-function parseTags(rawTags) {
-    const tagsArray = rawTags.split(', ').map(tag => tag.toLowerCase());
-    return tagsArray;
+function parseList(commaSeperatedList) {
+    const listArray = commaSeperatedList.split(', ').map(tag => tag.toLowerCase());
+    return listArray;
 }
 
 // check if all fields are filled out
@@ -102,7 +102,9 @@ exports.createBrewery = async (req, res, next) => {
     console.log('Running createBrewery');
     try {
         console.log(req.body)
-        req.body.tags = parseTags(req.body.tags);
+        req.body.tags = parseList(req.body.tags);
+        req.body.google_data.tags = parseList(req.body.google_data["tags"]);
+        req.body.google_data.images = parseList(req.body.google_data["images"]);
         if (isComplete(req)) req.body.completed = true;
         const brewery = new Brewery(req.body);
         const savedBrewery = await brewery.save();
@@ -153,7 +155,10 @@ exports.editBrewery = async (req, res, next) => {
 exports.updateBrewery = async (req, res, next) => {
     console.log('Running updateBrewery');
     try {
-        req.body.tags = parseTags(req.body.tags);
+        req.body.tags = parseList(req.body.tags);
+
+        req.body.google_data.tags = parseList(req.body.google_data["tags"]);
+        req.body.google_data.images = parseList(req.body.google_data["images"]);
         req.body.slug = slug(req.body.name);
         // check if all fields are filled out:
         if (isComplete(req)) req.body.completed = true;
