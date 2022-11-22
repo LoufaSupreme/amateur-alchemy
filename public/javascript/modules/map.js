@@ -65,6 +65,8 @@ async function loadPlaces(map, lat=43.96 , lng=-78.97) {
     // then zoom map to fit all markers
     map.setCenter(bounds.getCenter());
     map.fitBounds(bounds);
+    const currentZoom = map.getZoom();
+    map.setZoom(currentZoom > 15 ? 15 : currentZoom);
 }
 
 async function makeMap(mapDiv) {
@@ -91,7 +93,6 @@ async function makeMap(mapDiv) {
     const mapOptions = {
         center: { lat: location.latitude, lng: location.longitude},
         zoom: 10,
-        maxZoom: 15
     }
 
     const map = new google.maps.Map(mapDiv, mapOptions);
