@@ -1,4 +1,3 @@
-// const google_autocomplete = require('./modules/google_autocomplete');
 import google_autocomplete from './modules/google_autocomplete.js';
 
 const address = document.querySelector('#address');

@@ -1,0 +1,9 @@
+#map {
+    position: relative;
+    min-width: 1000px;
+    height: 500px;
+}
+
+.google-marker {
+    color: black;
+}

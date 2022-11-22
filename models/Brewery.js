@@ -77,6 +77,8 @@ brewerySchema.index({
     address: 'text'
 });
 
+brewerySchema.index({ location: '2dsphere' });
+
 // populates a field that field that references another models ObjectId with the full data
 function autoPopulate(next) {
     this.populate('beers');

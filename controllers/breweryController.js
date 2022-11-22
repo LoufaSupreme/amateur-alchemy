@@ -59,11 +59,11 @@ exports.resize = async (req, res, next) => {
 
 
 // render the /breweries page with all breweries
-exports.getBreweries = async (req, res, next) => {
+exports.displayBreweries = async (req, res, next) => {
     try {
         console.log('running getBreweries')
         const breweries = await Brewery.find().sort({ created: 'desc' });
-        res.render('breweries', { title: 'Breweries', breweries: breweries });
+        res.render('breweries', { title: 'All Breweries', breweries: breweries });
     }
     catch(err) {
         console.error(err);
@@ -91,7 +91,8 @@ function isComplete(req) {
         req.body.location.address !== "" &&
         req.body.location.coordinates[0] !== "" &&
         req.body.location.coordinates[1] !== "" &&
-        req.body.tags !== ""
+        req.body.tags !== "" &&
+        req.body.website !== ""
         // req.body.photos.length > 0
     ) return true;
 }
@@ -154,11 +155,22 @@ exports.updateBrewery = async (req, res, next) => {
     try {
         req.body.tags = parseTags(req.body.tags);
         req.body.slug = slug(req.body.name);
+        // check if all fields are filled out:
         if (isComplete(req)) req.body.completed = true;
-        const brewery = await Brewery.findOneAndUpdate({ _id: req.params.id }, req.body, {
-            new: true, // return newly updated obj, not the old unupdated version
-            runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
-        }).exec(); // run the query
+        // update the location type since mongo's findOneAndUpdate method doesn't take into account the Schema defaults
+        req.body.location.type = "Point";
+        req.body.lastUpdated = Date.now();
+
+        const brewery = await Brewery.findOneAndUpdate(
+            { _id: req.params.id }, 
+            {
+                $inc: { updateCount: 1 },
+                $set: req.body
+            },
+            {
+                new: true, // return newly updated obj, not the old unupdated version
+                runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
+            }).exec(); // run the query
 
         req.flash('success', `Successfully updated <strong>${brewery.name}</strong>`);
         res.redirect(`/breweries/${brewery.slug}`);
@@ -175,6 +187,7 @@ exports.updateBrewery = async (req, res, next) => {
 // used in the typeAhead dropdown in the newBeer form
 // returns a json string of all the matching breweries
 exports.searchBreweries = async (req, res, next) => {
+    console.log(`Running searchBreweries: q=${req.query.q}`);
     try {
         const breweries = await Brewery.find({
             $text: {
@@ -198,6 +211,32 @@ exports.searchBreweries = async (req, res, next) => {
     }
 }
 
+// find a list of breweries within a certain distance
+exports.mapBreweries = async (req, res, next) => {
+    console.log(`Running mapBreweries: lat: ${req.query.lat}, lng: ${req.query.lng}`);
+    try {
+        const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+        const query = {
+            location: {
+                $near: {
+                    $geometry: {
+                        type: 'Point',
+                        coordinates: coordinates
+                    },
+                    $maxDistance: 20000 // in meters
+                }
+            }
+            
+        }
+
+        const breweries = await Brewery.find(query);
+        res.json(breweries);
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
 
 
 // exports.deleteReview = async (req, res, next) => {

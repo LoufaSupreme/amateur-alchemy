@@ -1,0 +1,15 @@
+extends layout 
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/breweries.css')
+
+block content 
+    h1= title
+    .map 
+        .autocomplete 
+            input.autocomplete__input(type="text" placeholder="Find breweries nearby" name="geolocate")
+        #map 
+            p Loading Map...
+
+block scripts 
+    script(src='/javascript/breweries.js' type="module")

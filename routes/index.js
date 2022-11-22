@@ -33,6 +33,9 @@ router.post('/add-brewery',
     breweryController.createBrewery,
 );
 
+// display all breweries
+router.get('/breweries', breweryController.displayBreweries);
+
 // display brewery page
 router.get('/breweries/:slug', breweryController.displayBrewery);
 
@@ -46,10 +49,17 @@ router.post('/add-brewery/:id',
 
 ////// API ROUTES //////
 
+// delete a beer review
 router.post('/api/beer-reviews/:id/delete', beerController.deleteReview);
+
+// get the details for one beer
 router.get('/api/get-beer/:slug', beerController.getBeer);
 
+// search for all breweries matching a user input query
 router.get('/api/search/breweries', breweryController.searchBreweries);
+
+// search for all breweries near a user inputted location
+router.get('/api/breweries/near', breweryController.mapBreweries);
 
 
 module.exports = router;
