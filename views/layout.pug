@@ -2,6 +2,8 @@ doctype html
 html
   head
     title= `${title}`
+    //- font awesome
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer")
     link(rel='stylesheet', href='/styles/main.css')
     block stylesheets
     link(rel="shortcut icon" type="image/png" href="/images/icons/doughnut.png")
@@ -54,6 +56,7 @@ html
 
     //- Google maps
     script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)
+
     //- our global javascript
     script(src='/javascript/main.js')
     block scripts

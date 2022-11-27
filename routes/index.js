@@ -61,5 +61,8 @@ router.get('/api/search/breweries', breweryController.searchBreweries);
 // search for all breweries near a user inputted location
 router.get('/api/breweries/near', breweryController.mapBreweries);
 
+// get a list of all the breweries (json):
+router.get('/api/breweries/all', breweryController.getAllBreweries);
+
 
 module.exports = router;

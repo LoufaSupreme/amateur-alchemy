@@ -189,7 +189,7 @@ exports.updateBrewery = async (req, res, next) => {
 // API END POINTS
 
 // uses mongodb brewery index of name, description, address
-// used in the typeAhead dropdown in the newBeer form
+// used in the typeAhead dropdown in the newBeer form (addBeer.js)
 // returns a json string of all the matching breweries
 exports.searchBreweries = async (req, res, next) => {
     console.log(`Running searchBreweries: q=${req.query.q}`);
@@ -197,7 +197,6 @@ exports.searchBreweries = async (req, res, next) => {
         const breweries = await Brewery.find({
             $text: {
                 $search: req.query.q,
-
             }
         },
         // metadata to "rank" how applicable the search results are:
@@ -211,6 +210,19 @@ exports.searchBreweries = async (req, res, next) => {
     }
     catch(err) {
         req.error = err;
+        console.log(err);
+        next(err);
+    }
+}
+
+// get list of all breweries in json
+exports.getAllBreweries = async (req, res, next) => {
+    console.log('Running getAllBreweries');
+    try {
+        const breweries = await Brewery.find();
+        res.json(breweries);
+    }
+    catch(err) {
         console.log(err);
         next(err);
     }
