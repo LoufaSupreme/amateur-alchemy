@@ -129,8 +129,8 @@ async function getBeerJSON(slug) {
                     ],
                     fill: true,
                     borderWidth: 1,
-                    hoverBorderColor: 'rgba(153, 102, 255, 1)',
-                    hoverBackgroundColor: 'rgba(153, 102, 255, 0.5)',
+                    hoverBorderColor: 'rgba(255, 99, 132, 1)',
+                    // hoverBackgroundColor: 'rgba(153, 102, 255, 0.5)',
                     pointHoverRadius: 8,
                 }]
             },
@@ -162,6 +162,11 @@ async function getBeerJSON(slug) {
                     },
                     tooltip: {
                         callbacks: {
+                            title: function(context) {
+                                let title = context.map(ctx => ctx.label);
+                                title = title.join(', ');
+                                return title;
+                            },
                             label: function(context) {
                                 // title part of the tooltip
                                 // let label = context.dataset.label || '';
@@ -183,7 +188,7 @@ async function getBeerJSON(slug) {
                                 // content part of the tooltip
                                 // value at the "r" axis
                                 if (context.parsed.r !== null) {
-
+                                    // label += context.label
                                     label += `${map[context.parsed.r]}`;
                                     // label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
                                 }

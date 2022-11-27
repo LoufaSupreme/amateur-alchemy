@@ -92,10 +92,11 @@ async function loadPlaces(map, lat=43.96, lng=-78.97, breweryList=null) {
     map.setZoom(currentZoom > 15 ? 15 : currentZoom);
 }
 
+// pan map over to designated position
 function panMap(map, lat, lng) {
     map.panTo({ lat, lng });
     const currentZoom = map.getZoom();
-    map.setZoom(currentZoom < 5 ? 15 : currentZoom);
+    map.setZoom(currentZoom < 13 ? 15 : currentZoom);
 }
 
 // creates a google map
