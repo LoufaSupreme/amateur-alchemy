@@ -7,27 +7,7 @@ const uuid = require("uuid"); // helps with making unique file names for uploade
 const slug = require('slugs');
 const fs = require('fs/promises');
 
-// const multerVideoOptions = {
-//     storage: multer.diskStorage({
-//         destination: './public/uploads/',
-//         filename: (req, file, cb) => {
-//             const fileExtension = file.mimetype.split('/')[1]; 
-//             const fileName = `${uuid.v4()}.${fileExtension}`;
-//             req.body.video = fileName; 
-//             console.log(`Video: ${fileName}`)
-//             cb(null, fileName);
-//         }
-//     }),
-//     fileFilter: function(req, file, cb) {
-//         const isVideo = file.mimetype.startsWith('video/');
-//         if (isVideo) cb(null, true);
-//         else {
-//             cb("That filetype isn't allowed!", false);
-//         }
-//     }
-// }
-
-const multerImageOptions = {
+const multerOptions = {
     storage: multer.memoryStorage(),  // initially load file into local memory
     fileFilter: function(req, file, next) {
         const isPhoto = file.mimetype.startsWith('image/');
@@ -41,13 +21,7 @@ const multerImageOptions = {
     }
 }
 
-// exports.uploadImage = multer(multerImageOptions).array('photos');
-// exports.uploadVideo = multer(multerVideoOptions).single('video');
-// exports.uploadVideo = multer(multerVideoOptions).fields([
-//     { name: 'video' },
-//     { name: 'photos' }
-// ]);
-exports.uploadImage = multer(multerImageOptions).fields([
+exports.uploadMedia = multer(multerOptions).fields([
     { name: 'video' },
     { name: 'photos' }
 ]);
@@ -101,6 +75,7 @@ exports.resizeImage = async (req, res, next) => {
     }
 }
 
+// render home page
 exports.home = async (req, res, next) => {
     try {
         console.log('running home')
@@ -112,6 +87,7 @@ exports.home = async (req, res, next) => {
     }
 }
 
+// show the add beer form
 exports.addBeer = (req, res) => {
     res.render('addBeer', { title: 'Add Beer' });
 }
@@ -202,6 +178,7 @@ exports.createBeer = async (req, res, next) => {
     }
 }
 
+// show the addbeer/editbeer form with existing beer info
 exports.editBeer = async (req, res, next) => {
     console.log('Running editBeer');
     try {
@@ -219,6 +196,7 @@ exports.editBeer = async (req, res, next) => {
     }
 }
 
+// apply changes to db
 exports.updateBeer = async (req, res, next) => {
     console.log('Running updateBeer');
     try {
@@ -230,6 +208,15 @@ exports.updateBeer = async (req, res, next) => {
         // set the requests brewery field to the updated or new brewery ID
         req.body.brewery = brewery._id;
 
+        // re-calculate total score
+        const totalScore = 
+            +req.body.rating.aroma.score + 
+            +req.body.rating.appearance.score + 
+            +req.body.rating.flavor.score + 
+            +req.body.rating.mouthfeel.score + 
+            +req.body.rating.overall.score;
+        req.body.rating.totalScore = totalScore; 
+            
         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true, // return newly updated obj, not the old unupdated version
             runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
@@ -253,6 +240,7 @@ exports.updateBeer = async (req, res, next) => {
     }
 }
 
+// show one beer review
 exports.displayReview = async (req, res, next) => {
     try {
         console.log('running beerReview')
@@ -269,7 +257,9 @@ exports.displayReview = async (req, res, next) => {
     }
 }
 
+// delete beer review
 exports.deleteReview = async (req, res, next) => {
+    console.log('Running deleteReview');
     try {
         const beer = await Beer.findOneAndDelete({ _id: req.params.id });
         console.log(`${beer.name} deleted`);
@@ -282,6 +272,27 @@ exports.deleteReview = async (req, res, next) => {
 
         req.flash('success', `Beer review successfully deleted`);
         res.redirect('/');
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// display all the reviews, sorted by some url query
+exports.displayReviews = async (req, res, next) => {
+    console.log('Running displayReviews');
+    try {
+        if (Object.keys(req.query).length) {
+            const beers = await Beer.find().sort({
+
+            })
+        }
+        const beers = await Beer.find().sort({ created: 'desc' }).limit(25).populate('brewery');
+        res.render('beerReviews', {
+            beers: beers,
+            title: 'All Beer Reviews'
+        })
     }
     catch(err) {
         console.log(err);

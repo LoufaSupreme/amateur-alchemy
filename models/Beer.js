@@ -46,6 +46,7 @@ const beerSchema = new mongoose.Schema({
         malt_character: Number,
     },
     rating: {
+        totalScore: Number,
         aroma: {
             score: {
                 type: Number,
@@ -135,6 +136,17 @@ const beerSchema = new mongoose.Schema({
     toObject: { virtuals: true },
 });
 
+function calculateScore(next) {
+    const totalScore = 
+        this.rating.aroma.score +
+        this.rating.appearance.score +
+        this.rating.flavor.score +
+        this.rating.mouthfeel.score + 
+        this.rating.overall.score;
+    this.rating.totalScore = totalScore;
+    next();
+}
+
 // generate a unique slug from the name
 async function setSlug(next) {
     if (this.slug === slug(this.name)) return next();
@@ -154,5 +166,6 @@ async function setSlug(next) {
 }
 
 beerSchema.pre('save', setSlug);
+beerSchema.pre('save', calculateScore);
 
 module.exports = mongoose.model('Beer', beerSchema);

@@ -1,0 +1,15 @@
+extends layout 
+
+include mixins/_beerCard
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/beerCard.css')
+
+block content 
+    h1= title
+    .beer-reviews
+        each beer in beers 
+            +beerCard(beer)
+
+block scripts 
+    //- script(src='/javascript/beerReviews.js' type="module")

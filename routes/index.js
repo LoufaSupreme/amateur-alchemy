@@ -9,21 +9,24 @@ router.get('/', beerController.home);
 // add new beer review
 router.get('/add-beer', beerController.addBeer);
 router.post('/add-beer', 
-    beerController.uploadImage, 
+    beerController.uploadMedia, 
     beerController.resizeImage, 
     beerController.createBeer
 );
 
-// display beer review
+// display one beer review
 router.get('/beer-reviews/:slug', beerController.displayReview);
 
 // update existing beer review
 router.get('/beer-reviews/:slug/edit', beerController.editBeer);
 router.post('/add-beer/:id',
-    beerController.uploadImage, 
+    beerController.uploadMedia, 
     beerController.resizeImage, 
     beerController.updateBeer
 );
+
+// show all beer reviews
+router.get('/beer-reviews', beerController.displayReviews);
 
 // add new brewery
 router.get('/add-brewery', breweryController.addBrewery);
