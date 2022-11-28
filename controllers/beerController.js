@@ -37,34 +37,39 @@ exports.resizeImage = async (req, res, next) => {
         }
         
         req.body.photos = [];
+        let hasVideo = false;
+        // for each fileinput (i.e. "photos" or "video")
         for (const fileInput in req.files) {
-            file = req.files[fileInput][0];
-            // console.log(file)
-            // get the type of image
-            const fileExtension = file.mimetype.split('/')[1]; 
-
-            // create a new unique name for the image
-            const fileName = `${uuid.v4()}.${fileExtension}`;
-
-            if (file.mimetype.startsWith('video/')) {
-                fs.writeFile(`./public/uploads/${fileName}`, file.buffer);
-                req.body.video = fileName;
-            }
-            else {
-                req.body.photos.push(fileName); 
-
-                // // resize photo:
-                // // pass in image buffer to jimp
-                const photo = await jimp.read(file.buffer);
-                // console.log(photo)
+            // for each file of each fileInput
+            for (const file of req.files[fileInput]) {
+                // get the type of image
+                const fileExtension = file.mimetype.split('/')[1]; 
     
-                await photo.resize(800, jimp.AUTO); // length and width
-                
-                // // write photo into uploads folder
-                await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+                // create a new unique name for the image
+                const fileName = `${uuid.v4()}.${fileExtension}`;
+    
+                if (file.mimetype.startsWith('video/')) {
+                    fs.writeFile(`./public/uploads/${fileName}`, file.buffer);
+                    req.body.video = fileName;
+                    hasVideo = true;
+                }
+                else {
+                    req.body.photos.push(fileName); 
+    
+                    // // resize photo:
+                    // // pass in image buffer to jimp
+                    const photo = await jimp.read(file.buffer);
+                    // console.log(photo)
+        
+                    await photo.resize(800, jimp.AUTO); // length and width
+                    
+                    // // write photo into uploads folder
+                    await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+                }
             }
+            
         }
-
+        if (!hasVideo) req.body.video = null;
         next(); 
     }
     catch(err) {
@@ -215,7 +220,7 @@ exports.updateBeer = async (req, res, next) => {
             +req.body.rating.flavor.score + 
             +req.body.rating.mouthfeel.score + 
             +req.body.rating.overall.score;
-        req.body.rating.totalScore = totalScore; 
+        req.body.totalScore = totalScore; 
             
         const beer = await Beer.findOneAndUpdate({ _id: req.params.id }, req.body, {
             new: true, // return newly updated obj, not the old unupdated version
@@ -283,12 +288,16 @@ exports.deleteReview = async (req, res, next) => {
 exports.displayReviews = async (req, res, next) => {
     console.log('Running displayReviews');
     try {
+        let beers = {};
         if (Object.keys(req.query).length) {
-            const beers = await Beer.find().sort({
-
-            })
+            console.log(`Query: ${req.query}`);
+            beers = await Beer.find().sort(req.query).limit(25).populate('brewery');
         }
-        const beers = await Beer.find().sort({ created: 'desc' }).limit(25).populate('brewery');
+        else {
+            beers = await Beer.find().sort({ created: 'desc' }).limit(25).populate('brewery');
+        }
+        if (!Object.keys(beers).length) throw new Error('No beers returned');
+        console.log(beers)
         res.render('beerReviews', {
             beers: beers,
             title: 'All Beer Reviews'

@@ -45,8 +45,8 @@ const beerSchema = new mongoose.Schema({
         dryness: Number,
         malt_character: Number,
     },
+    totalScore: Number,
     rating: {
-        totalScore: Number,
         aroma: {
             score: {
                 type: Number,
@@ -143,7 +143,7 @@ function calculateScore(next) {
         this.rating.flavor.score +
         this.rating.mouthfeel.score + 
         this.rating.overall.score;
-    this.rating.totalScore = totalScore;
+    this.totalScore = totalScore;
     next();
 }
 

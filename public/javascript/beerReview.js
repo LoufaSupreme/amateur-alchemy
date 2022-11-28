@@ -178,12 +178,12 @@ async function getBeerJSON(slug) {
                                 let label = ""
 
                                 const map = {
-                                    0: 'Extremely Low',
-                                    1: 'Low',
-                                    2: 'Moderate',
-                                    3: 'High',
-                                    4: 'Very high',
-                                    5: 'Insane'
+                                    1: 'Extremely Low',
+                                    2: 'Low',
+                                    3: 'Moderate',
+                                    4: 'High',
+                                    5: 'Very high',
+                                    6: 'Insane'
                                 }
                                 // content part of the tooltip
                                 // value at the "r" axis
@@ -219,12 +219,12 @@ async function getBeerJSON(slug) {
                             z: 0,
                             callback: function(value, index, ticks) {
                                 const map = {
-                                    0: 'Extremely Low',
-                                    1: 'Low',
-                                    2: 'Moderate',
-                                    3: 'High',
-                                    4: 'Very high',
-                                    5: 'Insane'
+                                    1: 'Extremely Low',
+                                    2: 'Low',
+                                    3: 'Moderate',
+                                    4: 'High',
+                                    5: 'Very high',
+                                    6: 'Insane'
                                 }
                                 return map[value]
                             }
