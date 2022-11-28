@@ -86,71 +86,18 @@ mixin beerForm(beer = {})
             textarea(name="rating[overall][description]" placeholder="Overall impressions...") #{beer.rating && beer.rating.overall.description}
 
         .form-card__section.attrs
-            - 
-                const attrs = [
-                    { 
-                        name: 'crushability',
-                        label: 'crushable'
-                    }, 
-                    { 
-                        name: 'hop_character',
-                        label: 'hoppy'
-                    }, 
-                    { 
-                        name: 'bitterness',
-                        label: 'bitter'
-                    }, 
-                    { 
-                        name: 'yeast_character',
-                        label: 'yeast character'
-                    }, 
-                    { 
-                        name: 'acidity',
-                        label: 'acidic'
-                    }, 
-                    { 
-                        name: 'effervescence',
-                        label: 'effervescent'
-                    }, 
-                    { 
-                        name: 'head_retention',
-                        label: null
-                    }, 
-                    { 
-                        name: 'color',
-                        label: null
-                    }, 
-                    { 
-                        name: 'clarity',
-                        label: 'hazy'
-                    }, 
-                    { 
-                        name: 'body',
-                        label: null
-                    }, 
-                    { 
-                        name: 'dryness',
-                        label: 'dry'
-                    }, 
-                    { 
-                        name: 'malt_character',
-                        label: 'malty'
-                    }
-                ];
-
             h2.form-card__section--heading Perceived Attributes
-            each attr of attrs 
-                - let formatted = h.capitalizeFirst(attr.name).replace('_', ' ');
-                .attr-selection
-                    label(for=`attributes[${attr.name}]`) #{formatted}
-                    select(name=`attributes[${attr.name}]` id=attr.name class="attr-input" data-label=attr.label)
-                        option(value=0 disabled selected=Object.keys(beer).length===0 || beer.attributes[`${attr.name}`] == 0) Select perceived level
-                        option(value=01 selected=beer.attributes && beer.attributes[`${attr.name}`] == 1) 1 - Extremely Low
-                        option(value=2 selected=beer.attributes && beer.attributes[`${attr.name}`] == 2) 2 - Low
-                        option(value=3 selected=beer.attributes && beer.attributes[`${attr.name}`] == 3) 3 - Moderate
-                        option(value=4 selected=beer.attributes && beer.attributes[`${attr.name}`] == 4) 4 - High
-                        option(value=5 selected=beer.attributes && beer.attributes[`${attr.name}`] == 5) 5 - Very high
-                        option(value=6 selected=beer.attributes && beer.attributes[`${attr.name}`] == 6) 6 - Insane
+            for [key, val] of Object.entries(schema.attributes)
+                .attr-selection 
+                    label(for=`attributes[${key}]`)= val.name
+                    select(name=`attributes[${key}]` id=val.name class="attr-input" data-label=val.chart_label)
+                        option(value=null disabled selected=Object.keys(beer).length===0 || beer.attributes[key] == null) Select perceived level
+                        option(value=1 selected=beer.attributes && beer.attributes[key] == 1) 1 - Extremely Low
+                        option(value=2 selected=beer.attributes && beer.attributes[key] == 2) 2 - Low
+                        option(value=3 selected=beer.attributes && beer.attributes[key] == 3) 3 - Moderate
+                        option(value=4 selected=beer.attributes && beer.attributes[key] == 4) 4 - High
+                        option(value=5 selected=beer.attributes && beer.attributes[key] == 5) 5 - Very high
+                        option(value=6 selected=beer.attributes && beer.attributes[key] == 6) 6 - Insane
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 

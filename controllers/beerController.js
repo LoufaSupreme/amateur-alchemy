@@ -94,7 +94,10 @@ exports.home = async (req, res, next) => {
 
 // show the add beer form
 exports.addBeer = (req, res) => {
-    res.render('addBeer', { title: 'Add Beer' });
+    res.render('addBeer', { 
+        title: 'Add Beer',
+        schema: Beer.schema.obj 
+    });
 }
 
 // turn the text from the tags input into an array of tags
@@ -193,6 +196,7 @@ exports.editBeer = async (req, res, next) => {
         res.render('addBeer', {
             title: `Edit ${beer.name}`,
             beer: beer,
+            schema: Beer.schema.obj
         });
     }
     catch(err) {
@@ -321,6 +325,7 @@ exports.displayReviews = async (req, res, next) => {
 
         res.render('beerReviews', {
             beers: beers,
+            schema: Beer.schema.obj,
             title: 'All Beer Reviews'
         })
     }

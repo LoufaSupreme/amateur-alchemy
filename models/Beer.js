@@ -32,18 +32,66 @@ const beerSchema = new mongoose.Schema({
     },
     bjcp_style: String,
     attributes: {
-        crushability: Number,
-        hop_character: Number,
-        bitterness: Number,
-        yeast_character: Number,
-        acidity: Number,
-        effervescence: Number,
-        head_retention: Number,
-        color: Number,
-        clarity: Number,
-        body: Number,
-        dryness: Number,
-        malt_character: Number,
+        crushability: {
+            type: Number,
+            name: "Crushability",
+            chart_label: "crushable"
+        },
+        hop_character: {
+            type: Number,
+            name: "Hop Character",
+            chart_label: "hoppy"
+        },
+        bitterness: {
+            type: Number,
+            name: "Bitterness",
+            chart_label: "bitter"
+        },
+        yeast_character: {
+            type: Number,
+            name: "Yeast Character",
+            chart_label: "yeast character"
+        },
+        acidity: {
+            type: Number,
+            name: "Acidity",
+            chart_label: "acidic"
+        },
+        effervescence: {
+            type: Number,
+            name: "Effervescence",
+            chart_label: "effervescent"
+        },
+        head_retention: {
+            type: Number,
+            name: "Head Retention",
+            chart_label: null
+        },
+        color: {
+            type: Number,
+            name: "Color",
+            chart_label: null
+        },
+        clarity: {
+            type: Number,
+            name: "Clarity",
+            chart_label: "hazy"
+        },
+        body: {
+            type: Number,
+            name: "Body",
+            chart_label: null
+        },
+        dryness: {
+            type: Number,
+            name: "Dryness",
+            chart_label: "dry"
+        },
+        malt_character: {
+            type: Number,
+            name: "Malt Character",
+            chart_label: "malty"
+        },
     },
     totalScore: Number,
     rating: {
