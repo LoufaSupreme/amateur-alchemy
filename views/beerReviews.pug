@@ -7,9 +7,27 @@ block stylesheets
 
 block content 
     h1= title
+    form(action="/beer-reviews" method="GET")
+        .match-area 
+            label(for="match-criteria") Match
+            select(name="match-criteria" class="" id="match-criteria")
+                option(value="bjcp_style") Beer Style
+                option(value="brewery") Brewery
+            select(name="match-value" id="match-value")
+                option(value="Fruited American Sour" ) Fruited American Sour
+                option(value="other" ) Other
+        .sort-area
+            label(for="sort-criteria") Sort
+            select(name="sort-criteria" class="" id="sort-criteria")
+                option(value="totalScore") Alchemy Score
+                option(value="attributes.malt_character") Maltiness
+            select(name="sort-value" id="sort-value")
+                option(value="1" ) Ascending
+                option(value="-1" ) Descending
+        button(type="button" id="sort-btn") Sort
     .beer-reviews
         each beer in beers 
             +beerCard(beer)
 
 block scripts 
-    //- script(src='/javascript/beerReviews.js' type="module")
+    script(src='/javascript/beerReviews.js' type="module")

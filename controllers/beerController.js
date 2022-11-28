@@ -285,19 +285,40 @@ exports.deleteReview = async (req, res, next) => {
 }
 
 // display all the reviews, sorted by some url query
+// if the query is blank, no sorting will happen
 exports.displayReviews = async (req, res, next) => {
     console.log('Running displayReviews');
     try {
-        let beers = {};
-        if (Object.keys(req.query).length) {
-            console.log(`Query: ${req.query}`);
-            beers = await Beer.find().sort(req.query).limit(25).populate('brewery');
+        // create a sort and match query from the url
+        const sortCriteria = {};
+        const matchCriteria = {};
+        for (pair of Object.entries(req.query)) {
+            const [ category, criteria ] = pair;
+            if (category == 'bjcp_style') {
+                matchCriteria[category] = criteria
+            }
+            else {
+                sortCriteria[category] = +criteria;
+            }
         }
-        else {
-            beers = await Beer.find().sort({ created: 'desc' }).limit(25).populate('brewery');
+
+        // create a separate aggregation object, b/c our sort criteria might be blank and mongo won't accept an empty sort criteria
+        const aggregationQuery = [
+            { $match: matchCriteria }
+        ]
+        // add sort criteria if its not empty
+        if (Object.keys(sortCriteria).length) {
+            aggregationQuery.push({ $sort: sortCriteria });
         }
-        if (!Object.keys(beers).length) throw new Error('No beers returned');
-        console.log(beers)
+
+        console.log('Sorting by:');
+        console.log(sortCriteria);
+        console.log('Matching only:');
+        console.log(matchCriteria);
+
+        // get list of beers matching the aggregation:
+        const beers = await Beer.aggregate(aggregationQuery);
+
         res.render('beerReviews', {
             beers: beers,
             title: 'All Beer Reviews'
