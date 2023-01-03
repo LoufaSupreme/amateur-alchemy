@@ -1,0 +1,17 @@
+extends layout 
+
+include mixins/_articleForm
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/addArticle.css')
+
+block content
+    h1= title
+    if msg 
+        .msg= msg
+    .container
+        //- the + is to use a mixin
+        +articleForm(article)
+
+block scripts 
+    script(src='/javascript/addArticle.js')

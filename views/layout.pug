@@ -29,36 +29,36 @@ html
             .search
               input.search__input(type="text" placeholder="Search..." name="search")
               .search__results
-          .nav__section.nav__section--new
-            li.nav__item 
-              a.nav__link(href="/add-beer") New Review
-            li.nav__item 
-              a.nav__link(href="/add-brewery") New Brewery
           .nav__section.nav__section--user 
             .dropdown
               button.halo 
                 img.profile-img(src="./images/profile.jpg")
               ul.dropdown-menu 
-                li.dropdown-menu__item.subheading 
-                  i.fa-solid.fa-user
-                  span Dashboard
-                  i.fa-solid.fa-chevron-right
-                li.dropdown-menu__item 
-                  i.fa-solid.fa-plus
-                  span New Article 
-                  i.fa-solid.fa-chevron-right
-                li.dropdown-menu__item 
-                  i.fa-regular.fa-square-plus
-                  span New Beer Review 
-                  i.fa-solid.fa-chevron-right
-                li.dropdown-menu__item 
-                  i.fa-solid.fa-house-flag
-                  span New Brewery 
-                  i.fa-solid.fa-chevron-right
-                li.dropdown-menu__item 
-                  i.fa-solid.fa-arrow-right-from-bracket
-                  span Logout
-                  i.fa-solid.fa-chevron-right
+                a(href="#")
+                  li.dropdown-menu__item 
+                    i.fa-solid.fa-user
+                    span Dashboard
+                    i.fa-solid.fa-chevron-right
+                a(href="/add-article")
+                  li.dropdown-menu__item 
+                    i.fa-solid.fa-plus
+                    span New Article 
+                    i.fa-solid.fa-chevron-right
+                a(href="/add-beer")
+                  li.dropdown-menu__item 
+                    i.fa-regular.fa-square-plus
+                    span New Beer Review 
+                    i.fa-solid.fa-chevron-right
+                a(href="/add-brewery")
+                  li.dropdown-menu__item 
+                    i.fa-solid.fa-house-flag
+                    span New Brewery 
+                    i.fa-solid.fa-chevron-right
+                a(href="/logout")
+                  li.dropdown-menu__item 
+                    i.fa-solid.fa-arrow-right-from-bracket
+                    span Logout
+                    i.fa-solid.fa-chevron-right
 
 
     .flash-container

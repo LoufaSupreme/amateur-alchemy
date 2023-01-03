@@ -1,0 +1,34 @@
+mixin articleForm(article = {})
+    form(action=`/add-article/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+        .form-card__section.main
+            h2.form-card__section--heading Content
+            label(for="title") Title 
+            input(type="text" name="title" id="title" required value=article.title)
+
+            //- image upload
+            label(for="showcase_img") Showcase Image 
+            input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
+            if article.showcase_img
+                .img-gallery
+                    img.gallery-img(src=`/uploads/${article.showcase_img}`, alt=article.title width=100)
+            label(for="photos") Photos 
+            input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg" multiple)
+            if article.photos
+                .img-gallery
+                    each photo of article.photos
+                        img.gallery-img(src=`/uploads/${photo}`, alt=article.title width=100)
+
+            button(class="button" id="saveImgBtn") Save Images
+
+            label(for="tagline") Tagline 
+            textarea(name="tagline" id="tagline") #{article.tagline}
+
+            //- main content
+            label(for="body") Body 
+            textarea(name="body" id="body") #{article.body}
+
+        .form-card__section.tags
+            h2.form-card__section--heading Tags 
+            textarea(name="tags" id='tags-input')= article.tags && article.tags.join(', ')
+
+        input(type="submit" value="Save" class="button")

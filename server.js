@@ -23,6 +23,7 @@ mongoose.connection.on('error', (err) => {
 // import all of our models:
 require('./models/Beer');
 require('./models/Brewery');
+require('./models/Article');
 // require('./models/User');
 // require('./models/Review');
 

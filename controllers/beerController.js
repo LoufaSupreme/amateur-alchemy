@@ -127,7 +127,7 @@ async function updateOrCreateBrewery(req) {
         },
         { 
             upsert: true, 
-            new: true 
+            new: true // return the new instance
         },
     );
 

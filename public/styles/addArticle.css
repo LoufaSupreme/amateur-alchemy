@@ -1,0 +1,55 @@
+
+input[type=file]::file-selector-button {
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 80%;
+    padding-top: 3rem;
+    /* justify-content: center; */
+}
+
+.form-card__section {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    background-color: rgb(255 255 255 / 0.1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.form-card__section--heading {
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+    color: black;
+    font-weight: bold;
+}
+
+textarea {
+    min-width: 500px;
+    min-height: 200px;
+}
+
+#tagline {
+    min-height: 100px;
+}
+
+#tags-input {
+    min-height: 100px;
+}
+
+.form-card input[type=submit] {
+    background-color: rgb(var(--clr-accent));
+}
+
+.form-card input[type=submit]:hover {
+    background-color: rgb(var(--clr-accent) / 0.7);
+}

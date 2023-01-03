@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const beerController = require('../controllers/beerController');
 const breweryController = require('../controllers/breweryController');
+const articleController = require('../controllers/articleController');
 
 // home page
 router.get('/', beerController.home);
@@ -50,6 +51,14 @@ router.post('/add-brewery/:id',
     breweryController.updateBrewery
 );
 
+// add new article
+router.get('/add-article', articleController.addArticle);
+// router.post('/add-article', 
+//     // beerController.uploadMedia, 
+//     // beerController.resizeImage, 
+//     // beerController.createBeer
+// );
+
 ////// API ROUTES //////
 
 // delete a beer review
@@ -66,6 +75,13 @@ router.get('/api/breweries/near', breweryController.mapBreweries);
 
 // get a list of all the breweries (json):
 router.get('/api/breweries/all', breweryController.getAllBreweries);
+
+// create new article if needed and upload images to article
+router.post('/api/articles/upload', 
+    articleController.upload,
+    articleController.resize,    
+    articleController.createOrUpdateArticle
+)
 
 
 module.exports = router;
