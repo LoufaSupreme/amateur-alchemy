@@ -13,6 +13,8 @@ mixin articleForm(article = {})
                     .img-gallery__row
                         img.gallery-img(src=`/uploads/${article.showcase_img}`, alt=article.title width=100)
                         .gallery-url= `/uploads/${article.showcase_img}`
+                        button(class="gallery-lock-btn")
+                            i.fa-solid.fa-lock-open
                         button(class="gallery-copy-btn") 
                             i.fa-regular.fa-copy
             label(for="photos") Photos 
@@ -23,6 +25,8 @@ mixin articleForm(article = {})
                         .img-gallery__row
                             img.gallery-img(src=`/uploads/${photo}`, alt=article.title width=100)
                             .gallery-url= `/uploads/${photo}`
+                            button(class="gallery-lock-btn")
+                                i.fa-solid.fa-lock-open
                             button(class="gallery-copy-btn") 
                                 i.fa-regular.fa-copy
 
