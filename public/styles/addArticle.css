@@ -12,6 +12,7 @@ input[type=file]::file-selector-button {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    width: 70vw;
     max-width: 80%;
     padding-top: 3rem;
     /* justify-content: center; */
@@ -52,4 +53,42 @@ textarea {
 
 .form-card input[type=submit]:hover {
     background-color: rgb(var(--clr-accent) / 0.7);
+}
+
+.img-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.img-gallery__row {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1rem;
+    max-height: 100px;
+    align-items: center;
+    transition: background-color 0.06s ease-in-out;
+}
+
+.img-gallery__row:hover {
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.gallery-img {
+    object-fit: cover;
+    max-height: 100%;
+    max-width: 100px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.gallery-url {
+
+}
+
+.gallery-copy-btn {
+    padding: 0.6rem;
+    font-size: 1.1rem;
+    margin-right: 1rem;
 }

@@ -10,16 +10,24 @@ mixin articleForm(article = {})
             input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
             if article.showcase_img
                 .img-gallery
-                    img.gallery-img(src=`/uploads/${article.showcase_img}`, alt=article.title width=100)
+                    .img-gallery__row
+                        img.gallery-img(src=`/uploads/${article.showcase_img}`, alt=article.title width=100)
+                        .gallery-url= `/uploads/${article.showcase_img}`
+                        button(class="gallery-copy-btn") 
+                            i.fa-regular.fa-copy
             label(for="photos") Photos 
             input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg" multiple)
             if article.photos
                 .img-gallery
                     each photo of article.photos
-                        img.gallery-img(src=`/uploads/${photo}`, alt=article.title width=100)
+                        .img-gallery__row
+                            img.gallery-img(src=`/uploads/${photo}`, alt=article.title width=100)
+                            .gallery-url= `/uploads/${photo}`
+                            button(class="gallery-copy-btn") 
+                                i.fa-regular.fa-copy
 
-            button(class="button" id="saveImgBtn") Save Images
-
+            input(type="submit" value="Save Images" class="button")
+            
             label(for="tagline") Tagline 
             textarea(name="tagline" id="tagline") #{article.tagline}
 

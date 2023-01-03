@@ -53,11 +53,11 @@ router.post('/add-brewery/:id',
 
 // add new article
 router.get('/add-article', articleController.addArticle);
-// router.post('/add-article', 
-//     // beerController.uploadMedia, 
-//     // beerController.resizeImage, 
-//     // beerController.createBeer
-// );
+router.post('/add-article', 
+    articleController.upload,
+    articleController.resize,    
+    articleController.createOrUpdateArticle
+)
 
 // update existing article
 router.get('/articles/:slug/edit', articleController.editArticle);
@@ -85,11 +85,11 @@ router.get('/api/breweries/near', breweryController.mapBreweries);
 router.get('/api/breweries/all', breweryController.getAllBreweries);
 
 // create new article if needed and upload images to article
-router.post('/api/articles/upload', 
-    articleController.upload,
-    articleController.resize,    
-    articleController.createOrUpdateArticle
-)
+// router.post('/api/articles/upload', 
+//     articleController.upload,
+//     articleController.resize,    
+//     articleController.createOrUpdateArticle
+// )
 
 
 module.exports = router;

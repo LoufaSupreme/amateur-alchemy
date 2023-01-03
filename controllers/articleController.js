@@ -116,9 +116,9 @@ exports.createOrUpdateArticle = async (req, res, next) => {
         article.save();
         console.log(`Updated/created ${article.title}`);
         req.flash('success', `Successfully created/updated ${article.title}`);
-        // res.redirect(`/articles/${article.slug}/edit`);
-        // res.render('addArticle', { title: 'Update Article'})
-        res.json({article})
+        res.redirect(`/articles/${article.slug}/edit`);
+        // res.render('addArticle', { title: 'Update Article', article })
+        // res.json({article})
     }
     catch(err) {
         console.log(err);
