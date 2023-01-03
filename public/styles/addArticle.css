@@ -91,6 +91,20 @@ textarea {
 
 }
 
+button {
+    border-radius: 0.3rem;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.05s ease-in-out;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
 .gallery-lock-btn {
     padding: 0.6rem;
     font-size: 1.1rem;
