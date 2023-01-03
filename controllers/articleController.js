@@ -66,7 +66,7 @@ exports.resize = async (req, res, next) => {
     }
 }
 
-// render the add brewery page 
+// render the add article page 
 exports.addArticle = (req, res) => {
     console.log('Running addArticle');
     res.render('addArticle', { title: 'Add Article' });
@@ -78,6 +78,22 @@ function parseList(commaSeperatedList) {
     return listArray;
 }
 
+exports.editArticle = async (req, res, next) => {
+    console.log(`Running editArticle on ${req.params.slug}`);
+    try {
+        const slug = req.params.slug;
+        const article = await Article.findOne({ slug: slug });
+        res.render('addArticle', {
+             title: 'Update Article', 
+             article: article 
+        });
+    }
+    catch(err) {
+        next(err);
+    }
+}
+
+// create or update an article instance
 exports.createOrUpdateArticle = async (req, res, next) => {
     console.log('Running createOrUpdateArticle');
     try {
@@ -87,7 +103,6 @@ exports.createOrUpdateArticle = async (req, res, next) => {
         // i.e. don't overwrite the existing images with nothing
         if (req.body.showcase_img === 'undefined') delete req.body.showcase_img;
         if (req.body.photos.length === 0) delete req.body.photos;
-        console.log(req.body)
         const article = await Article.findOneAndUpdate(
             { title: req.body.title },
             req.body,
@@ -100,11 +115,10 @@ exports.createOrUpdateArticle = async (req, res, next) => {
 
         article.save();
         console.log(`Updated/created ${article.title}`);
-        req.flash('success', `Successfully created ${article.title}`);
-        res.json({ 
-            showcase_img: req.body.showcase_img,
-            photos: req.body.photos 
-        })
+        req.flash('success', `Successfully created/updated ${article.title}`);
+        // res.redirect(`/articles/${article.slug}/edit`);
+        // res.render('addArticle', { title: 'Update Article'})
+        res.json({article})
     }
     catch(err) {
         console.log(err);

@@ -11,7 +11,9 @@ async function postPhotos(formData) {
             body: formData,
         });
         const result = await res.json();
-        makeAlert(`${result.showcase_img}, ${result.photos}`)
+        // makeAlert(article)
+        // redirect to the add-article page but with the new content included
+        window.location.href = `/articles/${result.article.slug}/edit`
     }
     catch(err) {
         console.error(err);

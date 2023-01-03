@@ -59,6 +59,14 @@ router.get('/add-article', articleController.addArticle);
 //     // beerController.createBeer
 // );
 
+// update existing article
+router.get('/articles/:slug/edit', articleController.editArticle);
+router.post('add-article/:id', 
+    articleController.upload,
+    articleController.resize,
+    articleController.createOrUpdateArticle    
+)
+
 ////// API ROUTES //////
 
 // delete a beer review
