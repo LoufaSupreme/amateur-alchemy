@@ -1,8 +1,21 @@
-const editor = ace.edit("editor", {
-    
-});
+const htmlPreview = `\
+    <div class="ace">Wow</div>
+    <p>WTF</p>\ 
+`;
+const editor = ace.edit("editor");
+const preview = document.querySelector('.preview');
+
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/html");
+editor.session.setUseWrapMode(true);
+editor.setShowPrintMargin(false);
+editor.session.on('change', function(delta) {
+    // delta.start, delta.end, delta.lines, delta.action
+    preview.innerHTML = editor.getValue();
+});
+editor.setValue(htmlPreview);
+preview.innerHTML = htmlPreview;
+
 
 const copyUrlBtns = document.querySelectorAll('.gallery-copy-btn');
 const lockBtns = document.querySelectorAll('.gallery-lock-btn');

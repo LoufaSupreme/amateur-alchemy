@@ -127,4 +127,10 @@ button:hover {
     min-width: 300px;
     min-height: 300px;
     padding-top: 1rem;
+    border-radius: 0.3rem;
+    overflow: hidden;
+}
+
+.preview h1 {
+    color: red;
 }

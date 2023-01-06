@@ -1,4 +1,4 @@
-mixin articleForm(article = {})
+mixin articleForm(article = {}, preview = "")
     form(action=`/add-article/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Content
@@ -37,7 +37,8 @@ mixin articleForm(article = {})
 
             //- main content
             label(for="body") Body 
-            textarea(name="body" id="body") #{article.body}
+            //- textarea(name="body" id="body") #{article.body}
+            #editor= preview
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 
