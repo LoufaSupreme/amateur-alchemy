@@ -19,6 +19,7 @@ The add-brewery pages uses a Google Maps API Place Autocomplete, which places a 
 - https://www.goodbeerhunting.com/ 
 - https://escarpmentlabs.com/blogs/
 - http://thebeeroness.com/ 
+- https://www.beervanablog.com/ 
 #### Blog
 - https://onbrewing.com/
 - https://beerconnoisseur.com/

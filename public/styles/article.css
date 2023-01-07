@@ -1,0 +1,37 @@
+/* UTILITY CLASSES */
+
+.flex {
+    display: flex;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.fig-small {
+    max-width: 40%;
+    margin: 0.5em;
+}
+
+/* GLOBAL STYLES */
+
+figcaption {
+    font-weight: lighter;
+    opacity: 0.8;
+    font-size: 0.8em;
+}
+
+/* COMPONENTS */

@@ -59,6 +59,13 @@ router.post('/add-article',
     articleController.createOrUpdateArticle
 )
 
+// update article
+router.post('/add-article/:id',
+    articleController.upload,
+    articleController.resize,    
+    articleController.createOrUpdateArticle,
+)
+
 // update existing article
 router.get('/articles/:slug/edit', articleController.editArticle);
 router.post('add-article/:id', 
@@ -66,6 +73,9 @@ router.post('add-article/:id',
     articleController.resize,
     articleController.createOrUpdateArticle    
 )
+
+// display article
+router.get('/articles/:slug', articleController.displayArticle);
 
 ////// API ROUTES //////
 

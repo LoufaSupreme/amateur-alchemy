@@ -1,0 +1,9 @@
+extends layout 
+
+block stylesheets
+    link(rel='stylesheet', href='/styles/article.css')
+
+block content 
+    h1= title 
+    article
+        p !{article.body}

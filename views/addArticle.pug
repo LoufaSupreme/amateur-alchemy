@@ -3,6 +3,7 @@ extends layout
 include mixins/_articleForm
 
 block stylesheets 
+    link(rel='stylesheet', href='/styles/article.css')
     link(rel='stylesheet', href='/styles/addArticle.css')
 
 block content
@@ -17,7 +18,9 @@ block content
     .container
         //- the + is to use a mixin
         +articleForm(article)
-        .preview
+        .preview-container 
+            h2 Preview
+            .preview
   
 
 block scripts 

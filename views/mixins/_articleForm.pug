@@ -1,4 +1,4 @@
-mixin articleForm(article = {}, preview = "")
+mixin articleForm(article = {})
     form(action=`/add-article/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Content
@@ -30,15 +30,15 @@ mixin articleForm(article = {}, preview = "")
                             button(class="gallery-copy-btn") 
                                 i.fa-regular.fa-copy
 
-            input(type="submit" value="Save Images" class="button")
+            input(type="submit" value="Save Images" class="button" disabled=`${article ? "disabled" : ""}`)
             
             label(for="tagline") Tagline 
             textarea(name="tagline" id="tagline") #{article.tagline}
 
             //- main content
             label(for="body") Body 
-            //- textarea(name="body" id="body") #{article.body}
-            #editor= preview
+            #editor= article.body
+            textarea(name="body" id="body" hidden) #{article.body}
 
         .form-card__section.tags
             h2.form-card__section--heading Tags 
