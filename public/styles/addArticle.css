@@ -18,6 +18,7 @@ input[type=submit]:disabled {
     justify-content: center;
     width: 90vw;
     gap: 1rem;
+    align-items: flex-start;
 }
 
 .preview-container {
@@ -59,6 +60,8 @@ input[type=submit]:disabled {
     padding-bottom: 1rem;
     color: black;
     font-weight: bold;
+    margin: 0;
+    text-align: left;
 }
 
 textarea {

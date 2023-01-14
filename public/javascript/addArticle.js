@@ -81,7 +81,7 @@ const htmlPreview = `\
 const preview = document.querySelector('.preview');
 const hiddenBodyInput = document.querySelector('#body');
 const editor = ace.edit("editor", {
-    maxLines: 80
+    maxLines: 120
 });
 
 editor.setTheme("ace/theme/monokai");
