@@ -30,12 +30,12 @@ input[type=submit]:disabled {
     padding: 1rem;
 }
 
-.preview {
-    width: 100%;
+.preview-container h2 {
+    margin-bottom: 1.5rem;
 }
 
-.preview h2 {
-    margin-bottom: 1.5rem;
+.preview {
+    width: 100%;
 }
 
 .form-card {

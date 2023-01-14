@@ -13,6 +13,11 @@ li {
 a {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
+}
+
+p {
+    margin-bottom: 1rem;
 }
 
 button, input[type="submit"] {
@@ -46,14 +51,17 @@ input[type=number] {
 
 /* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
 
 /* GLOBAL STYLES */
 
 :root {
+    --clr-text: 255 255 255; 
     --clr-accent: 255 61 106; /* pink */
     --clr-accent-2: 63 94 251; /* purple */
     --clr-accent-3: 0 255 136; /* green */
+    --clr-article-accent: 47 99 124; /* blueish */
+    --clr-article-accent-2: 0 152 121; /* greenish */
     --accent-gradient: linear-gradient(90deg, rgb(var(--clr-accent)) 0%, rgb(var(--clr-accent-2)) 50%, rgb(var(--clr-accent-3)) 100%);
     --gold-gradient: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
     radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
@@ -82,6 +90,28 @@ a.custom-link > * {
     100% {
         background-position: left;
     }
+}
+
+a {
+    position: relative;
+    font-weight: bold;
+}
+
+a::after {
+    content:"";
+    position: absolute;
+    background-color: rgb(var(--clr-accent));
+    width: 100%;
+    height: 1px;
+    left: -25%;
+    bottom: -5%;
+    opacity: 0;
+    transition: all 0.1s ease-in-out;
+  }
+
+a:hover::after {
+    opacity: 1;
+    left: 0;
 }
 
 
