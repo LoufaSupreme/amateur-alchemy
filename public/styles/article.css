@@ -24,8 +24,7 @@
 }
 
 .fig-small {
-    max-width: 40%;
-    margin: 0.5em;
+    max-width: min(40%, 275px);
 }
 
 .fig-full {
