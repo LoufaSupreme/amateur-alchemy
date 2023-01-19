@@ -39,6 +39,7 @@
 
 article {
     width: min(90vw, 900px);
+    margin-inline: auto;
 }
 
 h1, h2, h3, h4 {

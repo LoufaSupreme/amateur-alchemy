@@ -8,6 +8,8 @@ const articleSchema = new mongoose.Schema({
         trim: true, //trims uploaded strings before adding to the db
         required: 'Please enter an article title!' // could also just put true, however it is better to put an error msg like this
     },
+    category: String,
+    subcategory: String,
     slug: String,
     tagline: {
         type: String,

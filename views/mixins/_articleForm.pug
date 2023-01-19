@@ -5,6 +5,9 @@ mixin articleForm(article = {})
             label(for="title") Title 
             input(type="text" name="title" id="title" required value=article.title)
 
+            label(for="category") Category 
+            input(type="text" name="category" id="category" required value=article.category)
+
             //- image upload
             label(for="showcase_img") Showcase Image 
             input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
