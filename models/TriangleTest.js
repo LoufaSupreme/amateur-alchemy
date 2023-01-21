@@ -53,7 +53,8 @@ const triangleTestSchema = new mongoose.Schema({
         max: 4
     },
     scores: {
-        unique: Number,
+        all: Number, // score goes here if all beers were perceived the same
+        unique: Number, // score goes here and below if beers were perceived as different
         other: Number,
     },
     flaws_detected: Boolean,

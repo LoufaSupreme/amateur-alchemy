@@ -126,22 +126,23 @@ mixin triangleTestForm()
                             .flaw__type--name= h.capitalizeFirst(key)
                             .flaw__type--description= val.description
                         .flaw__choices 
-                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="unique")
-                            label(for=`flaws[${key}]`) Unique
-                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="Other")
-                            label(for=`flaws[${key}]`) Other
+                            input(type="checkbox" class="flaw__input flaw__input--unique" name=`flaws[${key}]` id=`flaw-${key}-unique` value="unique")
+                            label(for=`flaw-${key}-unique`) Unique
 
-            h2.question-title How would you rate these beers out of 10?
+                            input(type="checkbox" class="flaw__input flaw__input--other" name=`flaws[${key}]` id=`flaw-${key}-other` value="Other")
+                            label(for=`flaw-${key}-other`) Other
+
+            h2.question-title How would you rate these beers?
 
             //- label content to be dynamically updated
-            .range-input#unique-range
-                label(for="unique_score") Unique Beer Score
-                input(type="range" id="unique_score" name="unique_score" min="1" max="10" value="5" step="1")
+            .range-input
+                label(for="score-unique") Unique Beer Score
+                input(type="range" class="score__input" id="score-unique" name="scores[unique]" min="1" max="10" value="5" step="1")
                 p.range-input__subheading Pretty Average
 
-            .range-input#other-range
-                label(for="unique_score") Other Beer Score
-                input(type="range" id="other_score" name="other_score" min="1" max="10" value="5" step="1")
+            .range-input
+                label(for="score-other") Other Beer Score
+                input(type="range" class="score__input" id="score-other" name="scores[other]" min="1" max="10" value="5" step="1")
                 p.range-input__subheading Pretty Average
 
             label(for="comments") Additional Comments
