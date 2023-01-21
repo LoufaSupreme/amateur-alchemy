@@ -18,8 +18,8 @@ const triangleTestSchema = new mongoose.Schema({
     preference: String,
     malt_character: {
         type: Number,
-        min: 0,
-        max: 4
+        min: 0, // 0 means unique beer is most
+        max: 4 // 4 means non-unique beer is most
     },
     hop_character: {
         type: Number,
@@ -52,9 +52,9 @@ const triangleTestSchema = new mongoose.Schema({
         max: 4
     },
     scores: {
-        beer_A: Number,
-        beer_B: Number,
-        beer_C: Number
+        A: Number,
+        B: Number,
+        C: Number
     },
     flaws_detected: Boolean,
     flaws: {

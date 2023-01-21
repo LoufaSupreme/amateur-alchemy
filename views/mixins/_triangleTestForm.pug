@@ -2,27 +2,27 @@ mixin triangleTestForm()
     form(action=`/triangle-test/article/${article._id}` method="POST" class="form-card")
         .form-card__section.main
             h2.form-card__section--heading Content
-            label(for="name") [OPTIONAL] Name 
-            input(type="text" name="name" id="name")
-
             label(for="token") What is your token number? 
             input(type="text" name="token" id="token" required)
             
+            label(for="name") Name (optional) 
+            input(type="text" name="name" id="name")
+
             fieldset 
                 legend Which one describes you best? 
-                input(type="radio" name="title" id="enthusiast" value="enthusiast")
+                input(type="radio" name="title" id="enthusiast" value="enthusiast" required)
                 label(for="enthusiast") Craft Beer Enthusiast
 
-                input(type="radio" name="title" id="homebrewer" value="homebrewer")
+                input(type="radio" name="title" id="homebrewer" value="homebrewer" required)
                 label(for="enthusiast") Homebrewer
 
-                input(type="radio" name="title" id="bjcp-training" value="bjcp-training")
+                input(type="radio" name="title" id="bjcp-training" value="bjcp-training" required)
                 label(for="bjcp-training") BJCP (In training)
 
-                input(type="radio" name="title" id="bjcp-mid" value="bjcp-mid")
+                input(type="radio" name="title" id="bjcp-mid" value="bjcp-mid" required)
                 label(for="bjcp-mid") BJCP (Recognized/Certified/Master)
 
-                input(type="radio" name="title" id="bjcp-max" value="bjcp-max")
+                input(type="radio" name="title" id="bjcp-max" value="bjcp-max" required)
                 label(for="bjcp-max") BJCP (Master or higher)
 
             fieldset 
@@ -38,18 +38,19 @@ mixin triangleTestForm()
 
             fieldset 
                 legend Which beer is the odd one out?
-                input(type="radio" name="unique_beer" id="beer-A" value="A")
+                input(type="radio" name="unique_beer" id="beer-A" value="A" required)
                 label(for="beer-A") A
 
-                input(type="radio" name="unique_beer" id="beer-B" value="B")
+                input(type="radio" name="unique_beer" id="beer-B" value="B" required)
                 label(for="beer-B") B
 
-                input(type="radio" name="unique_beer" id="beer-C" value="C")
+                input(type="radio" name="unique_beer" id="beer-C" value="C" required)
                 label(for="beer-C") C
 
-                input(type="radio" name="unique_beer" id="none" value="null")
+                input(type="radio" name="unique_beer" id="none" value="null" required)
                 label(for="none") They are all indistinguishable
             
+            //- visible if the user identified a unique beer above
             fieldset 
                 legend Which beer do you prefer?
                 input(type="radio" name="preference" id="beer-A" value="A")
@@ -63,46 +64,89 @@ mixin triangleTestForm()
 
             h2.question-title How do these beers compare?
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
+            .range-input#maltiness-range
+                .range-input__range Maltiness
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
+
+            .range-input#hoppiness-range
+                .range-input__range Hoppiness
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="hop_characted" name="hop_characted" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
+
+            .range-input#yeast_character-range
+                .range-input__range Yeast Character
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="yeast_character" name="yeast_character" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
             p.range-input__subheading Equal
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
+            .range-input#bitterness-range
+                .range-input__range Bitterness
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="bitterness" name="bitterness" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
+            .range-input#carbonation-range
+                .range-input__range Carbonation
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="carbonation" name="carbonation" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
+            .range-input#body-range
+                .range-input__range Body
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="body" name="body" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
+            .range-input#balance-range
+                .range-input__range Balance
+                    .range-input__beer-label Unique Beer
+                    input(type="range" id="balance" name="balance" min="0" max="4" value="2" step="1")
+                    .range-input__beer-label Other Beers
+                p.range-input__subheading Equal
 
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
-            
-            .range-input__container Maltiness
-                .range-input__beer-label Unique Beer
-                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
-                .range-input__beer-label Other Beers
-            p.range-input__subheading Equal
+            fieldset 
+                legend Did you detect any off-flavours in any of the beers?
+                input(type="radio" name="flaws_detected" id="flaws-true" value=true)
+                label(for="flaws-true") Yes
+                input(type="radio" name="flaws_detected" id="flaws-false" value=false)
+                label(for="flaws-false") No
+
+            // visible if flaws were detected
+            .flaw-grid 
+                for [key, val] of Object.entries(schema.flaws) 
+                    .flaw 
+                        .flaw__name
+                            .flaw__name--name= h.capitalizeFirst(key)
+                            .flaw__name--description= val.description
+                        .flaw__choices 
+                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="Unique")
+                            label(for=`flaws[${key}]`) Unique
+                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="Other")
+                            label(for=`flaws[${key}]`) Other
+
+            h2.question-title How would you rate these beers out of 10?
+
+            //- label content to be dynamically updated
+            .range-input#unique-range
+                label(for="unique_score") Unique Beer Score
+                input(type="range" id="unique_score" name="unique_score" min="1" max="10" value="5" step="1")
+                p.range-input__subheading Pretty Average
+
+            .range-input#other-range
+                label(for="unique_score") Other Beer Score
+                input(type="range" id="other_score" name="other_score" min="1" max="10" value="5" step="1")
+                p.range-input__subheading Pretty Average
+
+            label(for="comments") Additional Comments
+            textarea(name="comments" id="comments") 
 
         input(type="submit" value="Save" class="button")
