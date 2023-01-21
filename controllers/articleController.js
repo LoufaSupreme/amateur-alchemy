@@ -150,6 +150,19 @@ exports.displayArticle = async (req, res, next) => {
     }
 }
 
+// check if article exists with a given "article_id"
+// note that article_id is different than the mongodb _id
+exports.validateExists = async (req, res) => {
+    console.log(`Running validateExists on article ${req.params.article_num}`);
+    try {
+        const article = await Article.findOne({ article_num: req.params.article_num });
+        return article;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 // // creates a new article instance in db
 // exports.createArticle = async (req, res, next) => {
 //     console.log('Running createArticle');

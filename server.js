@@ -24,6 +24,7 @@ mongoose.connection.on('error', (err) => {
 require('./models/Beer');
 require('./models/Brewery');
 require('./models/Article');
+require('./models/TriangleTest');
 // require('./models/User');
 // require('./models/Review');
 

@@ -1,0 +1,22 @@
+extends layout 
+
+include mixins/_triangleTestForm
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/addTriangleTest.css')
+
+block content
+    h1= title
+    if msg 
+        .msg= msg
+    .container
+        //- the + is to use a mixin
+        p.intro This is a blind triangle taste test. You have been given three cups of beer. Your task is to distinguish whether or not one of the cups contains a beer that is perceptibly different than the other two. This test is about differences in flavor, aroma and mouthfeel, not appearance – hence why the beers have intentionally been given to you in identical looking, opaque cups.
+
+        p.intro Please answer the following questions about the beers in your cups:
+
+        +triangleTestForm()
+  
+
+block scripts
+    script(src='/javascript/addTriangleTest.js')

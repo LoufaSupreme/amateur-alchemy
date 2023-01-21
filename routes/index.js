@@ -3,6 +3,7 @@ const router = express.Router();
 const beerController = require('../controllers/beerController');
 const breweryController = require('../controllers/breweryController');
 const articleController = require('../controllers/articleController');
+const triangleTestController = require('../controllers/triangleTestController');
 
 // home page
 router.get('/', beerController.home);
@@ -51,23 +52,21 @@ router.post('/add-brewery/:id',
     breweryController.updateBrewery
 );
 
-// add new article
+// go to add new article page
 router.get('/add-article', articleController.addArticle);
+
+// create new article in db
 router.post('/add-article', 
     articleController.upload,
     articleController.resize,    
     articleController.createOrUpdateArticle
 )
 
-// update article
-router.post('/add-article/:id',
-    articleController.upload,
-    articleController.resize,    
-    articleController.createOrUpdateArticle,
-)
-
 // update existing article
+// display form to create or edit article
 router.get('/articles/:slug/edit', articleController.editArticle);
+
+// update article and apply changes to db and reroute
 router.post('add-article/:id', 
     articleController.upload,
     articleController.resize,
@@ -76,6 +75,17 @@ router.post('add-article/:id',
 
 // display article
 router.get('/articles/:slug', articleController.displayArticle);
+
+// display form to create new triangleTest for an article/experiment
+router.get('/triangle-test/article/:article_num',
+    triangleTestController.addTriangleTest
+);
+
+// create a new triangleTest in the db
+router.post('/triangle-test/article/:article_id', 
+    // triangleTestController.createTriangleTest,
+    // articleController.addTriangleTest
+);
 
 ////// API ROUTES //////
 

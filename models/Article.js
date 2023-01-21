@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+// uses the mongoose-sequence library to automatically increment a field every time a new instance of the model is instantiated
+// https://github.com/ramiel/mongoose-sequence
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 mongoose.Promise = global.Promise;
 const slug = require('slugs');
 
@@ -8,6 +11,7 @@ const articleSchema = new mongoose.Schema({
         trim: true, //trims uploaded strings before adding to the db
         required: 'Please enter an article title!' // could also just put true, however it is better to put an error msg like this
     },
+    article_num: Number, // auto-incremented when a new article is saved
     category: String,
     subcategory: String,
     slug: String,
@@ -20,6 +24,12 @@ const articleSchema = new mongoose.Schema({
         trim: true,
     },
     tags: [String],
+    triangle_test: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'TriangleTest',
+        },
+    ],
     created: {
         type: Date,
         default: Date.now,
@@ -77,5 +87,6 @@ articleSchema.index({
 
 
 articleSchema.pre('save', setSlug);
+articleSchema.plugin(AutoIncrement, {inc_field: 'article_id'});
 
 module.exports = mongoose.model('Article', articleSchema);

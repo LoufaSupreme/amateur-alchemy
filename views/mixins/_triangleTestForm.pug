@@ -1,0 +1,108 @@
+mixin triangleTestForm()
+    form(action=`/triangle-test/article/${article._id}` method="POST" class="form-card")
+        .form-card__section.main
+            h2.form-card__section--heading Content
+            label(for="name") [OPTIONAL] Name 
+            input(type="text" name="name" id="name")
+
+            label(for="token") What is your token number? 
+            input(type="text" name="token" id="token" required)
+            
+            fieldset 
+                legend Which one describes you best? 
+                input(type="radio" name="title" id="enthusiast" value="enthusiast")
+                label(for="enthusiast") Craft Beer Enthusiast
+
+                input(type="radio" name="title" id="homebrewer" value="homebrewer")
+                label(for="enthusiast") Homebrewer
+
+                input(type="radio" name="title" id="bjcp-training" value="bjcp-training")
+                label(for="bjcp-training") BJCP (In training)
+
+                input(type="radio" name="title" id="bjcp-mid" value="bjcp-mid")
+                label(for="bjcp-mid") BJCP (Recognized/Certified/Master)
+
+                input(type="radio" name="title" id="bjcp-max" value="bjcp-max")
+                label(for="bjcp-max") BJCP (Master or higher)
+
+            fieldset 
+                legend Select any of the following additional certifications that apply:
+                input(type="checkbox" name="additional_training" id="sensory" value="sensory")
+                label(for="sensory") Sensory training (w/ flavor kit)
+
+                input(type="checkbox" name="additional_training" id="pro" value="pro")
+                label(for="pro") Professional Brewer
+
+                input(type="checkbox" name="additional_training" id="cicerone" value="cicerone")
+                label(for="cicerone") Certified Cicerone
+
+            fieldset 
+                legend Which beer is the odd one out?
+                input(type="radio" name="unique_beer" id="beer-A" value="A")
+                label(for="beer-A") A
+
+                input(type="radio" name="unique_beer" id="beer-B" value="B")
+                label(for="beer-B") B
+
+                input(type="radio" name="unique_beer" id="beer-C" value="C")
+                label(for="beer-C") C
+
+                input(type="radio" name="unique_beer" id="none" value="null")
+                label(for="none") They are all indistinguishable
+            
+            fieldset 
+                legend Which beer do you prefer?
+                input(type="radio" name="preference" id="beer-A" value="A")
+                label(for="beer-A") A
+
+                input(type="radio" name="preference" id="beer-B" value="B")
+                label(for="beer-B") B
+
+                input(type="radio" name="preference" id="beer-C" value="C")
+                label(for="beer-C") C
+
+            h2.question-title How do these beers compare?
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+            
+            .range-input__container Maltiness
+                .range-input__beer-label Unique Beer
+                input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+                .range-input__beer-label Other Beers
+            p.range-input__subheading Equal
+
+        input(type="submit" value="Save" class="button")
