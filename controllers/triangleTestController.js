@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const TriangleTest = mongoose.model('TriangleTest');  // schema
-const { validateExists: validateArticleExists } = require('./articleController.js');
+const { getArticleByNum } = require('./articleController.js');
 
 // render the add triangleTest page 
 exports.addTriangleTest = async (req, res, next) => {
     console.log('Running addTriangleTest');
     
     try {
-        const article = await validateArticleExists(req, res);
+        const article = await getArticleByNum(req, res);
         if (!article) throw new Error('Article not found');
         res.render('addTriangleTest', { title: 'Add Triangle Test' , article: article, schema: TriangleTest.schema.obj});
     }

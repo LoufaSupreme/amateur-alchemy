@@ -14,8 +14,9 @@ const triangleTestSchema = new mongoose.Schema({
     },
     title: String, // enthusiast, homebrewer, BJCP judge...
     additional_training: [String],  // cicerone, professional brewer...
-    unique_beer: String,
-    preference: String,
+    actual_unique: String, // A, B, C or null
+    perceived_unique: String,  // A, B, C or none as perceived by tester
+    preference: String, // unique, other, or null
     malt_character: {
         type: Number,
         min: 0, // 0 means unique beer is most
@@ -52,14 +53,13 @@ const triangleTestSchema = new mongoose.Schema({
         max: 4
     },
     scores: {
-        A: Number,
-        B: Number,
-        C: Number
+        unique: Number,
+        other: Number,
     },
     flaws_detected: Boolean,
     flaws: {
         acetaldehyde: {
-            type: [String],
+            type: [String], // all, unique, other or null
             description: "Green apple.",
         },
         alcoholic: {

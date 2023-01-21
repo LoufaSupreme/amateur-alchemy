@@ -20,7 +20,7 @@ mixin triangleTestForm()
                 label(for="bjcp-training") BJCP (In training)
 
                 input(type="radio" name="title" id="bjcp-mid" value="bjcp-mid" required)
-                label(for="bjcp-mid") BJCP (Recognized/Certified/Master)
+                label(for="bjcp-mid") BJCP (Recognized/Certified/National)
 
                 input(type="radio" name="title" id="bjcp-max" value="bjcp-max" required)
                 label(for="bjcp-max") BJCP (Master or higher)
@@ -38,29 +38,26 @@ mixin triangleTestForm()
 
             fieldset 
                 legend Which beer is the odd one out?
-                input(type="radio" name="unique_beer" id="beer-A" value="A" required)
-                label(for="beer-A") A
+                input(type="radio" name="perceived_unique" id="perceived-A" value="A" required)
+                label(for="perceived-A") A
 
-                input(type="radio" name="unique_beer" id="beer-B" value="B" required)
-                label(for="beer-B") B
+                input(type="radio" name="perceived_unique" id="perceived-B" value="B" required)
+                label(for="perceived-B") B
 
-                input(type="radio" name="unique_beer" id="beer-C" value="C" required)
-                label(for="beer-C") C
+                input(type="radio" name="perceived_unique" id="perceived-C" value="C" required)
+                label(for="perceived-C") C
 
-                input(type="radio" name="unique_beer" id="none" value="null" required)
+                input(type="radio" name="perceived_unique" id="perceived-none" value="none" required)
                 label(for="none") They are all indistinguishable
             
             //- visible if the user identified a unique beer above
             fieldset 
                 legend Which beer do you prefer?
-                input(type="radio" name="preference" id="beer-A" value="A")
-                label(for="beer-A") A
+                input(type="radio" name="preference" id="preference-unique" value="unique")
+                label(for="preference-unique") A
 
-                input(type="radio" name="preference" id="beer-B" value="B")
-                label(for="beer-B") B
-
-                input(type="radio" name="preference" id="beer-C" value="C")
-                label(for="beer-C") C
+                input(type="radio" name="preference" id="preference-other" value="other")
+                label(for="preference-other") B & C
 
             h2.question-title How do these beers compare?
 
@@ -115,20 +112,21 @@ mixin triangleTestForm()
 
             fieldset 
                 legend Did you detect any off-flavours in any of the beers?
-                input(type="radio" name="flaws_detected" id="flaws-true" value=true)
+                input(type="radio" name="flaws_detected" id="flaws-true" value="true")
                 label(for="flaws-true") Yes
-                input(type="radio" name="flaws_detected" id="flaws-false" value=false)
+                input(type="radio" name="flaws_detected" id="flaws-false" value="false")
                 label(for="flaws-false") No
 
-            // visible if flaws were detected
+            //- visible if flaws were detected
+            //- values to be dynamically adjusted in JS
             .flaw-grid 
                 for [key, val] of Object.entries(schema.flaws) 
                     .flaw 
-                        .flaw__name
-                            .flaw__name--name= h.capitalizeFirst(key)
-                            .flaw__name--description= val.description
+                        .flaw__type
+                            .flaw__type--name= h.capitalizeFirst(key)
+                            .flaw__type--description= val.description
                         .flaw__choices 
-                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="Unique")
+                            input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="unique")
                             label(for=`flaws[${key}]`) Unique
                             input(type="checkbox" name=`flaws[${key}]` id=`flaws[${key}]` value="Other")
                             label(for=`flaws[${key}]`) Other
