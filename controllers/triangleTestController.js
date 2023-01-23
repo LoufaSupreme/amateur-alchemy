@@ -9,7 +9,7 @@ exports.addTriangleTest = async (req, res, next) => {
     try {
         const article = await getArticleByNum(req, res);
         if (!article) throw new Error('Article not found');
-        res.render('addTriangleTest', { title: 'Add Triangle Test' , article: article, schema: TriangleTest.schema.obj});
+        res.render('addTriangleTest', { title: 'New Triangle Test' , article: article, schema: TriangleTest.schema.obj});
     }
     catch(err) {
         console.log(err);

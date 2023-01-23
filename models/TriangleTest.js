@@ -53,7 +53,6 @@ const triangleTestSchema = new mongoose.Schema({
         max: 4
     },
     scores: {
-        all: Number, // score goes here if all beers were perceived the same
         unique: Number, // score goes here and below if beers were perceived as different
         other: Number,
     },
@@ -81,7 +80,7 @@ const triangleTestSchema = new mongoose.Schema({
         },
         estery: {
             type: [String],
-            description: "fruity, flower.",
+            description: "Fruity, flowery.",
         },
         grassy: {
             type: [String],
@@ -121,7 +120,7 @@ const triangleTestSchema = new mongoose.Schema({
         },
         vegetal: {
             type: [String],
-            description: "Cooked/canned/rotten vegetable. Cabbage, onion, etc.",
+            description: "Cooked/canned/rotten vegetable, cabbage, onion.",
         },
         yeasty: {
             type: [String],

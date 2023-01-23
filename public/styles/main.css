@@ -56,6 +56,8 @@ input[type=number] {
 /* GLOBAL STYLES */
 
 :root {
+    --clr-bg: 18 33 44;
+    --clr-bg-darker: 15 25 30;
     --clr-text: 255 255 255; 
     --clr-accent: 255 61 106; /* pink */
     --clr-accent-2: 63 94 251; /* purple */
@@ -95,25 +97,13 @@ a.custom-link > * {
 /*  HOME STYLES  */
 
 body {
-    background-image: linear-gradient(to right, #0f1416 0%,#162427 50%, #12212c);
-    background-repeat: no-repeat;
-    background-size: 400%;
-    animation: body-bg-animation 5s infinite alternate;
+    background: rgb(var(--clr-bg));
     min-height: 100vh;
     color: white;
-    display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Roboto', sans-serif;
-}
-
-@keyframes body-bg-animation {
-    0% {
-        background-position: left;
-    }
-    100% {
-        background-position: right;
-    }
+    width: 100vw;
 }
 
 .nav {
@@ -320,7 +310,7 @@ body {
 .content {
     display: flex;
     flex-direction: column;
-    max-width: 1200px;
+    width: min(1200px, 80%);
 }
 
 .content--title {

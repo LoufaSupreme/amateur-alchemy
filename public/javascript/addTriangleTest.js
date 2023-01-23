@@ -1,10 +1,23 @@
 const perceivedUniqueRadios = document.querySelectorAll('input[name="perceived_unique"]');
+const flawsDetected = document.querySelector('#flaws-true');
+const flawsNotDetected = document.querySelector('#flaws-false');
+const offFlavorContainer = document.querySelector('#off-flavor-container');
 const flawInputs = document.querySelectorAll('.flaw__input');
 const scoreInputs = document.querySelectorAll('.score__input');
 
 perceivedUniqueRadios.forEach(radio => {
     addEventListener('change', handlePerceivedUniqueChange)
 })
+
+flawsDetected.addEventListener('click', handleFlawsDetected);
+flawsNotDetected.addEventListener('click', handleFlawsDetected);
+
+function handleFlawsDetected(e) {
+    if (e.target.id === "flaws-true") {
+        offFlavorContainer.classList.add('active');
+    }
+    else offFlavorContainer.classList.remove('active');
+}
 
 // fires when a user picks a response for "which beer is unique"
 function handlePerceivedUniqueChange(e) {
@@ -16,7 +29,7 @@ function handlePerceivedUniqueChange(e) {
             if (input.classList.contains('flaw__input--unique')) {
                 input.value = "all";
                 const label = document.querySelector(`label[for="${input.id}"]`);
-                label.innerText = 'Yes';
+                label.innerHTML = '<i class="fa-solid fa-check"></i>';
             }
             // change the "other" input to be hidden since it's no longer valid
             else if (input.classList.contains('flaw__input--other')) {
