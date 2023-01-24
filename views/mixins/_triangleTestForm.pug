@@ -6,7 +6,7 @@ mixin triangleTestForm()
 
             .text-input-container
                 input(type="text" name="token" id="token" placeholder=" " required)
-                label(for="token") ID Number:
+                label(for="token") ID Number (# on your cups):
             
             .text-input-container
                 input(type="text" name="name" id="name" placeholder=" ")
@@ -40,7 +40,8 @@ mixin triangleTestForm()
             label(for="cicerone") Certified Cicerone
 
         fieldset 
-            legend.question-title Which beer is the odd beer out of the three?  Please make your best guess. 
+            legend.question-title Which cup contains the beer that is the odd beer out of the three?  
+                span.small Please make your best guess, even if you don't perceive any difference between the three. 
             
             input(type="radio" name="perceived_unique" id="perceived-A" value="A" required)
             label(for="perceived-A") A
@@ -52,22 +53,25 @@ mixin triangleTestForm()
             label(for="perceived-C") C
         
         //- visible if the user identified a unique beer above
-        fieldset 
-            legend.question-title Which beer do you prefer?
+        fieldset.preference
+            legend.question-title You chose Cup <span class="preference-beer-letter">LETTER</span> as the unique beer. Which beer do you prefer?
             
-            input(type="radio" name="preference" id="preference-unique" value="unique")
-            label(for="preference-unique") Unique Beer (A)
+            input(type="radio" name="preference" id="preference-unique" value="unique" required)
+            label(for="preference-unique") Unique Beer (<span class="preference-beer-letter">UNIQUE</span>)
 
-            input(type="radio" name="preference" id="preference-other" value="other")
-            label(for="preference-other") Other 2 Beers (B & C)
+            input(type="radio" name="preference" id="preference-other" value="other" required)
+            label(for="preference-other") Other 2 Beers (<span class="not-preference-beer-letter">OTHER</span>)
+            
+            input(type="radio" name="preference" id="preference-none" value="none" required)
+            label(for="preference-none") There is no perceivable difference between any of the beers
 
-        .question-container
+        .question-container.compare
             h2.question-title How do these beers compare?
 
             .range-input#maltiness-range 
-                h3.question-subtitle Maltiness
+                h3.range-input__question-subtitle Maltiness
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1" list="maltiness-range__list")
                     datalist#maltiness-range__list 
                         option 0
@@ -75,13 +79,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="maltiness" data-unique="unique") The maltiness is about equal. 
 
             .range-input#hoppiness-range
-                h3.question-subtitle Hoppiness
+                h3.range-input__question-subtitle Hoppiness
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="hop_characted" name="hop_characted" min="0" max="4" value="2" step="1" list="hoppiness-range__list")
                     datalist#hoppiness-range__list 
                         option 0
@@ -89,13 +93,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="hoppiness" data-unique="unique") The hoppiness is about equal.
 
             .range-input#yeast_character-range
-                h3.question-subtitle Yeast Character
+                h3.range-input__question-subtitle Yeast Character
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="yeast_character" name="yeast_character" min="0" max="4" value="2" step="1" list="yeast-range__list")
                     datalist#yeast-range__list 
                         option 0
@@ -103,13 +107,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="yeast character" data-unique="unique") The yeast character is about equal.
 
             .range-input#bitterness-range
-                h3.question-subtitle Bitterness
+                h3.range-input__question-subtitle Bitterness
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="bitterness" name="bitterness" min="0" max="4" value="2" step="1" list="bitterness-range__list")
                     datalist#bitterness-range__list 
                         option 0
@@ -117,13 +121,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="bitterness" data-unique="unique") The bitterness is about equal.
 
             .range-input#carbonation-range
-                h3.question-subtitle Carbonation
+                h3.range-input__question-subtitle Carbonation
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="carbonation" name="carbonation" min="0" max="4" value="2" step="1" list="carbonation-range__list")
                     datalist#carbonation-range__list 
                         option 0
@@ -131,13 +135,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="carbonation" data-unique="unique") The carbonation is about equal.
 
             .range-input#body-range
-                h3.question-subtitle Body
+                h3.range-input__question-subtitle Body
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="body" name="body" min="0" max="4" value="2" step="1" list="body-range__list")
                     datalist#body-range__list 
                         option 0
@@ -145,13 +149,13 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="body" data-unique="unique") The body is about equal.
  
             .range-input#balance-range
-                h3.question-subtitle Balance
+                h3.range-input__question-subtitle Balance
                 .range-input__range 
-                    .range-input__beer-label Unique Beer
+                    .range-input__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                     input(type="range" id="balance" name="balance" min="0" max="4" value="2" step="1" list="balance-range__list")
                     datalist#balance-range__list 
                         option 0
@@ -159,10 +163,10 @@ mixin triangleTestForm()
                         option 2
                         option 3
                         option 4
-                    .range-input__beer-label Other 2 Beers
-                p.range-input__subheading Equal
+                    .range-input__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
+                p.range-input__subheading(data-attr="balance" data-unique="unique") The balance is about equal.
 
-        fieldset  
+        fieldset#detect-flaws-container
             legend.question-title Do you detect any off-flavours in any of the beers?
             
             input(type="radio" name="flaws_detected" id="flaws-true" value="true")
@@ -183,24 +187,24 @@ mixin triangleTestForm()
                             .flaw__type--description= val.description
                         .flaw__choices 
                             input(type="checkbox" class="flaw__input flaw__input--unique" name=`flaws[${key}]` id=`flaw-${key}-unique` value="unique")
-                            label(for=`flaw-${key}-unique` class="flaw__label") Unique Beer
+                            label(for=`flaw-${key}-unique` class="flaw__label") Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
 
                             input(type="checkbox" class="flaw__input flaw__input--other" name=`flaws[${key}]` id=`flaw-${key}-other` value="Other")
-                            label(for=`flaw-${key}-other` class="flaw__label") Other 2 Beers
+                            label(for=`flaw-${key}-other` class="flaw__label") Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
 
-        .question-container
+        .question-container.scores
             h2.question-title How would you score these beers out of 5 stars?
 
             //- label content to be dynamically updated
-            fieldset.scores 
-                h3.scores__beer-label Unique Beer
+            fieldset.score 
+                h3.scores__beer-label Unique Beer <br>(<span class="preference-beer-letter">UNIQUE</span>)
                 .scores__star-container
                     each num in [5,4,3,2,1]
                         input(type="radio" class="scores__star" id=`star${num}` name="scores[unique]" value=num)
                         label(for=`star${num}`) #{num} Stars
 
-            fieldset.scores 
-                h3.scores__beer-label Other 2 Beers
+            fieldset.score  
+                h3.scores__beer-label Other 2 Beers <br>(<span class="not-preference-beer-letter">OTHER</span>)
                 .scores__star-container
                     each num in [10,9,8,7,6]
                         input(type="radio" class="scores__star" id=`star${num}` name="scores[other]" value=num-5)
@@ -210,4 +214,4 @@ mixin triangleTestForm()
             label.question-title(for="comments") Additional Comments:
             textarea(name="comments" id="comments" placeholder="Any other comments about your observations or preferences...")
 
-        input(type="submit" value="Save" class="button")
+        input(type="submit" value="Submit" class="button")

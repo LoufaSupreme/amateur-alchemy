@@ -14,9 +14,9 @@ const triangleTestSchema = new mongoose.Schema({
     },
     title: String, // enthusiast, homebrewer, BJCP judge...
     additional_training: [String],  // cicerone, professional brewer...
-    actual_unique: String, // A, B, C or null
-    perceived_unique: String,  // A, B, C or none as perceived by tester
-    preference: String, // unique, other, or null
+    actual_unique: String, // A, B, C
+    perceived_unique: String,  // A, B, C as perceived by tester
+    preference: String, // unique, other, or none
     malt_character: {
         type: Number,
         min: 0, // 0 means unique beer is most

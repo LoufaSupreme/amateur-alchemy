@@ -33,17 +33,18 @@ legend {
     font-weight: bold;
 }
 
-.question-subtitle {
-    margin-bottom: 0.8rem;
-}
-
 .question-container {
     margin-bottom: 1.2rem;
     display: flex;
     flex-direction: column;
 }
 
-#off-flavor-container {
+span.small {
+    font-weight: lighter;
+    font-size: 0.8em;
+}
+
+.preference {
     opacity: 0;
     max-height: 0;
     transition: all 0.35s ease-in-out;
@@ -51,56 +52,25 @@ legend {
     margin-bottom: -5rem;
 }
 
-#off-flavor-container.active {
+.preference.active {
     opacity: 1;
     max-height: 400rem;
     margin-bottom: 0;
 }
 
-.flaw-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.compare {
+    opacity: 0;
+    max-height: 0;
+    transition: all 0.35s ease-in-out;
+    overflow: hidden;
+    margin-bottom: -5rem;
 }
 
-
-@media (max-width: 480px) {
-    .flaw-panel {
-        font-size: 0.8em;
-    }
+.compare.active {
+    opacity: 1;
+    max-height: 400rem;
+    margin-bottom: 0;
 }
-
-.flaw {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0.5rem;
-}
-
-.flaw:nth-child(2n-1) {
-    background-color: rgb(255 255 255 / 0.05);
-}
-
-.flaw__type--name {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 0.25rem;
-}
-
-.flaw__type--description {
-    font-weight: 400;
-    font-size: 0.75em;
-    color: rgb(var(--clr-text) / 0.65);
-}
-
-.flaw__choices {
-    display: flex;
-    gap: 0.25rem;
-}
-
-.flaw__choices .flaw__label {
-    text-align: center;
-}
-
 
 /* text inputs */
 
@@ -167,8 +137,6 @@ input[type="checkbox"] + label {
     padding: 1em 1.4em;
     border: 1px solid black;
     border-radius: 0.3rem;
-    display: flex;
-    align-items: center;
     cursor: pointer;
     width: auto;
     font-weight: bold;
@@ -224,6 +192,15 @@ input[type=range] {
     background-color: rgb(255 255 255 / 0.05);
 }
 
+.range-input:nth-child(2n-1) {
+    background-color: rgb(255 255 255 / 0.02);
+}
+
+.range-input__question-subtitle {
+    margin-bottom: 0.8rem;
+    font-size: 1.3em;
+}
+
 .range-input__range {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
@@ -231,23 +208,113 @@ input[type=range] {
 }
 
 .range-input__beer-label {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
+    color: rgb(255 255 255 / 0.5);
+    font-size: 0.9em;
 }
 
 .range-input__subheading {
-    margin-top: 0.5rem;
+    margin: 2rem 0 2rem 0;
     text-align: center;
+    font-size: 1.1em;
 }
 
-#comments {
-    min-height: 6rem;
+#detect-flaws-container {
+    opacity: 0;
+    max-height: 0;
+    transition: all 0.35s ease-in-out;
+    overflow: hidden;
+    margin-bottom: -5rem;
+}
+
+#detect-flaws-container.active {
+    opacity: 1;
+    max-height: 400rem;
+    margin-bottom: 0;
+}
+
+#off-flavor-container {
+    opacity: 0;
+    max-height: 0;
+    transition: all 0.35s ease-in-out;
+    overflow: hidden;
+    margin-bottom: -5rem;
+}
+
+#off-flavor-container.active {
+    opacity: 1;
+    max-height: 400rem;
+    margin-bottom: 0;
+}
+
+.flaw-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+
+@media (max-width: 480px) {
+    .flaw-panel {
+        font-size: 0.8em;
+    }
+}
+
+.flaw {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.5rem;
+}
+
+.flaw:nth-child(2n-1) {
+    background-color: rgb(255 255 255 / 0.05);
+}
+
+.flaw:nth-child(2n) {
+    background-color: rgb(0 0 0 / 0.1);
+}
+
+.flaw__type--name {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 0.25rem;
+}
+
+.flaw__type--description {
+    font-weight: 400;
+    font-size: 0.75em;
+    color: rgb(var(--clr-text) / 0.65);
+}
+
+.flaw__choices {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.flaw__choices .flaw__label {
+    text-align: center;
+    font-weight: normal;
 }
 
 /* beer scores out of 5 stars */
 
-fieldset.scores {
+.scores {
+    opacity: 0;
+    max-height: 0;
+    transition: all 0.35s ease-in-out;
+    overflow: hidden;
+    margin-bottom: -5rem;
+}
+
+.scores.active {
+    opacity: 1;
+    max-height: 400rem;
+    margin-bottom: 0;
+}
+
+fieldset.score {
     border: none;
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -258,6 +325,7 @@ fieldset.scores {
 
 .scores__beer-label {
     justify-self: end;
+    text-align: center;
 }
 
 .scores__star-container {
@@ -292,6 +360,8 @@ fieldset.scores {
     font-size: 3rem;
     box-shadow: none;
     position: relative;
+    display: flex;
+    transform: translateY(-5px);
 }
 
 .scores__star-container .scores__star:checked + label {
@@ -321,9 +391,12 @@ fieldset.scores {
     background-color: transparent;
 }
 
+#comments {
+    min-height: 6rem;
+}
+
 input[type=submit].button {
     background-color: rgb(var(--clr-accent));
-    text-transform: uppercase;
     font-weight: bold;
     font-size: 1.1rem;
 }
