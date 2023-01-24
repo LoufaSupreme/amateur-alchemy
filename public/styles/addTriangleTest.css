@@ -235,7 +235,7 @@ input[type=range] {
     margin-bottom: 0;
 }
 
-#off-flavor-container {
+#flaws {
     opacity: 0;
     max-height: 0;
     transition: all 0.35s ease-in-out;
@@ -243,7 +243,7 @@ input[type=range] {
     margin-bottom: -5rem;
 }
 
-#off-flavor-container.active {
+#flaws.active {
     opacity: 1;
     max-height: 400rem;
     margin-bottom: 0;
@@ -290,12 +290,17 @@ input[type=range] {
 
 .flaw__choices {
     display: flex;
+    justify-content: end;
     gap: 0.25rem;
 }
 
 .flaw__choices .flaw__label {
     text-align: center;
     font-weight: normal;
+}
+
+.flaw__choices .flaw__label .icon {
+    display: none;
 }
 
 /* beer scores out of 5 stars */
@@ -326,6 +331,10 @@ fieldset.score {
 .scores__beer-label {
     justify-self: end;
     text-align: center;
+}
+
+.scores__beer-label .alternate {
+    display: none;
 }
 
 .scores__star-container {
