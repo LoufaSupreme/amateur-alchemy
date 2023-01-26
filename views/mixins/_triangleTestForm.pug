@@ -1,5 +1,5 @@
 mixin triangleTestForm()
-    form(action=`/triangle-test/article/${article._id}` method="POST" class="form-card")
+    form(action=`/triangle-test/article/${article._id}` method="POST" class="form-card" autocomplete="off")
         .question-container
             h2.question-title Who are you?
             <br>
@@ -73,12 +73,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1" list="maltiness-range__list")
-                    datalist#maltiness-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#maltiness-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="maltiness" data-unique="unique") The maltiness is about equal. 
 
@@ -87,12 +87,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="hop_characted" name="hop_characted" min="0" max="4" value="2" step="1" list="hoppiness-range__list")
-                    datalist#hoppiness-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#hoppiness-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="hoppiness" data-unique="unique") The hoppiness is about equal.
 
@@ -101,12 +101,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="yeast_character" name="yeast_character" min="0" max="4" value="2" step="1" list="yeast-range__list")
-                    datalist#yeast-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#yeast-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="yeast character" data-unique="unique") The yeast character is about equal.
 
@@ -115,12 +115,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="bitterness" name="bitterness" min="0" max="4" value="2" step="1" list="bitterness-range__list")
-                    datalist#bitterness-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#bitterness-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="bitterness" data-unique="unique") The bitterness is about equal.
 
@@ -129,12 +129,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="carbonation" name="carbonation" min="0" max="4" value="2" step="1" list="carbonation-range__list")
-                    datalist#carbonation-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#carbonation-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="carbonation" data-unique="unique") The carbonation is about equal.
 
@@ -143,12 +143,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="body" name="body" min="0" max="4" value="2" step="1" list="body-range__list")
-                    datalist#body-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#body-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="body" data-unique="unique") The body is about equal.
  
@@ -157,12 +157,12 @@ mixin triangleTestForm()
                 .range-input__range 
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
                     input(type="range" id="balance" name="balance" min="0" max="4" value="2" step="1" list="balance-range__list")
-                    datalist#balance-range__list 
-                        option 0
-                        option 1
-                        option 2
-                        option 3
-                        option 4
+                    //- datalist#balance-range__list 
+                    //-     option 0
+                    //-     option 1
+                    //-     option 2
+                    //-     option 3
+                    //-     option 4
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
                 p.range-input__subheading(data-attr="balance" data-unique="unique") The balance is about equal.
 
