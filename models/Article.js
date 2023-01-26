@@ -24,7 +24,7 @@ const articleSchema = new mongoose.Schema({
         trim: true,
     },
     tags: [String],
-    triangle_test: [
+    triangle_tests: [
         {
             type: mongoose.Schema.ObjectId,
             ref: 'TriangleTest',

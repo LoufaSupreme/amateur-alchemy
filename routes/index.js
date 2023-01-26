@@ -67,7 +67,7 @@ router.post('/add-article',
 router.get('/articles/:slug/edit', articleController.editArticle);
 
 // update article and apply changes to db and reroute
-router.post('add-article/:id', 
+router.post('/add-article/:id', 
     articleController.upload,
     articleController.resize,
     articleController.createOrUpdateArticle    
@@ -77,15 +77,21 @@ router.post('add-article/:id',
 router.get('/articles/:slug', articleController.displayArticle);
 
 // display form to create new triangleTest for an article/experiment
-router.get('/triangle-test/article/:article_num',
+router.get('/article/:article_num/triangle-test',
     triangleTestController.addTriangleTest
 );
 
 // create a new triangleTest in the db
-router.post('/triangle-test/article/:article_id', 
-    // triangleTestController.createTriangleTest,
-    // articleController.addTriangleTest
+router.post('/article/:article_num/triangle-test', 
+    triangleTestController.createOrUpdateTriangleTest,
 );
+
+// display form to create a new triangleTest key for an article
+router.get('/articles/:article_num/triangle-test-key', 
+    articleController.createOrUpdateKey
+)
+
+router.post
 
 ////// API ROUTES //////
 

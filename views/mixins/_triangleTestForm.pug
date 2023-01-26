@@ -1,11 +1,11 @@
 mixin triangleTestForm()
-    form(action=`/triangle-test/article/${article._id}` method="POST" class="form-card" autocomplete="off")
+    form(action=`/article/${article_num}/triangle-test` method="POST" class="form-card" autocomplete="off")
         .question-container
             h2.question-title Who are you?
             <br>
 
             .text-input-container
-                input(type="text" name="token" id="token" placeholder=" " required)
+                input(type="number" name="token" id="token" placeholder=" " required)
                 label(for="token") ID Number (# on your cups):
             
             .text-input-container

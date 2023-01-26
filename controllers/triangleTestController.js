@@ -1,22 +1,67 @@
-const mongoose = require('mongoose');
-const TriangleTest = mongoose.model('TriangleTest');  // schema
-const { getArticleByNum } = require('./articleController.js');
+const mongoose = require("mongoose");
+const TriangleTest = mongoose.model("TriangleTest"); // schema
+const { getArticleByNum, appendTriangleTest } = require("./articleController.js");
 
-// render the add triangleTest page 
+// render the add triangleTest page
 exports.addTriangleTest = async (req, res, next) => {
-    console.log('Running addTriangleTest');
+  console.log("Running addTriangleTest");
+
+  try {
+    const article = await getArticleByNum(req.params.article_num);
+    if (!article) throw new Error("Article not found");
     
-    try {
-        const article = await getArticleByNum(req, res);
-        if (!article) throw new Error('Article not found');
-        res.render('addTriangleTest', { title: 'New Triangle Test' , article: article, schema: TriangleTest.schema.obj});
-    }
-    catch(err) {
-        console.log(err);
-        next(err);
-    }
+    res.render("addTriangleTest", {
+      title: "New Triangle Test",
+      article_num: req.params.article_num,
+      schema: TriangleTest.schema.obj,
+    });
+  } 
+  catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+// create a new or update an existing triangleTest instance
+exports.createOrUpdateTriangleTest = async (req, res, next) => {
+  console.log(
+    `Running createOrUpdateTriangleTest for article ${req.params.article_num}`
+  );
+
+  try {
+    const article = await getArticleByNum(req.params.article_num);
+    if (!article) throw new Error("Article not found");
+    req.body.article = article;
     
-}
+    // returns more than just the trianlgeTest object
+    const triangleTestInfo = await TriangleTest.findOneAndUpdate(
+      { token: req.body.token },
+      req.body,
+      {
+        upsert: true,
+        new: true,
+        rawResult: true,
+      }
+      ).exec();
+
+      // add new triangleTest to the req.body
+      req.body.triangleTest = triangleTestInfo.value;
+      // append the triangleTest to the article
+      await appendTriangleTest(req, res, next);
+
+    console.log(`Successfully updated/created triangleTest for token ${triangleTestInfo.value.token} in article ${article.title}`);
+    req.flash('success', `Successfully created Triangle Test!`);
+
+    res.render('successfulTriangleTest', {
+      title: 'Success!',
+      triangleTest: triangleTestInfo.value
+    })
+  } 
+  catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
 
 // turn the text from the tags input into an array of tags
 // function parseList(commaSeperatedList) {
@@ -30,8 +75,8 @@ exports.addTriangleTest = async (req, res, next) => {
 //         const slug = req.params.slug;
 //         const article = await Article.findOne({ slug: slug });
 //         res.render('addArticle', {
-//              title: 'Update Article', 
-//              article: article 
+//              title: 'Update Article',
+//              article: article
 //         });
 //     }
 //     catch(err) {
@@ -60,7 +105,7 @@ exports.addTriangleTest = async (req, res, next) => {
 //                 runValidators: true,
 //             }
 //         ).exec();
-        
+
 //         console.log(`Updated/created ${articleInfo.value.title}`);
 //         req.flash('success', `Successfully created/updated ${articleInfo.value.title}`);
 
@@ -86,8 +131,8 @@ exports.addTriangleTest = async (req, res, next) => {
 //     try {
 //         const article = await Article.findOne({slug: req.params.slug});
 //         res.render('article', {
-//             title: article.title, 
-//             article: article 
+//             title: article.title,
+//             article: article
 //        });
 //     }
 //     catch(err) {

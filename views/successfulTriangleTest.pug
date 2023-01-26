@@ -1,0 +1,17 @@
+extends layout 
+
+block stylesheets 
+  //- link(rel='stylesheet', href='/styles/addTriangleTest.css')
+
+block content
+  h1= title
+  if msg 
+    .msg= msg
+  .container
+    if triangleTest.name
+      p= `Thank you ${triangleTest.name}!`
+    else 
+      p= `Thank you Token ${triangleTest.token}!`
+  
+block scripts
+  

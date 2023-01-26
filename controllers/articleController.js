@@ -84,8 +84,8 @@ exports.editArticle = async (req, res, next) => {
         const slug = req.params.slug;
         const article = await Article.findOne({ slug: slug });
         res.render('addArticle', {
-             title: 'Update Article', 
-             article: article 
+            title: 'Update Article', 
+            article: article 
         });
     }
     catch(err) {
@@ -136,13 +136,30 @@ exports.createOrUpdateArticle = async (req, res, next) => {
     }
 }
 
+// add a triangleTest to an existing article
+// needs to have "article_num" in the request params and trianlgeTest in req.body 
+exports.appendTriangleTest = async (req, res, next) => {
+    try {
+        const article = await Article.findOneAndUpdate(
+            { article_num: req.params.article_num },
+            { $addToSet: { triangle_tests: req.body.triangleTest } }
+        ).exec();
+
+        return article.value;
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 exports.displayArticle = async (req, res, next) => {
     try {
         const article = await Article.findOne({slug: req.params.slug});
         res.render('article', {
             title: article.title, 
             article: article 
-       });
+        });
     }
     catch(err) {
         console.log(err);
@@ -152,14 +169,33 @@ exports.displayArticle = async (req, res, next) => {
 
 // check if article exists with a given "article_num"
 // note that article_num is different than the mongodb _id
-exports.getArticleByNum = async (req, res) => {
-    console.log(`Running getArticleByNum on article_num ${req.params.article_num}`);
+exports.getArticleByNum = async (n) => {
+    console.log(`Running getArticleByNum on article_num ${n}`);
     try {
-        const article = await Article.findOne({ article_num: req.params.article_num });
+        const article = await Article.findOne({ article_num: n });
         return article;
     }
     catch(err){
         console.log(err);
+    }
+}
+
+// add a new key to decipher triangle test data
+exports.createOrUpdateKey = async (req, res, next) => {
+    console.log(`Running createOrUpdateKey for article num ${req.params.article_num}`);
+
+    try {
+        const article = await Article.findOne(
+            { article_num: req.params.article_num },
+        );
+        res.render('addKey', {
+            title: 'Add Triangle Test Key',
+            article: article
+        });
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
     }
 }
 

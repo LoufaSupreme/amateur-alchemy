@@ -95,6 +95,41 @@ aside > p {
 
 /* CUSTOM COMPONENT STYLES */
 
+/******** Control Panel *********/
+.control-panel {
+    display: flex;
+    gap: 1rem;
+    margin: 0 0 1rem 0;
+    justify-content: flex-end;
+}
+
+.btn {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0.4em 1em;
+    font-size: 1.2rem;
+    opacity: 0.75;
+    transition: opacity 200ms ease-in-out;
+}
+
+.btn:hover {
+    opacity: 1;
+}
+
+.btn-edit {
+    background-color: rgb(255 165 0);
+    color: black;
+}
+
+.btn-delete {
+    background-color: rgb(170 0 0);
+    color: white;
+}
+
 /* image container with 2 images */
 
 .sidebyside {

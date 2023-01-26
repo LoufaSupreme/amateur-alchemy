@@ -4,7 +4,11 @@ block stylesheets
     link(rel='stylesheet', href='/styles/article.css')
 
 block content 
-    pre= h.dump(article)
+    //- pre= h.dump(article)
+    form.control-panel(method="POST")
+        a.btn.btn-edit(href=`/articles/${article.article_num}/triangle-test-key`) Add Key
+        a.btn.btn-edit(href=`/articles/${article.slug}/edit`) Edit
+        button.btn.btn-delete(type="submit" formaction=`/api/articles/${article._id}/delete`) Delete
     article
         h3.date= h.moment(article.created).format("MMMM D, YYYY")
         h1= title 

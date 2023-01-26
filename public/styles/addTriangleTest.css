@@ -74,7 +74,8 @@ span.small {
 
 /* text inputs */
 
-input[type=text] {
+input[type=text],
+input[type=number] {
     border: 0;
     border-bottom: 1px solid #fafafa;
     padding: 0.3rem;
@@ -87,7 +88,9 @@ input[type=text] {
 }
 
 input[type=text]:focus,
-input[type=text]:not(:placeholder-shown) {
+input[type=text]:not(:placeholder-shown),
+input[type=number]:focus,
+input[type=number]:not(:placeholder-shown) {
     outline: none;
     border-bottom-color: rgb(var(--clr-accent));
 }
@@ -97,21 +100,25 @@ input[type=text]:not(:placeholder-shown) {
     position: relative;
 }
 
-input[type=text] + label {
+input[type=text] + label,
+input[type=number] + label {
     position: absolute;
     top: 0px;
     left: 0px;
     pointer-events: none;
 }
 
-input[type=text] + label {
+input[type=text] + label,
+input[type=number] + label {
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     /* this is critical for the effect! */
     display: inline-block; 
 }
 
 input[type=text]:focus + label,
-input[type=text]:not(:placeholder-shown) + label {
+input[type=text]:not(:placeholder-shown) + label,
+input[type=number]:focus + label,
+input[type=number]:not(:placeholder-shown) + label {
     color: rgb(var(--clr-accent));
     transform: translateY(-1.35rem);
 }
