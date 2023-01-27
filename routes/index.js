@@ -88,10 +88,13 @@ router.post('/article/:article_num/triangle-test',
 
 // display form to create a new triangleTest key for an article
 router.get('/articles/:article_num/triangle-test-key', 
-    articleController.createOrUpdateKey
+    articleController.addKey
 )
 
-router.post
+// save new triangle test key to the article
+router.post('/articles/:article_id/key',
+    articleController.createOrUpdateKey
+)
 
 ////// API ROUTES //////
 

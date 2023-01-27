@@ -180,9 +180,9 @@ exports.getArticleByNum = async (n) => {
     }
 }
 
-// add a new key to decipher triangle test data
-exports.createOrUpdateKey = async (req, res, next) => {
-    console.log(`Running createOrUpdateKey for article num ${req.params.article_num}`);
+// display add key form
+exports.addKey = async (req, res, next) => {
+    console.log(`Running addKey for article num ${req.params.article_num}`);
 
     try {
         const article = await Article.findOne(
@@ -197,6 +197,11 @@ exports.createOrUpdateKey = async (req, res, next) => {
         console.log(err);
         next(err);
     }
+}
+
+// add a new key to decipher triangle test data
+exports.createOrUpdateKey = async (req, res, next) => {
+
 }
 
 // // creates a new article instance in db

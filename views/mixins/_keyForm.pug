@@ -1,3 +1,11 @@
 mixin keyForm()
-    form(action=`/article/${article_num}/triangle-test` method="POST" class="form-card" autocomplete="off")
-        .container
+  form(action=`/article/${article._id}/key` method="POST" class="form-card" autocomplete="off")
+    .table
+      .form-group.headings
+        div Cup Number (Set of 3):
+        div Unique Cup Letter:
+      .form-group.input-group
+        input.num(type="number" name="token_1" value=1 autocomplete="off" required)
+        input.letter(type="text" name="name_1" maxlength=1 autocomplete="off" required)
+    input(type="button" value="Add Set" class="button" id="add-btn")
+    input(type="submit" value="Submit" class="button")
