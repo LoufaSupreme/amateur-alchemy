@@ -1,5 +1,7 @@
 const table = document.querySelector('.table');
 const addBtn = document.querySelector('#add-btn');
+const submitBtn = document.querySelector('#submit-btn');
+const allowableLetters = ['A', 'B', 'C', 'a', 'b', 'c'];
 
 function getLastInputGroup() {
   const inputGroups = Array.from(document.querySelectorAll('.input-group'));
@@ -17,7 +19,7 @@ function createInputGroup(lastGroup, totalGroups, manual=false) {
 
   if (
     !manual && 
-    (!['A', 'B', 'C', 'a', 'b', 'c'].includes(cupLetter) ||
+    (!allowableLetters.includes(cupLetter) ||
     cupNumber === 0)
   ) return;
 
@@ -27,7 +29,7 @@ function createInputGroup(lastGroup, totalGroups, manual=false) {
   newInputGroup.classList.add('input-group');
   newInputGroup.innerHTML = `\
     <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
-    <input type="text" class="letter" name="name_${n}" maxlength=1 autocomplete="off" required>\
+    <input type="text" class="letter" name="name_${n}" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
   `;
 
   table.appendChild(newInputGroup);
@@ -47,6 +49,8 @@ function handleCompleteInput(e) {
   }
 }
 
+
+
 const lastGroup = getLastInputGroup().lastGroup;
 const cup = lastGroup.querySelector('.letter');
 cup.addEventListener('input', handleCompleteInput);
@@ -54,4 +58,12 @@ cup.addEventListener('input', handleCompleteInput);
 addBtn.addEventListener('click', () => {
   const groups = getLastInputGroup();
   createInputGroup(groups.lastGroup, groups.totalGroups, true);
+})
+
+submitBtn.addEventListener('click', () => {
+  const lastGroup = getLastInputGroup().lastGroup;
+  console.log(lastGroup)
+  if (lastGroup.querySelector('.letter').value === "") {
+    lastGroup.remove();
+  }
 })

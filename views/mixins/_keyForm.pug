@@ -6,6 +6,6 @@ mixin keyForm()
         div Unique Cup Letter:
       .form-group.input-group
         input.num(type="number" name="token_1" value=1 autocomplete="off" required)
-        input.letter(type="text" name="name_1" maxlength=1 autocomplete="off" required)
+        input.letter(type="text" name="name_1" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")
     input(type="button" value="Add Set" class="button" id="add-btn")
-    input(type="submit" value="Submit" class="button")
+    input(type="submit" value="Submit" class="button" id="submit-btn")
