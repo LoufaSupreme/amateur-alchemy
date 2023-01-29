@@ -1,5 +1,5 @@
 mixin triangleTestForm()
-    form(action=`/article/${article_num}/triangle-test` method="POST" class="form-card" autocomplete="off")
+    form(action=`/articles/${article_num}/triangle-test` method="POST" class="form-card" autocomplete="off")
         .question-container
             h2.question-title Who are you?
             <br>
@@ -178,7 +178,7 @@ mixin triangleTestForm()
         //- visible if flaws were detected
         //- values to be dynamically adjusted in JS
         .question-container#flaws
-            h2.question-title#flaws__title Match the off-flavour to the beer:
+            h2.question-title#flaws__title Select the off-flavours you detected for each beer:
             .flaw-panel 
                 for [key, val] of Object.entries(schema.flaws) 
                     .flaw 

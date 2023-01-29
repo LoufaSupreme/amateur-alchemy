@@ -201,7 +201,47 @@ exports.addKey = async (req, res, next) => {
 
 // add a new key to decipher triangle test data
 exports.createOrUpdateKey = async (req, res, next) => {
+    console.log('Running createOrUpdateKey');
+    try {
+        // check that something was submitted
+        if (!req.body.token || !req.body.unique_beer) {
+            req.flash('error', "Nothing submitted!")
+            res.redirect('back');
+            return;
+        }
 
+        // check that the amount of tokens matches the amount of unique beers
+        const tokens = req.body.token;
+        const unique_beers = req.body.unique_beer;
+        if (tokens.length !== unique_beers.length) {
+            throw new Error('Amount of tokens and beers do not match.');
+        }
+
+        // gather each token and unique_beer into it's own object
+        req.body.key = [];
+        for (let i=0; i<tokens.length; i++) {
+            req.body.key.push({
+                token: tokens[i],
+                unique_beer: unique_beers[i]
+            });
+        }
+
+        // add each obj to the article key
+        await Article.findOneAndUpdate(
+            { _id: req.params.article_id },
+            { $set: { key: req.body.key } },
+            {
+                new: true,
+                rawResult: true
+            }
+        ).exec();
+
+        return next();
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
 }
 
 // // creates a new article instance in db

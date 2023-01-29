@@ -78,7 +78,7 @@ function handlePreferenceChange(e) {
         compareContainer.classList.add('active');
 
         // reset the off-flavour (flaws) title
-        flawsTitle.innerText = "Match the off-flavour to the beer:";
+        flawsTitle.innerText = "Select the off-flavours you detected for each beer:";
 
         // reset the flaw inputs
         flawInputs.forEach(input => {
@@ -189,19 +189,19 @@ function handleRangeChange(e) {
 
     // update subheading:
     switch(e.target.value) {
-        case '0':
+        case '4':
             subheading.innerText = `Beer ${uniqueBeer} is MUCH higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
             break;
-        case '1':
+        case '3':
             subheading.innerText = `Beer ${uniqueBeer} is somewhat higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
             break;
         case '2':
             subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
             break;
-        case '3':
+        case '1':
             subheading.innerText =  `Beers ${otherBeers} are somewhat higher in ${subheading.dataset.attr} than Beer ${uniqueBeer}.`;
             break;
-        case '4':
+        case '0':
             subheading.innerText =  `Beers ${otherBeers} are MUCH higher in ${subheading.dataset.attr} than Beer ${uniqueBeer}.`
             break;
         default:

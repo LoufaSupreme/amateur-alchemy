@@ -28,8 +28,8 @@ function createInputGroup(lastGroup, manual=false) {
   newInputGroup.classList.add('form-group');
   newInputGroup.classList.add('input-group');
   newInputGroup.innerHTML = `\
-    <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
-    <input type="text" class="letter" name="name_${n}" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
+    <input type="number" class="num" name="token" value=${n} autocomplete="off" required>
+    <input type="text" class="letter" name="unique_beer" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
   `;
 
   const deleteBtn = document.createElement('button');

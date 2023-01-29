@@ -47,15 +47,18 @@ form {
   position: relative;
 }
 
-input {
+input.num,
+input.letter {
   border-radius: 0;
   border: none;
   font-size: 1.1rem;
   text-align: center;
   text-transform: uppercase;
+  width: 100%;
 }
 
-input:focus {
+input.num:focus,
+input.letter:focus {
   outline: none;
 }
 

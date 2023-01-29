@@ -30,12 +30,10 @@ const articleSchema = new mongoose.Schema({
             ref: 'TriangleTest',
         },
     ],
-    key: [
-        {
-            token: Number,
-            unique_beer: String
-        }
-    ],
+    key: [{
+        token: Number,
+        unique_beer: String
+    }],
     created: {
         type: Date,
         default: Date.now,

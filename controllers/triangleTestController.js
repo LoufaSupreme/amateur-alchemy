@@ -23,6 +23,7 @@ exports.addTriangleTest = async (req, res, next) => {
 };
 
 // create a new or update an existing triangleTest instance
+// needs article_num in req.params
 exports.createOrUpdateTriangleTest = async (req, res, next) => {
   console.log(
     `Running createOrUpdateTriangleTest for article ${req.params.article_num}`
@@ -62,6 +63,32 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
     next(err);
   }
 };
+
+// update or create triangle test with the actual unique beer cup letter from an article's key
+// needs an array of {token: 1, unique_beer: A} objects in req.body.key
+exports.addUniqueBeer = async (req, res, next) => {
+  console.log('Running "addUniqueBeer" to triangle tests');
+  try {
+    for (let pair of req.body.key) {
+      await TriangleTest.findOneAndUpdate(
+        { token: pair.token },
+        { $set: { 
+          token: pair.token, 
+          actual_unique: pair.unique_beer,
+        } },
+        {
+          upsert: true,
+          new: true,
+          rawResult: true,
+        }
+      ).exec();
+    }
+  }
+  catch(err) {
+    console.log(err);
+    next(err);
+  }
+}
 
 // turn the text from the tags input into an array of tags
 // function parseList(commaSeperatedList) {
