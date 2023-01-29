@@ -43,6 +43,10 @@ form {
   border-right: 2px solid rgb(255 255 255 / 0.1);
 }
 
+.input-group {
+  position: relative;
+}
+
 input {
   border-radius: 0;
   border: none;
@@ -73,5 +77,31 @@ input[type=button].button {
 
 input[type=button].button:hover {
   background-color: rgb(var(--clr-accent-2) / 0.7);
+}
+
+button.delete-item-btn {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0.3em;
+  position: absolute;
+  background-color: transparent;
+  color: rgb(var(--clr-text) / 0.5);
+  top: 50%;
+  right: -5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-50%);
+  text-align: center;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  transition: all 0.15s ease-in-out;
+}
+
+button.delete-item-btn:hover {
+  background-color: rgb(var(--clr-accent) / 0.7);
+  color: black;
+  border: none;
+  font-weight: bold;
 }
 

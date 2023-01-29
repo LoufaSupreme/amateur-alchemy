@@ -16,40 +16,49 @@ function getLastInputGroup() {
 function createInputGroup(lastGroup, totalGroups, manual=false) {
   const cupLetter = lastGroup.querySelector('.letter').value;
   const cupNumber = +lastGroup.querySelector('.num').value;
-
+  
   if (
     !manual && 
     (!allowableLetters.includes(cupLetter) ||
     cupNumber === 0)
-  ) return;
-
-  const n = cupNumber + 1;
-  const newInputGroup = document.createElement('div');
-  newInputGroup.classList.add('form-group');
-  newInputGroup.classList.add('input-group');
-  newInputGroup.innerHTML = `\
+    ) return;
+    
+    const n = cupNumber + 1;
+    const newInputGroup = document.createElement('div');
+    newInputGroup.classList.add('form-group');
+    newInputGroup.classList.add('input-group');
+    newInputGroup.innerHTML = `\
     <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
     <input type="text" class="letter" name="name_${n}" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
-  `;
+    `;
 
-  table.appendChild(newInputGroup);
-
-  resetEventListener(lastGroup, newInputGroup);
-}
-
-function resetEventListener(oldLast, newLast) {
-  oldLast.querySelector('.letter').removeEventListener('input', handleCompleteInput);
-  newLast.querySelector('.letter').addEventListener('input', handleCompleteInput);
-}
-
-function handleCompleteInput(e) {
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('delete-item-btn');
+    deleteBtn.innerText = 'x';
+    deleteBtn.addEventListener('click', deleteInputGroup);
+    newInputGroup.appendChild(deleteBtn)
+    
+    table.appendChild(newInputGroup);
+    
+    resetEventListener(lastGroup, newInputGroup);
+  }
+  
+  function resetEventListener(oldLast, newLast) {
+    oldLast.querySelector('.letter').removeEventListener('input', handleCompleteInput);
+    newLast.querySelector('.letter').addEventListener('input', handleCompleteInput);
+  }
+  
+  function handleCompleteInput(e) {
   if (e.target.value) {
     const groups = getLastInputGroup();
     createInputGroup(groups.lastGroup, groups.totalGroups);
   }
 }
 
-
+function deleteInputGroup(e) {
+  const parent = e.target.parentElement;
+  parent.remove();
+}
 
 const lastGroup = getLastInputGroup().lastGroup;
 const cup = lastGroup.querySelector('.letter');
@@ -62,7 +71,6 @@ addBtn.addEventListener('click', () => {
 
 submitBtn.addEventListener('click', () => {
   const lastGroup = getLastInputGroup().lastGroup;
-  console.log(lastGroup)
   if (lastGroup.querySelector('.letter').value === "") {
     lastGroup.remove();
   }
