@@ -13,45 +13,45 @@ function getLastInputGroup() {
   }
 }
 
-function createInputGroup(lastGroup, totalGroups, manual=false) {
-  const cupLetter = lastGroup.querySelector('.letter').value;
-  const cupNumber = +lastGroup.querySelector('.num').value;
+function createInputGroup(lastGroup, manual=false) {
+  const cupLetter = lastGroup && lastGroup.querySelector('.letter').value;
+  const cupNumber = lastGroup && +lastGroup.querySelector('.num').value;
   
   if (
     !manual && 
     (!allowableLetters.includes(cupLetter) ||
     cupNumber === 0)
-    ) return;
+  ) return;
     
-    const n = cupNumber + 1;
-    const newInputGroup = document.createElement('div');
-    newInputGroup.classList.add('form-group');
-    newInputGroup.classList.add('input-group');
-    newInputGroup.innerHTML = `\
+  const n = cupNumber ? cupNumber + 1 : 1;
+  const newInputGroup = document.createElement('div');
+  newInputGroup.classList.add('form-group');
+  newInputGroup.classList.add('input-group');
+  newInputGroup.innerHTML = `\
     <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
     <input type="text" class="letter" name="name_${n}" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
-    `;
+  `;
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('delete-item-btn');
-    deleteBtn.innerText = 'x';
-    deleteBtn.addEventListener('click', deleteInputGroup);
-    newInputGroup.appendChild(deleteBtn)
-    
-    table.appendChild(newInputGroup);
-    
-    resetEventListener(lastGroup, newInputGroup);
-  }
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('delete-item-btn');
+  deleteBtn.innerText = 'x';
+  deleteBtn.addEventListener('click', deleteInputGroup);
+  newInputGroup.appendChild(deleteBtn)
   
-  function resetEventListener(oldLast, newLast) {
-    oldLast.querySelector('.letter').removeEventListener('input', handleCompleteInput);
-    newLast.querySelector('.letter').addEventListener('input', handleCompleteInput);
-  }
+  table.appendChild(newInputGroup);
   
-  function handleCompleteInput(e) {
+  if (lastGroup) resetEventListener(lastGroup, newInputGroup);
+} 
+  
+function resetEventListener(oldLast, newLast) {
+  oldLast.querySelector('.letter').removeEventListener('input', handleCompleteInput);
+  newLast.querySelector('.letter').addEventListener('input', handleCompleteInput);
+}
+  
+function handleCompleteInput(e) {
   if (e.target.value) {
     const groups = getLastInputGroup();
-    createInputGroup(groups.lastGroup, groups.totalGroups);
+    createInputGroup(groups.lastGroup);
   }
 }
 
@@ -66,7 +66,7 @@ cup.addEventListener('input', handleCompleteInput);
 
 addBtn.addEventListener('click', () => {
   const groups = getLastInputGroup();
-  createInputGroup(groups.lastGroup, groups.totalGroups, true);
+  createInputGroup(groups.lastGroup, true);
 })
 
 submitBtn.addEventListener('click', () => {
