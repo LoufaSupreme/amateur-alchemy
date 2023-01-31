@@ -2,10 +2,29 @@ mixin keyForm()
   form(action=`/articles/${article._id}/key` method="POST" class="form-card" autocomplete="off")
     .table
       .form-group.headings
-        div Cup Number (Set of 3):
-        div Unique Cup Letter:
+        div ID Number:
+        div Unique Beer:
+        div Unique Cup:
       .form-group.input-group
         input.num(type="number" name="token" value=1 autocomplete="off" required)
-        input.letter(type="text" name="unique_beer" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")
+
+        .btn-group
+          input.beer.blue(type="radio" name="unique_beer_1" id="blue_1" value="blue" required)
+          label(for="blue_1") Blue
+
+          input.beer.yellow(type="radio" name="unique_beer_1" id="yellow_1" value="yellow" required)
+          label(for="yellow_1") Yellow
+
+        .btn-group
+          input.cup(type="radio" name="unique_cup_1" id="A_1" value="A" required)
+          label(for="A_1") A
+
+          input.cup(type="radio" name="unique_cup_1" id="B_1" value="B" required)
+          label(for="B_1") B
+
+          input.cup(type="radio" name="unique_cup_1" id="C_1" value="C" required)
+          label(for="C_1") C
+
+        //- input.letter(type="text" name="unique_beer" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")
     input(type="button" value="Add Set" class="button" id="add-btn")
     input(type="submit" value="Submit" class="button" id="submit-btn")

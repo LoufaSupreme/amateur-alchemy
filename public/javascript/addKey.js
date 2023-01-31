@@ -1,7 +1,6 @@
 const table = document.querySelector('.table');
 const addBtn = document.querySelector('#add-btn');
 const submitBtn = document.querySelector('#submit-btn');
-const allowableLetters = ['A', 'B', 'C', 'a', 'b', 'c'];
 
 function getLastInputGroup() {
   const inputGroups = Array.from(document.querySelectorAll('.input-group'));
@@ -13,23 +12,31 @@ function getLastInputGroup() {
   }
 }
 
-function createInputGroup(lastGroup, manual=false) {
-  const cupLetter = lastGroup && lastGroup.querySelector('.letter').value;
-  const cupNumber = lastGroup && +lastGroup.querySelector('.num').value;
-  
-  if (
-    !manual && 
-    (!allowableLetters.includes(cupLetter) ||
-    cupNumber === 0)
-  ) return;
+function createInput(type, name, id, className, n) {
+  return `\
+    <input type="${type}" class="${className}" name="${name}_${n}" id="${id}_${n}" value="${id}" required="required">\
+    <label for="${id}_${n}">${capitalizeFirst(id)}</label>\
+  `;
+}
+
+function createInputGroup(lastGroup) {
+  const id_num = lastGroup && +lastGroup.querySelector('.num').value;
     
-  const n = cupNumber ? cupNumber + 1 : 1;
+  const n = id_num ? id_num + 1 : 1;
   const newInputGroup = document.createElement('div');
   newInputGroup.classList.add('form-group');
   newInputGroup.classList.add('input-group');
   newInputGroup.innerHTML = `\
     <input type="number" class="num" name="token" value=${n} autocomplete="off" required>
-    <input type="text" class="letter" name="unique_beer" maxlength=1 autocomplete="off" pattern="[abcABC]{1}" required oninvalid="this.setCustomValidity('Letters must be A, B or C')" oninput="this.setCustomValidity('')")>\
+    <div class="btn-group">
+      ${createInput("radio", "unique_beer", "blue", "beer blue", n)}
+      ${createInput("radio", "unique_beer", "yellow", "beer yellow", n)}
+    </div>
+    <div class="btn-group">
+      ${createInput("radio", "unique_cup", "A", "cup", n)}
+      ${createInput("radio", "unique_cup", "B", "cup", n)}
+      ${createInput("radio", "unique_cup", "C", "cup", n)}
+    </div>
   `;
 
   const deleteBtn = document.createElement('button');
@@ -39,39 +46,46 @@ function createInputGroup(lastGroup, manual=false) {
   newInputGroup.appendChild(deleteBtn)
   
   table.appendChild(newInputGroup);
-  
-  if (lastGroup) resetEventListener(lastGroup, newInputGroup);
+
+  resetEventListener(lastGroup, newInputGroup);
 } 
   
 function resetEventListener(oldLast, newLast) {
-  oldLast.querySelector('.letter').removeEventListener('input', handleCompleteInput);
-  newLast.querySelector('.letter').addEventListener('input', handleCompleteInput);
-}
-  
-function handleCompleteInput(e) {
-  if (e.target.value) {
-    const groups = getLastInputGroup();
-    createInputGroup(groups.lastGroup);
-  }
+  if (oldLast) oldLast.removeEventListener('click', handleClick);
+  newLast.addEventListener('click', handleClick);
 }
 
 function deleteInputGroup(e) {
+  e.stopPropagation();
   const parent = e.target.parentElement;
   parent.remove();
+  const newLastGroup = getLastInputGroup().lastGroup;
+  resetEventListener(null, newLastGroup);
+}
+
+function isCompleteInput(lastGroup) {
+  const lastGroupBeerBtns = Array.from(lastGroup.querySelectorAll('.beer'));
+  const lastGroupCupBtns = Array.from(lastGroup.querySelectorAll('.cup'));
+
+  return (lastGroupBeerBtns.filter(btn => btn.checked).length && lastGroupCupBtns.filter(btn => btn.checked).length) 
+}
+
+function handleClick(e) {
+  const lastGroup = getLastInputGroup().lastGroup;
+  if (isCompleteInput(lastGroup)) createInputGroup(lastGroup);
 }
 
 const lastGroup = getLastInputGroup().lastGroup;
-const cup = lastGroup.querySelector('.letter');
-cup.addEventListener('input', handleCompleteInput);
+lastGroup.addEventListener('click', handleClick);
 
 addBtn.addEventListener('click', () => {
   const groups = getLastInputGroup();
-  createInputGroup(groups.lastGroup, true);
+  createInputGroup(groups.lastGroup);
 })
 
 submitBtn.addEventListener('click', () => {
   const lastGroup = getLastInputGroup().lastGroup;
-  if (lastGroup.querySelector('.letter').value === "") {
+  if (!isCompleteInput(lastGroup)) {
     lastGroup.remove();
   }
 })

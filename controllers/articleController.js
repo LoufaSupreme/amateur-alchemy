@@ -210,9 +210,11 @@ exports.createOrUpdateKey = async (req, res, next) => {
             return;
         }
 
+        // turn the values into arrays if they aren't already
         // check that the amount of tokens matches the amount of unique beers
-        const tokens = req.body.token;
-        const unique_beers = req.body.unique_beer;
+        const tokens = typeof req.body.token === "object" ? req.body.token : [req.body.token];
+        const unique_beers = typeof req.body.unique_beer === "object" ? req.body.unique_beer : [req.body.unique_beer];
+
         if (tokens.length !== unique_beers.length) {
             throw new Error('Amount of tokens and beers do not match.');
         }
@@ -226,15 +228,34 @@ exports.createOrUpdateKey = async (req, res, next) => {
             });
         }
 
-        // add each obj to the article key
-        await Article.findOneAndUpdate(
-            { _id: req.params.article_id },
-            { $set: { key: req.body.key } },
-            {
-                new: true,
-                rawResult: true
+        // add or update each token/unique_beer pair to the article key
+        for (const pair of req.body.key) {
+            const updateResults = await Article.updateOne(
+                { _id: req.params.article_id },
+                { $set: 
+                    { 
+                        "key.$[elem].token": pair.token, 
+                        "key.$[elem].unique_beer": pair.unique_beer 
+                    } 
+                },
+                {
+                    arrayFilters: [ { "elem.token": { $eq: pair.token } } ]
+                }
+            );
+
+            // if it couldn't update it (didn't find a match), then push a new one.
+            if (updateResults.modifiedCount === 0) {
+                await Article.updateOne(
+                    { _id: req.params.article_id },
+                    { $push: { key: { 
+                        token: pair.token, 
+                        unique_beer: pair.unique_beer 
+                    } } }
+                )
             }
-        ).exec();
+        }
+
+        req.article = await Article.findOne({ _id: req.params.article_id });
 
         return next();
     }

@@ -66,16 +66,24 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
 
 // update or create triangle test with the actual unique beer cup letter from an article's key
 // needs an array of {token: 1, unique_beer: A} objects in req.body.key
+// needs article instance to be on req.article
 exports.addUniqueBeer = async (req, res, next) => {
   console.log('Running "addUniqueBeer" to triangle tests');
   try {
     for (let pair of req.body.key) {
       await TriangleTest.findOneAndUpdate(
-        { token: pair.token },
+        { 
+          $and: [
+            {article: req.article}, 
+            {token: pair.token},
+          ]
+        },
         { $set: { 
-          token: pair.token, 
-          actual_unique: pair.unique_beer,
-        } },
+            token: pair.token, 
+            actual_unique: pair.unique_beer,
+            article: req.article
+          } 
+        },
         {
           upsert: true,
           new: true,
@@ -83,6 +91,9 @@ exports.addUniqueBeer = async (req, res, next) => {
         }
       ).exec();
     }
+
+    req.flash('succcess', "Successfully added Triangle Test Key!");
+    res.redirect('back');
   }
   catch(err) {
     console.log(err);
