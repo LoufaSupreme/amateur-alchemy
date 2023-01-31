@@ -27,7 +27,7 @@ function createInputGroup(lastGroup) {
   newInputGroup.classList.add('form-group');
   newInputGroup.classList.add('input-group');
   newInputGroup.innerHTML = `\
-    <input type="number" class="num" name="token" value=${n} autocomplete="off" required>
+    <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
     <div class="btn-group">
       ${createInput("radio", "unique_beer", "blue", "beer blue", n)}
       ${createInput("radio", "unique_beer", "yellow", "beer yellow", n)}

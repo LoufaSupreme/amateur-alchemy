@@ -93,9 +93,27 @@ exports.editArticle = async (req, res, next) => {
     }
 }
 
-// create or update an article instance
-exports.createOrUpdateArticle = async (req, res, next) => {
-    console.log(`Running createOrUpdateArticle: ${req.params.id}`);
+// create a new article instance
+exports.createArticle = async (req, res, next) => {
+    console.log('Running createArticle');
+    try {
+        req.body.slug = slug(req.body.title);
+        const article = new Article(req.body);
+        await article.save();
+
+        // celebrate
+        req.flash('success', `Successfully created ${article.title}`)
+        res.redirect(`/articles/${article.slug}`)
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// update an article instance
+exports.updateArticle = async (req, res, next) => {
+    console.log(`Running updateArticle on article ${req.params.id}`);
     try {
         req.body.slug = slug(req.body.title);
 
@@ -108,27 +126,36 @@ exports.createOrUpdateArticle = async (req, res, next) => {
             { _id: req.params.id },
             req.body,
             {
-                upsert: true,
                 new: true,
                 rawResult: true,
                 runValidators: true,
             }
         ).exec();
+
+        console.log(articleInfo)
         
-        console.log(`Updated/created ${articleInfo.value.title}`);
-        req.flash('success', `Successfully created/updated ${articleInfo.value.title}`);
+        console.log(`Updated ${articleInfo.value.title}`);
+        req.flash('success', `Successfully updated ${articleInfo.value.title}`);
 
-        // if the article was updated instead of created from scratch:
-        if (!articleInfo.upserted) {
-            // articleInfo.value.save();
-            res.redirect(`/articles/${articleInfo.value.slug}`)
-        }
-        // if the article was upserted:
-        else {
-            res.redirect(`/articles/${articleInfo.value.slug}/edit`);
-        }
+        res.redirect(`/articles/${articleInfo.value.slug}`)
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
 
-        // res.json({article})
+// delete article
+exports.deleteArticle = async (req, res, next) => {
+    console.log(`Running deleteArticle on ${req.params.id}`);
+    try {
+        const article = await Article.findOneAndDelete({ _id: req.params.id });
+        console.log(`${article.name} deleted`);
+
+        // TODO: delete all associated triangle tests
+
+        req.flash('success', `Article successfully deleted`);
+        res.redirect('/');
     }
     catch(err) {
         console.log(err);
@@ -156,6 +183,11 @@ exports.appendTriangleTest = async (req, res, next) => {
 exports.displayArticle = async (req, res, next) => {
     try {
         const article = await Article.findOne({slug: req.params.slug});
+        if (!article) {
+            const err = new Error(`Article Not Found: ${req.path}`);
+            err.status = 404;
+            throw err;
+        }
         res.render('article', {
             title: article.title, 
             article: article 
@@ -200,46 +232,42 @@ exports.addKey = async (req, res, next) => {
 }
 
 // add a new key to decipher triangle test data
+// req.body looks like token_1: '1', unique_beer_1: 'blue', unique_cup_1: 'A',
 exports.createOrUpdateKey = async (req, res, next) => {
     console.log('Running createOrUpdateKey');
     try {
         // check that something was submitted
-        if (!req.body.token || !req.body.unique_beer) {
-            req.flash('error', "Nothing submitted!")
+        if (!req.body || !Object.keys(req.body).length) {
+            req.flash('error', "Form empty...nothing submitted!")
             res.redirect('back');
             return;
         }
 
-        // turn the values into arrays if they aren't already
-        // check that the amount of tokens matches the amount of unique beers
-        const tokens = typeof req.body.token === "object" ? req.body.token : [req.body.token];
-        const unique_beers = typeof req.body.unique_beer === "object" ? req.body.unique_beer : [req.body.unique_beer];
-
-        if (tokens.length !== unique_beers.length) {
-            throw new Error('Amount of tokens and beers do not match.');
-        }
-
-        // gather each token and unique_beer into it's own object
+        // amalgamate the results into separate objects and push them to the key array in req.body
+        const data = Object.keys(req.body);
         req.body.key = [];
-        for (let i=0; i<tokens.length; i++) {
-            req.body.key.push({
-                token: tokens[i],
-                unique_beer: unique_beers[i]
-            });
+        for (let i = 0; i < data.length; i += 3) {
+            const inputSet = {
+                token: +req.body[data[i]],
+                unique_beer: req.body[data[i+1]],
+                unique_cup: req.body[data[i+2]],
+            };
+            req.body.key.push(inputSet);
         }
 
         // add or update each token/unique_beer pair to the article key
-        for (const pair of req.body.key) {
+        for (const inputSet of req.body.key) {
             const updateResults = await Article.updateOne(
                 { _id: req.params.article_id },
                 { $set: 
                     { 
-                        "key.$[elem].token": pair.token, 
-                        "key.$[elem].unique_beer": pair.unique_beer 
+                        "triangle_key.$[elem].token": inputSet.token, 
+                        "triangle_key.$[elem].unique_beer": inputSet.unique_beer, 
+                        "triangle_key.$[elem].unique_cup": inputSet.unique_cup, 
                     } 
                 },
                 {
-                    arrayFilters: [ { "elem.token": { $eq: pair.token } } ]
+                    arrayFilters: [ { "elem.token": { $eq: inputSet.token } } ]
                 }
             );
 
@@ -247,17 +275,19 @@ exports.createOrUpdateKey = async (req, res, next) => {
             if (updateResults.modifiedCount === 0) {
                 await Article.updateOne(
                     { _id: req.params.article_id },
-                    { $push: { key: { 
-                        token: pair.token, 
-                        unique_beer: pair.unique_beer 
+                    { $push: { triangle_key: { 
+                        token: inputSet.token, 
+                        unique_beer: inputSet.unique_beer,
+                        unique_cup: inputSet.unique_cup,
                     } } }
                 )
             }
         }
 
+        // add the article to the req object
         req.article = await Article.findOne({ _id: req.params.article_id });
 
-        return next();
+        // return next();
     }
     catch(err) {
         console.log(err);

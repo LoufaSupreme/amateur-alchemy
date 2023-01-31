@@ -59,7 +59,7 @@ router.get('/add-article', articleController.addArticle);
 router.post('/add-article', 
     articleController.upload,
     articleController.resize,    
-    articleController.createOrUpdateArticle
+    articleController.createArticle
 )
 
 // update existing article
@@ -70,7 +70,7 @@ router.get('/articles/:slug/edit', articleController.editArticle);
 router.post('/add-article/:id', 
     articleController.upload,
     articleController.resize,
-    articleController.createOrUpdateArticle    
+    articleController.updateArticle    
 )
 
 // display article
@@ -94,13 +94,16 @@ router.get('/articles/:article_num/triangle-test-key',
 // save new triangle test key to the article
 router.post('/articles/:article_id/key',
     articleController.createOrUpdateKey,
-    triangleTestController.addUniqueBeer
+    // triangleTestController.addUniqueBeer
 )
 
 ////// API ROUTES //////
 
 // delete a beer review
 router.post('/api/beer-reviews/:id/delete', beerController.deleteReview);
+
+// delete a beer review
+router.post('/api/articles/:id/delete', articleController.deleteArticle);
 
 // get the details for one beer
 router.get('/api/get-beer/:slug', beerController.getBeer);

@@ -30,21 +30,26 @@ const articleSchema = new mongoose.Schema({
             ref: 'TriangleTest',
         },
     ],
-    key: [{
+    beer_key: {
+        blue: String,
+        yellow: String,
+    },
+    triangle_key: [{
         token: Number,
-        unique_beer: String
+        unique_beer: String,
+        unique_cup: String,
     }],
-    created: {
+    date_created: {
         type: Date,
         default: Date.now,
     },
+    date_modified: Date,
     showcase_img: String,
     photos: [String],
     completed: {
         type: Boolean,
         default: false
     },
-    lastModified: Date,
     // author: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'User',
@@ -91,6 +96,6 @@ articleSchema.index({
 
 
 articleSchema.pre('save', setSlug);
-articleSchema.plugin(AutoIncrement, {inc_field: 'article_id'});
+articleSchema.plugin(AutoIncrement, {inc_field: 'article_num'});
 
 module.exports = mongoose.model('Article', articleSchema);
