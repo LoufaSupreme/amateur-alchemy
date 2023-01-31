@@ -21,6 +21,8 @@ const flawInputs = document.querySelectorAll('.flaw__input');
 const rangeInputs = document.querySelectorAll('input[type=range]');
 const rangeInputSubheadings = document.querySelectorAll('.range-input__subheading');
 
+const submitBtn = document.querySelector('#submit-btn');
+
 
 let chosenUniqueBeer;
 
@@ -208,4 +210,28 @@ function handleRangeChange(e) {
             makeAlert('Something went wrong...');
     }
 }
+
+function validateForm(e) {
+    const requiredInputGroups = document.querySelectorAll('.required');
+    for (const group of requiredInputGroups) {
+        if (!isCompleteInput(group)) {
+            group.scrollIntoView();
+            group.classList.add('failed-validation');
+            setTimeout(() => {
+                group.classList.remove('failed-validation');
+            }, 3000);
+            makeAlert("Looks like something got missed!", 4000);
+            return e.preventDefault();
+        } 
+    }
+}
+
+function isCompleteInput(inputGroup) {
+    const inputs = Array.from(inputGroup.querySelectorAll('input'));
+    return inputs.filter(input => input.checked).length; 
+}
+
+submitBtn.addEventListener('click', (e) => {
+    validateForm(e);
+})
 

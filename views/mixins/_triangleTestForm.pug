@@ -12,8 +12,8 @@ mixin triangleTestForm()
                 input(type="text" name="name" id="name" placeholder=" ")
                 label(for="name") Name (optional): 
 
-        fieldset  
-            legend.question-title Select the one that describes you best: 
+        fieldset.required  
+            h2.question-title Select the one that describes you best: 
             
             input(type="radio" name="title" id="enthusiast" value="enthusiast" required)
             label(for="enthusiast") Craft Beer Enthusiast
@@ -28,7 +28,7 @@ mixin triangleTestForm()
             label(for="bjcp-max") BJCP (Master or higher)
 
         fieldset  
-            legend.question-title Select any of the following additional certifications that apply:
+            h2.question-title Select any of the following additional certifications that apply:
 
             input(type="checkbox" name="additional_training" id="sensory" value="sensory")
             label(for="sensory") Sensory training (w/ flavor kit)
@@ -39,8 +39,8 @@ mixin triangleTestForm()
             input(type="checkbox" name="additional_training" id="cicerone" value="cicerone")
             label(for="cicerone") Certified Cicerone
 
-        fieldset 
-            legend.question-title Which cup contains the beer that is the odd beer out of the three?  
+        fieldset.required 
+            h2.question-title Which cup contains the beer that is the odd beer out of the three?  
                 span.small Please make your best guess, even if you don't perceive any difference between the three. 
             
             input(type="radio" name="perceived_unique" id="perceived-A" value="A" required)
@@ -53,8 +53,8 @@ mixin triangleTestForm()
             label(for="perceived-C") C
         
         //- visible if the user identified a unique beer above
-        fieldset.preference
-            legend.question-title You chose Cup <span class="unique-beer-letter">LETTER</span> as the unique beer. Which beer do you prefer?
+        fieldset.preference.required
+            h2.question-title You chose Cup <span class="unique-beer-letter">LETTER</span> as the unique beer. Which beer do you prefer?
             
             input(type="radio" name="preference" id="preference-unique" value="unique" required)
             label(for="preference-unique") Unique Beer (<span class="unique-beer-letter">UNIQUE</span>)
@@ -167,7 +167,7 @@ mixin triangleTestForm()
                 p.range-input__subheading(data-attr="balance" data-unique="unique") The balance is about equal.
 
         fieldset#detect-flaws-container
-            legend.question-title Do you detect any off-flavours in any of the beers?
+            h2.question-title Do you detect any off-flavours in any of the beers?
             
             input(type="radio" name="flaws_detected" id="flaws-true" value="true")
             label(for="flaws-true") Yes
@@ -221,4 +221,4 @@ mixin triangleTestForm()
             label.question-title(for="comments") Additional Comments:
             textarea(name="comments" id="comments" placeholder="Any other comments about your observations or preferences...")
 
-        input(type="submit" value="Submit" class="button")
+        input(type="submit" value="Submit" class="button" id="submit-btn")
