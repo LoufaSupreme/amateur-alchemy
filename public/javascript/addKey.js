@@ -2,11 +2,12 @@ const table = document.querySelector('.table');
 const addBtn = document.querySelector('#add-btn');
 const submitBtn = document.querySelector('#submit-btn');
 
-function getLastInputGroup() {
+function getInputGroups() {
   const inputGroups = Array.from(document.querySelectorAll('.input-group'));
   const lastGroup = inputGroups[inputGroups.length-1];
   
   return {
+    allGroups: inputGroups,
     lastGroup,
     totalGroups: inputGroups.length
   }
@@ -59,7 +60,7 @@ function deleteInputGroup(e) {
   e.stopPropagation();
   const parent = e.target.parentElement;
   parent.remove();
-  const newLastGroup = getLastInputGroup().lastGroup;
+  const newLastGroup = getInputGroups().lastGroup;
   resetEventListener(null, newLastGroup);
 }
 
@@ -67,25 +68,44 @@ function isCompleteInput(lastGroup) {
   const lastGroupBeerBtns = Array.from(lastGroup.querySelectorAll('.beer'));
   const lastGroupCupBtns = Array.from(lastGroup.querySelectorAll('.cup'));
 
-  return (lastGroupBeerBtns.filter(btn => btn.checked).length && lastGroupCupBtns.filter(btn => btn.checked).length) 
+  return (lastGroupBeerBtns.filter(btn => btn.checked).length && lastGroupCupBtns.filter(btn => btn.checked).length);
+}
+
+function validateForm(e) {
+  const allInputGroups = getInputGroups().allGroups;
+  for (const group of allInputGroups) {
+    if (!isCompleteInput(group)) {
+      group.scrollIntoView();
+      group.classList.add('failed-validation');
+      setTimeout(() => {
+        group.classList.remove('failed-validation');
+      }, 3000);
+      makeAlert("Looks like something got missed!", 4000);
+      return e.preventDefault();
+    } 
+  }
 }
 
 function handleClick(e) {
-  const lastGroup = getLastInputGroup().lastGroup;
+  const lastGroup = getInputGroups().lastGroup;
   if (isCompleteInput(lastGroup)) createInputGroup(lastGroup);
 }
 
-const lastGroup = getLastInputGroup().lastGroup;
+const lastGroup = getInputGroups().lastGroup;
 lastGroup.addEventListener('click', handleClick);
 
 addBtn.addEventListener('click', () => {
-  const groups = getLastInputGroup();
+  const groups = getInputGroups();
   createInputGroup(groups.lastGroup);
 })
 
-submitBtn.addEventListener('click', () => {
-  const lastGroup = getLastInputGroup().lastGroup;
-  if (!isCompleteInput(lastGroup)) {
+submitBtn.addEventListener('click', (e) => {
+  const inputGroups = getInputGroups();
+  const lastGroup = inputGroups.lastGroup;
+
+  if (!isCompleteInput(lastGroup) && inputGroups.totalGroups > 0) {
     lastGroup.remove();
   }
+  
+  validateForm(e);
 })

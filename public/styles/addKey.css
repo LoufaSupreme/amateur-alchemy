@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .content {
   max-width: 90%;
   width: min(90%, 600px);
@@ -49,6 +53,11 @@ form {
 
 .input-group {
   position: relative;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.input-group.failed-validation {
+  background-color: rgb(var(--clr-accent) / 0.3);
 }
 
 .btn-group {
