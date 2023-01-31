@@ -14,7 +14,11 @@ const triangleTestSchema = new mongoose.Schema({
     },
     title: String, // enthusiast, homebrewer, BJCP judge...
     additional_training: [String],  // cicerone, professional brewer...
-    actual_unique: String, // A, B, C
+    actual_unique: {
+        color: String, // blue or yellow
+        cup: String, // A, B or C
+        description: String // actual description of the beers
+    },
     perceived_unique: String,  // A, B, C as perceived by tester
     preference: String, // unique, other, or none
     malt_character: {
@@ -128,7 +132,7 @@ const triangleTestSchema = new mongoose.Schema({
         },
     },
     comments: String,
-    created: {
+    date_created: {
         type: Date,
         default: Date.now,
     },

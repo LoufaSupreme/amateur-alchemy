@@ -70,18 +70,17 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
 exports.addUniqueBeer = async (req, res, next) => {
   console.log('Running "addUniqueBeer" to triangle tests');
   try {
-    for (let pair of req.body.key) {
+    for (let inputSet of req.body.key) {
       await TriangleTest.findOneAndUpdate(
         { 
           $and: [
             {article: req.article}, 
-            {token: pair.token},
+            {token: inputSet.token},
           ]
         },
         { $set: { 
-            token: pair.token, 
-            actual_unique: pair.unique_beer,
-            article: req.article
+            "actual_unique.color": inputSet.unique_beer,
+            "actual_unique.cup": inputSet.unique_cup,
           } 
         },
         {

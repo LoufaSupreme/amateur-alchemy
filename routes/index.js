@@ -94,7 +94,7 @@ router.get('/articles/:article_num/triangle-test-key',
 // save new triangle test key to the article
 router.post('/articles/:article_id/key',
     articleController.createOrUpdateKey,
-    // triangleTestController.addUniqueBeer
+    triangleTestController.addUniqueBeer
 )
 
 ////// API ROUTES //////

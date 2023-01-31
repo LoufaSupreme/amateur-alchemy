@@ -166,6 +166,7 @@ exports.deleteArticle = async (req, res, next) => {
 // add a triangleTest to an existing article
 // needs to have "article_num" in the request params and trianlgeTest in req.body 
 exports.appendTriangleTest = async (req, res, next) => {
+    console.log(`Running appendTriangleTest to article ${req.params.article_num}`);
     try {
         const article = await Article.findOneAndUpdate(
             { article_num: req.params.article_num },
@@ -287,7 +288,7 @@ exports.createOrUpdateKey = async (req, res, next) => {
         // add the article to the req object
         req.article = await Article.findOne({ _id: req.params.article_id });
 
-        // return next();
+        return next();
     }
     catch(err) {
         console.log(err);
