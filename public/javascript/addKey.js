@@ -20,10 +20,10 @@ function createInput(type, name, id, className, n) {
   `;
 }
 
-function createInputGroup(lastGroup) {
+function createInputGroup(lastGroup, num=null) {
   const id_num = lastGroup && +lastGroup.querySelector('.num').value;
     
-  const n = id_num ? id_num + 1 : 1;
+  const n = id_num ? id_num + 1 : num ? num : 1;
   const newInputGroup = document.createElement('div');
   newInputGroup.classList.add('form-group');
   newInputGroup.classList.add('input-group');
@@ -49,6 +49,8 @@ function createInputGroup(lastGroup) {
   table.appendChild(newInputGroup);
 
   resetEventListener(lastGroup, newInputGroup);
+
+  return newInputGroup;
 } 
   
 function resetEventListener(oldLast, newLast) {
@@ -59,6 +61,7 @@ function resetEventListener(oldLast, newLast) {
 function deleteInputGroup(e) {
   e.stopPropagation();
   const parent = e.target.parentElement;
+  updateLocalStorage(e, true);
   parent.remove();
   const newLastGroup = getInputGroups().lastGroup;
   resetEventListener(null, newLastGroup);
@@ -86,13 +89,59 @@ function validateForm(e) {
   }
 }
 
+function updateLocalStorage(e, remove=false) {
+  const store = JSON.parse(localStorage.getItem('store')) || {};
+  
+  const inputGroup = e.target.closest('.input-group');
+  if (!inputGroup) {
+    return console.log('No changes to localStorage');
+  }
+  const id = inputGroup.querySelector('.num').value;
+
+  if (remove) {
+    delete store[id]
+  }
+  else {
+    const beer = Array.from(inputGroup.querySelectorAll('.beer')).filter(btn => btn.checked)[0];
+    const cup = Array.from(inputGroup.querySelectorAll('.cup')).filter(btn => btn.checked)[0];
+
+    if (beer || cup) {
+      store[id] = {
+        beer: beer ? beer.value : "",
+        cup: cup ? cup.value : ""
+      }
+    }
+  }
+
+  localStorage.setItem('store', JSON.stringify(store));
+}
+
+function initializeForm(store) {
+  // remove initial inputGroups if theres local storage
+  if (Object.keys(store).length) {
+    getInputGroups().allGroups.forEach(group => group.remove());
+  }
+
+  // build the form from local storage:
+  for (const num of Object.keys(store)) {
+    const beer = store[num].beer;
+    const cup = store[num].cup;
+
+    const newInputGroup = createInputGroup(null, num);
+    const beerInput = newInputGroup.querySelector(`#${beer}_${num}`);
+    const cupInput = newInputGroup.querySelector(`#${cup}_${num}`);
+
+    if (beerInput) beerInput.checked = true;
+    if (cupInput) cupInput.checked = true;
+  }
+}
+
+// this fires twice due to a bug
+// the input labels have an integrated eventListener on them to check their input box if theyre clicked, which also triggers a second click event.
 function handleClick(e) {
   const lastGroup = getInputGroups().lastGroup;
   if (isCompleteInput(lastGroup)) createInputGroup(lastGroup);
 }
-
-const lastGroup = getInputGroups().lastGroup;
-lastGroup.addEventListener('click', handleClick);
 
 addBtn.addEventListener('click', () => {
   const groups = getInputGroups();
@@ -102,10 +151,18 @@ addBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', (e) => {
   const inputGroups = getInputGroups();
   const lastGroup = inputGroups.lastGroup;
-
-  if (!isCompleteInput(lastGroup) && inputGroups.totalGroups > 0) {
+  
+  if (!isCompleteInput(lastGroup) && inputGroups.totalGroups > 1) {
     lastGroup.remove();
   }
   
   validateForm(e);
 })
+
+const lastGroup = getInputGroups().lastGroup;
+lastGroup.addEventListener('click', handleClick);
+
+table.addEventListener('click', updateLocalStorage);
+
+const store = JSON.parse(localStorage.getItem('store')) || {};
+initializeForm(store);
