@@ -1,6 +1,7 @@
 const table = document.querySelector('.table');
 const addBtn = document.querySelector('#add-btn');
 const submitBtn = document.querySelector('#submit-btn');
+const store = JSON.parse(localStorage.getItem('store')) || {};
 
 function getInputGroups() {
   const inputGroups = Array.from(document.querySelectorAll('.input-group'));
@@ -28,7 +29,7 @@ function createInputGroup(lastGroup, num=null) {
   newInputGroup.classList.add('form-group');
   newInputGroup.classList.add('input-group');
   newInputGroup.innerHTML = `\
-    <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" required>
+    <input type="number" class="num" name="token_${n}" value=${n} autocomplete="off" data-num="${n}" required>
     <div class="btn-group">
       ${createInput("radio", "unique_beer", "blue", "beer blue", n)}
       ${createInput("radio", "unique_beer", "yellow", "beer yellow", n)}
@@ -76,7 +77,21 @@ function isCompleteInput(lastGroup) {
 
 function validateForm(e) {
   const allInputGroups = getInputGroups().allGroups;
+  const seen = [];
   for (const group of allInputGroups) {
+    const num = group.querySelector('.num').value;
+    
+    if (seen.includes(num)) {
+      group.scrollIntoView();
+      group.classList.add('failed-validation');
+      setTimeout(() => {
+        group.classList.remove('failed-validation');
+      }, 3000);
+      makeAlert("There appears to be a duplicated ID number!", 6000);
+      return e.preventDefault();
+    }
+    seen.push(num);
+
     if (!isCompleteInput(group)) {
       group.scrollIntoView();
       group.classList.add('failed-validation');
@@ -89,14 +104,12 @@ function validateForm(e) {
   }
 }
 
-function updateLocalStorage(e, remove=false) {
-  const store = JSON.parse(localStorage.getItem('store')) || {};
-  
+function updateLocalStorage(e, remove=false) {  
   const inputGroup = e.target.closest('.input-group');
-  if (!inputGroup) {
-    return console.log('No changes to localStorage');
-  }
+  if (!inputGroup) return console.log('No changes to localStorage');
+
   const id = inputGroup.querySelector('.num').value;
+  if (!id) return console.log('No changes to localStorage');
 
   if (remove) {
     delete store[id]
@@ -105,6 +118,7 @@ function updateLocalStorage(e, remove=false) {
     const beer = Array.from(inputGroup.querySelectorAll('.beer')).filter(btn => btn.checked)[0];
     const cup = Array.from(inputGroup.querySelectorAll('.cup')).filter(btn => btn.checked)[0];
 
+    // if theres a checked value for the beer or the cup then update the store
     if (beer || cup) {
       store[id] = {
         beer: beer ? beer.value : "",
@@ -116,7 +130,7 @@ function updateLocalStorage(e, remove=false) {
   localStorage.setItem('store', JSON.stringify(store));
 }
 
-function initializeForm(store) {
+function initializeForm() {
   // remove initial inputGroups if theres local storage
   if (Object.keys(store).length) {
     getInputGroups().allGroups.forEach(group => group.remove());
@@ -164,5 +178,4 @@ lastGroup.addEventListener('click', handleClick);
 
 table.addEventListener('click', updateLocalStorage);
 
-const store = JSON.parse(localStorage.getItem('store')) || {};
-initializeForm(store);
+initializeForm();
