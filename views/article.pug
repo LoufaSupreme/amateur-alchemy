@@ -6,7 +6,11 @@ block stylesheets
 block content 
     //- pre= h.dump(article)
     form.control-panel(method="POST")
-        a.btn.btn-edit(href=`/articles/${article.article_num}/triangle-test-key`) Add Key
+        a.btn.btn-other(href=`/articles/${article._id}/beer-key`) 
+          <i class="fa-solid fa-beer-mug-empty"></i> 
+          <i class="fa-solid fa-key"></i>
+        a.btn.btn-other(href=`/articles/${article.article_num}/triangle-test-key`) △ 
+          <i class="fa-solid fa-key"></i>
         a.btn.btn-edit(href=`/articles/${article.slug}/edit`) Edit
         button.btn.btn-delete(type="submit" formaction=`/api/articles/${article._id}/delete`) Delete
     article

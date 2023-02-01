@@ -97,6 +97,9 @@ router.post('/articles/:article_id/key',
     triangleTestController.addUniqueBeer
 )
 
+// display form to create a new beer key
+router.get('/articles/:id/beer-key', articleController.addBeerKey)
+
 ////// API ROUTES //////
 
 // delete a beer review

@@ -1,0 +1,18 @@
+extends layout 
+
+block stylesheets 
+  link(rel='stylesheet', href='/styles/addBeerKey.css')
+
+block content
+  h1= title
+  if msg 
+    .msg= msg
+  .container
+    form(action=`/articles/${article._id}/beer-key` method="POST" class="form-card" autocomplete="off")
+      label(for="blue") Blue: 
+        input(type="text" name="beer_key[blue]" id="blue" placeholder="Description of beer with the blue tap handle")
+
+      label(for="yellow") Yellow: 
+        input(type="text" name="beer_key[yellow]" id="yellow" placeholder="Description of beer with the yellow tap handle")
+
+block scripts 

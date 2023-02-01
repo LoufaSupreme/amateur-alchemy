@@ -130,6 +130,10 @@ aside > p {
     color: white;
 }
 
+.btn-other {
+    background-color: #892be2;
+}
+
 /* image container with 2 images */
 
 .sidebyside {

@@ -296,6 +296,26 @@ exports.createOrUpdateKey = async (req, res, next) => {
     }
 }
 
+// display add beer key form
+// @param id: the article _id passed by the URL
+exports.addBeerKey = async (req, res, next) => {
+    console.log(`Running addBeerKey for article id ${req.params.id}`);
+
+    try {
+        const article = await Article.findOne(
+            { _id: req.params.id },
+        );
+        res.render('addBeerKey', {
+            title: 'Add Beer Key',
+            article: article
+        });
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 // // creates a new article instance in db
 // exports.createArticle = async (req, res, next) => {
 //     console.log('Running createArticle');
