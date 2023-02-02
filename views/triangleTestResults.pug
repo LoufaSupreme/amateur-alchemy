@@ -1,0 +1,24 @@
+extends layout 
+
+block stylesheets
+    link(rel='stylesheet', href='/styles/triangleTestResults.css')
+
+block content 
+    pre= h.dump(article)
+    h1.title= title
+    h2.subtitle= `${article.title}`
+    section 
+      h3.section-title Demographics 
+      canvas#demographics 
+    section 
+      h3.section-title Correct Answer 
+      canvas#correct
+    
+
+block scripts 
+    //- chart.js
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    //- required to defer chart.js animation until scrolled into view
+    script(src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred@2/dist/chartjs-plugin-deferred.min.js")
+    //- custom script file
+    script(src="/javascript/triangleTestResults.js")

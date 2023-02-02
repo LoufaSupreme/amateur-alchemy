@@ -100,6 +100,7 @@ exports.addUniqueBeer = async (req, res, next) => {
   }
 }
 
+
 // turn the text from the tags input into an array of tags
 // function parseList(commaSeperatedList) {
 //     const listArray = commaSeperatedList.split(', ').map(tag => tag.toLowerCase());

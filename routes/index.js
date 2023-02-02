@@ -100,6 +100,14 @@ router.post('/articles/:article_id/key',
 // display form to create a new beer key
 router.get('/articles/:id/beer-key', articleController.addBeerKey)
 
+// create or update an beer key for an article
+router.post('/articles/:id/beer-key', 
+    articleController.createOrUpdateBeerKey
+)
+
+// display raw graphs for an article's triangle tests
+router.get('/articles/:slug/triangle-test-results', articleController.displayTriangleTestResults);
+
 ////// API ROUTES //////
 
 // delete a beer review
@@ -110,6 +118,9 @@ router.post('/api/articles/:id/delete', articleController.deleteArticle);
 
 // get the details for one beer
 router.get('/api/get-beer/:slug', beerController.getBeer);
+
+// get the details for one article
+router.get('/api/get-article/:slug', articleController.getArticleBySlug);
 
 // search for all breweries matching a user input query
 router.get('/api/search/breweries', breweryController.searchBreweries);

@@ -62,3 +62,13 @@ input[type=number]:not(:placeholder-shown) + label {
     color: rgb(var(--clr-accent));
     transform: translateY(-1.35rem);
 }
+
+input[type=submit].button {
+  background-color: rgb(var(--clr-accent));
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+input[type=submit].button:hover {
+  background-color: rgb(var(--clr-accent) / 0.7);
+}

@@ -316,6 +316,58 @@ exports.addBeerKey = async (req, res, next) => {
     }
 }
 
+// add a new beer key to decipher triangle test data
+exports.createOrUpdateBeerKey = async (req, res, next) => {
+    console.log(`Running createOrUpdateBeerKey for article id ${req.params.id}`);
+    try {
+        const update = {};
+        for (const key of Object.keys(req.body)) {
+            if (req.body[key] !== "") update[key] = req.body[key];
+        }
+        const article = await Article.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: update },
+            { new: true }
+        );
+        req.flash('success', "Successfully created Beer Key!");
+        res.redirect(`/articles/${article.slug}`);
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// display graphs for triangle test results
+// @param req.params.slug
+exports.displayTriangleTestResults = async (req, res, next) => {
+    console.log('Running displayRawResults');
+    try {
+        const article = await Article.findOne({ slug: req.params.slug });
+        res.render('triangleTestResults', {
+            title: "Triangle Test Results", article
+        });
+    }
+    catch(err){
+        console.log(err);
+        next(err);
+    }
+}
+
+// API Route
+// params @req.params.slug
+exports.getArticleBySlug = async (req, res, next) => {
+    console.log("Running getArticleBySlug");
+    try {
+        const article = await Article.findOne({ slug: req.params.slug }).populate('triangle_tests');
+        res.json(article);
+    }
+    catch(err){
+        console.log(err);
+        next(err);
+    }
+}
+
 // // creates a new article instance in db
 // exports.createArticle = async (req, res, next) => {
 //     console.log('Running createArticle');

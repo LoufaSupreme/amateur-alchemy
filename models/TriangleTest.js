@@ -17,7 +17,6 @@ const triangleTestSchema = new mongoose.Schema({
     actual_unique: {
         color: String, // blue or yellow
         cup: String, // A, B or C
-        description: String // actual description of the beers
     },
     perceived_unique: String,  // A, B, C as perceived by tester
     preference: String, // unique, other, or none
