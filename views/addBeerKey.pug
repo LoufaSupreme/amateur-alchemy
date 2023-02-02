@@ -4,15 +4,17 @@ block stylesheets
   link(rel='stylesheet', href='/styles/addBeerKey.css')
 
 block content
-  h1= title
+  h1.title= title
   if msg 
     .msg= msg
   .container
     form(action=`/articles/${article._id}/beer-key` method="POST" class="form-card" autocomplete="off")
-      label(for="blue") Blue: 
-        input(type="text" name="beer_key[blue]" id="blue" placeholder="Description of beer with the blue tap handle")
+      .text-input-container
+        input(type="text" name="beer_key[blue]" id="blue" placeholder=" ")
+        label(for="blue") Blue:
 
-      label(for="yellow") Yellow: 
-        input(type="text" name="beer_key[yellow]" id="yellow" placeholder="Description of beer with the yellow tap handle")
+      .text-input-container
+        input(type="text" name="beer_key[yellow]" id="yellow" placeholder=" ")
+        label(for="yellow") Yellow:
 
 block scripts 
