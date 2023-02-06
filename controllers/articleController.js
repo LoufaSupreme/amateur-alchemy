@@ -341,7 +341,7 @@ exports.createOrUpdateBeerKey = async (req, res, next) => {
 // display graphs for triangle test results
 // @param req.params.slug
 exports.displayTriangleTestResults = async (req, res, next) => {
-    console.log('Running displayRawResults');
+    console.log('Running displayTriangleTestResults');
     try {
         const article = await Article.findOne({ slug: req.params.slug });
         res.render('triangleTestResults', {

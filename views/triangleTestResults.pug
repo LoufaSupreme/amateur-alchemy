@@ -4,15 +4,15 @@ block stylesheets
     link(rel='stylesheet', href='/styles/triangleTestResults.css')
 
 block content 
-    pre= h.dump(article)
-    h1.title= title
-    h2.subtitle= `${article.title}`
-    section 
-      h3.section-title Demographics 
-      canvas#demographics 
-    section 
-      h3.section-title Correct Answer 
-      canvas#correct
+  //- pre= h.dump(article)
+  h1.title= title
+  h2.subtitle= `${article.title}`
+  section.results-section 
+    h3.section-title Demographics 
+    canvas#demographics 
+  section.results-section 
+    h3.section-title Correct Answer 
+    canvas#correct
     
 
 block scripts 
