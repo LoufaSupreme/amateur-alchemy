@@ -1,38 +1,7 @@
-async function getArticle() {
-  try {
-    const slug = window.location.href.split('/').at(-2);
-    const response = await fetch(`/api/get-article/${slug}`);
-    const articleData = await response.json();
-    console.log(articleData);
-
-    // make correct chart
-    let canvas = document.getElementById("demographics")
-    const correctChartData = {
-      labels: [
-        'Black',
-        'White'
-      ],
-      datasets: [{
-        label: 'Peeps',
-        data: [300, 50],
-        backgroundColor: [
-          'green',
-          'red',
-        ],
-        hoverOffset: 50
-      }]
-    }
-    makeChart(canvas, 'pie', correctChartData)
-
-    // make demographics chart
-  }
-  catch(err) {
-    console.error(err);
-  }
-}
+// STATISTICS MATH
 
 // https://stackoverflow.com/questions/7743007/most-efficient-way-to-write-combination-and-permutation-calculator-in-javascript
-function factorial(n) { 
+factorial = (n) => { 
   let x=1; 
   let f=1;
   while (x <= n) {
@@ -44,18 +13,18 @@ function factorial(n) {
 
 // nCr or "n Choose r"
 // combinations of total trials (n) and correct trials (r)
-function calcCombinations(n, r) {
+calcCombinations = (n, r) => {
   return factorial(n) / (factorial(n - r) * factorial(r))
 }
 
 // calculate the probability of getting exactly num_correct correct responses
-function calcBinomialProbability(num_trials, num_correct, prob_success, prob_fail) {
+calcBinomialProbability = (num_trials, num_correct, prob_success, prob_fail) => {
   return calcCombinations(num_trials, num_correct) * Math.pow(prob_success, num_correct) * Math.pow(prob_fail, num_trials-num_correct);
 }
 
 // return an array of the binomial probability of every  
 // amount of correct answers from 0 to num_trials
-function calcBinomialDistribution(num_trials, prob_success, prob_fail) {
+exports.calcBinomialDistribution = (num_trials, prob_success, prob_fail) => {
   const distribution = [];
   for (let i = 0; i < num_trials; i++) {
     const prob = calcBinomialProbability(num_trials, i, prob_success, prob_fail);
@@ -67,7 +36,7 @@ function calcBinomialDistribution(num_trials, prob_success, prob_fail) {
 // the p-value is the sum of the binomial distribution from 0 to num_correct - 1
 // this assumes a right-tailed binomial distribution test
 // a p-value of 0.05 or smaller indicates statistical significance
-function calcP_val(binomialDistribution, num_correct) {
+exports.calcP_val = (binomialDistribution, num_correct) => {
   return 1 - binomialDistribution.reduce((acc, curr, idx) => {
     if (idx < num_correct) acc += curr;
     return acc;
@@ -76,26 +45,12 @@ function calcP_val(binomialDistribution, num_correct) {
 
 // calculate the minimum num of correct responses needed for this
 // test to be statistically significant at target_p value
-function calcCriticalCorrect(binomialDistribution, target_p) {
-  let p = 1; 
+exports.calcCriticalCorrect = (binomialDistribution, target_p) => {
+  let p_val = 1; 
   let num_correct = 0; 
-  while (p > target_p) {
-    p -= binomialDistribution[num_correct];
+  while (p_val > target_p) {
+    p_val -= binomialDistribution[num_correct];
     num_correct++;
   }
-  return {p, num_correct};
+  return {p_val, num_correct};
 }
-
-function makeChart(canvas, type, data) {
-  
-  const ctx = canvas.getContext('2d');
-  
-  // make new chart
-  const myChart = new Chart(ctx, {
-    type: type,
-    plugins: [ChartDeferred],
-    data: data
-  });
-}
-
-getArticle()

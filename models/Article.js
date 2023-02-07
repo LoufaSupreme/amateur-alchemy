@@ -39,6 +39,14 @@ const articleSchema = new mongoose.Schema({
         unique_beer: String,
         unique_cup: String,
     }],
+    stats: { // to guauge statistical significance
+        p_val: Number, 
+        binomialDistribution: [Number],
+        significance_threshold: {
+            num_correct: Number,
+            p_val: Number
+        }
+    },
     date_created: {
         type: Date,
         default: Date.now,

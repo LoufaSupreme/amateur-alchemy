@@ -84,6 +84,8 @@ router.get('/articles/:article_num/triangle-test',
 // create a new triangleTest in the db
 router.post('/articles/:article_num/triangle-test', 
     triangleTestController.createOrUpdateTriangleTest,
+    articleController.appendTriangleTest,
+    triangleTestController.displaySuccessfulTriangleTest
 );
 
 // display form to create a new triangleTest key for an article
@@ -106,7 +108,10 @@ router.post('/articles/:id/beer-key',
 )
 
 // display raw graphs for an article's triangle tests
-router.get('/articles/:slug/triangle-test-results', articleController.displayTriangleTestResults);
+router.get('/articles/:slug/triangle-test-results',
+    articleController.updateTriangleTestStatistics,
+    articleController.displayTriangleTestResults
+);
 
 ////// API ROUTES //////
 

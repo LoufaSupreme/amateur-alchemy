@@ -11,8 +11,9 @@ block content
     h3.section-title Demographics 
     canvas#demographics 
   section.results-section 
-    h3.section-title Correct Answer 
-    canvas#correct
+    h3.section-title Statistical Significance 
+    h4= `P-val: ${article.stats.p_val}`
+    p= `${article.stats.significance_threshold.num_correct} correct guesses needed for statistical significance (p: ${article.stats.significance_threshold.p_val})`
     
 
 block scripts 

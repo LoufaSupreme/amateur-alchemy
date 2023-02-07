@@ -4,6 +4,8 @@ const multer = require("multer"); // package for uplaoding multiple files.  Need
 const jimp = require("jimp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
 const slug = require('slugs');
+// stat calculations for p_value and binomial distribution
+const stats = require('.././helpers/statistics.js');
 
 
 const multerOptions = {
@@ -170,10 +172,14 @@ exports.appendTriangleTest = async (req, res, next) => {
     try {
         const article = await Article.findOneAndUpdate(
             { article_num: req.params.article_num },
-            { $addToSet: { triangle_tests: req.body.triangleTest } }
+            { $addToSet: { triangle_tests: req.body.triangleTest } },
+            { returnNewDocument: true }
         ).exec();
 
-        return article.value;
+        // update the article on the req object to
+        req.body.article = article;
+
+        next();
     }
     catch(err) {
         console.log(err);
@@ -182,6 +188,7 @@ exports.appendTriangleTest = async (req, res, next) => {
 }
 
 exports.displayArticle = async (req, res, next) => {
+    console.log(`Running displayArticle on slug: ${req.params.slug}`)
     try {
         const article = await Article.findOne({slug: req.params.slug});
         if (!article) {
@@ -331,6 +338,37 @@ exports.createOrUpdateBeerKey = async (req, res, next) => {
         );
         req.flash('success', "Successfully created Beer Key!");
         res.redirect(`/articles/${article.slug}`);
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
+// update stats for statistical significance
+// params: req.body.article
+exports.updateTriangleTestStatistics = async (req, res, next) => {
+    console.log(`Running updateTriangleTestStatistics for ${req.params.slug}`)
+    try {
+        const article = await Article.findOne({slug: req.params.slug}).populate('triangle_tests'); 
+
+        // calculate statistics to confirm if the triangle test was significant
+        const numCorrectTestResponses = article.triangle_tests.filter(test => {
+            return test.perceived_unique === test.actual_unique.cup;
+        }).length;
+        const numTotalTestResponses = article.triangle_tests.length;
+        
+        const binomialDistribution = stats.calcBinomialDistribution(numTotalTestResponses, 1/3, 2/3);
+        const p_val = stats.calcP_val(binomialDistribution, numCorrectTestResponses);
+        const significanceThreshold = stats.calcCriticalCorrect(binomialDistribution, 0.05);
+
+        // update the article stats
+        article.stats.p_val = p_val;
+        article.stats.binomialDistribution = binomialDistribution;
+        article.stats.significance_threshold = significanceThreshold;
+        article.save();
+
+        next();
     }
     catch(err) {
         console.log(err);

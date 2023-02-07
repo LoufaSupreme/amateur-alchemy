@@ -6,7 +6,7 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const helpers = require('./helpers');
+const helpers = require('./helpers/helpers.js');
 const errorHandlers = require('./handlers/errorHandler');
 
 

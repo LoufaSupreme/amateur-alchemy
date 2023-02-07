@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const TriangleTest = mongoose.model("TriangleTest"); // schema
-const { getArticleByNum, appendTriangleTest } = require("./articleController.js");
+const { getArticleByNum } = require("./articleController.js");
 
 // render the add triangleTest page
 exports.addTriangleTest = async (req, res, next) => {
@@ -47,22 +47,25 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
 
       // add new triangleTest to the req.body
       req.body.triangleTest = triangleTestInfo.value;
-      // append the triangleTest to the article
-      await appendTriangleTest(req, res, next);
 
     console.log(`Successfully updated/created triangleTest for token ${triangleTestInfo.value.token} in article ${article.title}`);
     req.flash('success', `Successfully created Triangle Test!`);
 
-    res.render('successfulTriangleTest', {
-      title: 'Success!',
-      triangleTest: triangleTestInfo.value
-    })
+    next();
   } 
   catch (err) {
     console.log(err);
     next(err);
   }
 };
+
+// show the success screen after a triangle test was successfully created/updated
+exports.displaySuccessfulTriangleTest = (req, res) => {
+  res.render('successfulTriangleTest', {
+    title: 'Success!',
+    triangleTest: req.body.triangleTest
+  })
+}
 
 // update or create triangle test with the actual unique beer cup letter from an article's key
 // needs an array of {token: 1, unique_beer: A} objects in req.body.key
