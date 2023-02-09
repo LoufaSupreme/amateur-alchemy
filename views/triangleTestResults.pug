@@ -5,11 +5,13 @@ block stylesheets
 
 block content 
   //- pre= h.dump(article)
-  h1.title= title
-  h2.subtitle= `${article.title}`
+  section.title-container
+    h1.title= title
+    h2.subtitle= `${article.title}`
   section.results-section 
     h3.section-title Demographics 
-    canvas#demographics 
+    .chart-wrapper
+      canvas.chart#demographics 
   section.results-section 
     h3.section-title Statistical Significance 
     h4= `P-val: ${article.stats.p_val}`

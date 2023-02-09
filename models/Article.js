@@ -43,8 +43,8 @@ const articleSchema = new mongoose.Schema({
         p_val: Number, 
         binomialDistribution: [Number],
         significance_threshold: {
-            num_correct: Number,
-            p_val: Number
+            num_correct: Number, // how many correct guesses for statistical signfic.
+            p_val: Number // what p-val would be at that # of guesses
         }
     },
     date_created: {

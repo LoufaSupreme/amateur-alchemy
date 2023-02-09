@@ -3,26 +3,79 @@ async function getArticle() {
     const slug = window.location.href.split('/').at(-2);
     const response = await fetch(`/api/get-article/${slug}`);
     const articleData = await response.json();
+    const triangleTests = articleData.triangle_tests;
     console.log(articleData);
 
-    // make correct chart
-    let canvas = document.getElementById("demographics")
-    const correctChartData = {
-      labels: [
-        'Black',
-        'White'
-      ],
+    // make demographics chart
+    const demographics = triangleTests.reduce((acc, curr) => {
+      if (curr.title) {
+        if (!acc[curr.title]) acc[curr.title] = []
+        acc[curr.title].push(curr.additional_training)
+      }
+      return acc;
+    }, {});
+
+    console.log({demographics})
+
+    let demographicsCanvas = document.getElementById("demographics");
+
+    const demographicsChartData = {
+      labels: Object.keys(demographics).map(key => {
+        if (key === 'enthusiast') return 'Craft Enthusiast';
+        if (key === 'bjcp-mid') return 'BJCP Judge';
+        if (key === 'bjcp-max') return 'BJCP Master';
+        if (key === 'homebrewer') return 'Homebrewer';
+        return "Unknown Category"
+      }),
       datasets: [{
-        label: 'Peeps',
-        data: [300, 50],
+        label: 'Demographics',
+        display: false,
+        data: Object.values(demographics).map(demo => demo.length),
         backgroundColor: [
-          'green',
-          'red',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 205, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(201, 203, 207, 0.2)'
         ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 159, 64)',
+          'rgb(255, 205, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
+          'rgb(153, 102, 255)',
+          'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1,
         hoverOffset: 50
-      }]
+      }],
     }
-    makeChart(canvas, 'pie', correctChartData)
+
+    const demographicChartOptions = {
+      clip: false,
+      responsive: true,
+      layout: {
+        padding: 50,
+      },
+      animation: {
+        animateScale: true
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        deferred: {
+            xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+            yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
+            delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+        }
+      },
+    };
+
+    makeChart(demographicsCanvas, 'bar', demographicsChartData, demographicChartOptions)
 
     // make demographics chart
   }
@@ -31,62 +84,7 @@ async function getArticle() {
   }
 }
 
-// https://stackoverflow.com/questions/7743007/most-efficient-way-to-write-combination-and-permutation-calculator-in-javascript
-function factorial(n) { 
-  let x=1; 
-  let f=1;
-  while (x <= n) {
-    f *= x; 
-    x++;
-  }
-    return f;
-}
-
-// nCr or "n Choose r"
-// combinations of total trials (n) and correct trials (r)
-function calcCombinations(n, r) {
-  return factorial(n) / (factorial(n - r) * factorial(r))
-}
-
-// calculate the probability of getting exactly num_correct correct responses
-function calcBinomialProbability(num_trials, num_correct, prob_success, prob_fail) {
-  return calcCombinations(num_trials, num_correct) * Math.pow(prob_success, num_correct) * Math.pow(prob_fail, num_trials-num_correct);
-}
-
-// return an array of the binomial probability of every  
-// amount of correct answers from 0 to num_trials
-function calcBinomialDistribution(num_trials, prob_success, prob_fail) {
-  const distribution = [];
-  for (let i = 0; i < num_trials; i++) {
-    const prob = calcBinomialProbability(num_trials, i, prob_success, prob_fail);
-    distribution.push(prob);
-  }
-  return distribution;
-}
-
-// the p-value is the sum of the binomial distribution from 0 to num_correct - 1
-// this assumes a right-tailed binomial distribution test
-// a p-value of 0.05 or smaller indicates statistical significance
-function calcP_val(binomialDistribution, num_correct) {
-  return 1 - binomialDistribution.reduce((acc, curr, idx) => {
-    if (idx < num_correct) acc += curr;
-    return acc;
-  })
-}
-
-// calculate the minimum num of correct responses needed for this
-// test to be statistically significant at target_p value
-function calcCriticalCorrect(binomialDistribution, target_p) {
-  let p = 1; 
-  let num_correct = 0; 
-  while (p > target_p) {
-    p -= binomialDistribution[num_correct];
-    num_correct++;
-  }
-  return {p, num_correct};
-}
-
-function makeChart(canvas, type, data) {
+function makeChart(canvas, type, data, options=null) {
   
   const ctx = canvas.getContext('2d');
   
@@ -94,7 +92,8 @@ function makeChart(canvas, type, data) {
   const myChart = new Chart(ctx, {
     type: type,
     plugins: [ChartDeferred],
-    data: data
+    data: data,
+    options: options
   });
 }
 

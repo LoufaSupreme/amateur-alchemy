@@ -226,7 +226,6 @@ body {
 .hero {
     position: relative;
     display: flex;
-    margin-bottom: 3rem;
 }
 
 .hero__text {

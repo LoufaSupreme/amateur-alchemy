@@ -1,0 +1,46 @@
+.content {
+  margin-inline: auto;
+}
+
+section.title-container {
+  min-height: 88vh;
+}
+section.results-section {
+  min-height: 100vh;
+  border: 1px solid green;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1.title {
+  font-size: 6rem;
+}
+
+h2.subtitle {
+  font-size: 3.5rem;
+}
+
+section.results-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+h3.section-title {
+  font-size: 3rem;
+}
+
+.chart-wrapper {
+  width: 80%;
+  max-width: 80%;
+}
+
+canvas.chart {
+}
+
