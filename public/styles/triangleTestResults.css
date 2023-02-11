@@ -36,11 +36,22 @@ h3.section-title {
   font-size: 3rem;
 }
 
+h4.big {
+  font-size: 10rem;
+}
+
 .chart-wrapper {
   width: 80%;
   max-width: 80%;
 }
 
-canvas.chart {
+.green {
+  color: rgba(16, 77, 16, 0.75);
+  font-weight: bold;
+}
+
+.red {
+  color: rgba(133, 10, 10, 1);
+  font-weight: bold;
 }
 

@@ -5,18 +5,51 @@ block stylesheets
 
 block content 
   //- pre= h.dump(article)
+  - 
+    const correct = article.triangle_tests.filter(test => {
+      if (test.actual_unique) {
+        return test.perceived_unique === test.actual_unique.cup
+      }
+    });
   section.title-container
     h1.title= title
     h2.subtitle= `${article.title}`
+
   section.results-section 
-    h3.section-title Demographics 
+    h3.section-title Demographics
+    span= `${article.triangle_tests.length} responses submitted`
     .chart-wrapper
       canvas.chart#demographics 
+
   section.results-section 
-    h3.section-title Statistical Significance 
-    h4= `P-val: ${article.stats.p_val}`
-    p= `${article.stats.significance_threshold.num_correct} correct guesses needed for statistical significance (p: ${article.stats.significance_threshold.p_val})`
-    
+    if article.stats.p_val <= 0.05
+      h3.section-title Statistically Significant Results!
+      h4.big
+        span.green= `${correct.length}` 
+        span= ` / ${article.triangle_tests.length}`
+        p correct responses (p-value = 
+        span.green= `${article.stats.p_val.toFixed(2)}`
+        | )
+    else 
+      h3.section-title Not Statistically Significant
+      h4.big
+        span.red= `${correct.length}` 
+        span= ` / ${article.triangle_tests.length}`
+      p correct responses (p-value = 
+        span.red= `${article.stats.p_val.toFixed(2)}`
+        | )
+    p= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
+
+  section.results-section
+    h3.section-title Preferences 
+    .chart-wrapper
+      canvas.chart#preferences 
+
+  section.results-section
+    h3.section-title Preferences 
+    .chart-wrapper
+      canvas.chart#preferences 
+
 
 block scripts 
     //- chart.js

@@ -132,6 +132,7 @@ async function getBeerJSON(slug) {
                     hoverBorderColor: 'rgba(255, 99, 132, 1)',
                     // hoverBackgroundColor: 'rgba(153, 102, 255, 0.5)',
                     pointHoverRadius: 8,
+                    lineTension: 0.8
                 }]
             },
             options: {
