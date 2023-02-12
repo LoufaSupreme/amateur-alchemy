@@ -97,6 +97,14 @@ function graphPreferences(article) {
     "No Preference": 0,
   });
 
+  const preferencesSpan = document.getElementById('preferences-stmt');
+
+  const notNoPreference = Object.entries(preferences).filter(pref => pref[0] !== "No Preference");
+  const notNoPreferenceCount = notNoPreference.reduce((acc,curr) => acc += curr[1], 0);
+  const highestPref = notNoPreference[0][1] > notNoPreference[1][1] ? notNoPreference[0] : notNoPreference[1];
+
+  preferencesSpan.innerText = `Of the people who detected a difference, ${highestPref[1] / notNoPreferenceCount * 100}% preferred the "${highestPref[0]}" beer`;
+
   const preferencesCanvas = document.getElementById('preferences');
 
   const preferencesChartData = {
@@ -150,6 +158,143 @@ function graphPreferences(article) {
   makeChart(preferencesCanvas, 'doughnut', preferencesChartData, preferencesChartOptions);
 }
 
+// graph a comparison of the 2 beers
+function graphComparison(article) {
+  const triangleTests = article.triangle_tests;
+  // calc the average score for each sensory attribute
+  // for any users who detected a difference
+  // baseline is 2.  2 === the beers are equal
+  const averages = triangleTests
+    .reduce((acc, curr) => {
+      if (curr.preference === 'none') return acc;
+
+      const actual_unique = article.beer_key[curr.actual_unique.color];
+      const actual_other = curr.actual_unique.color === 'yellow' ? article.beer_key["blue"] : article.beer_key["yellow"];
+
+      if (!curr.actual_unique) return acc;
+      const isCorrect = curr.perceived_unique === curr.actual_unique.cup;
+
+      // calc running avg of each attribute
+      // https://math.stackexchange.com/questions/106313/regular-average-calculated-accumulatively
+      for (const key of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
+        // unique beer is rated higher
+        if (curr[key] <= 2) {
+          // if they guessed the unique beer correctly
+          if (isCorrect) {
+            acc[actual_unique]["attrs"][key] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+          }
+          // if they guessed the unique beer incorrectly
+          else {
+            acc[actual_other]["attrs"][key] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+          }
+        }
+        // "other" beer is rated higher
+        else {
+          // if they guessed the unique beer correctly
+          if (isCorrect) {
+            acc[actual_other]["attrs"][key] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+          }
+          // if they guessed the unique beer incorrectly
+          else {
+            acc[actual_unique]["attrs"][key] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+          }
+        }        
+        // acc[key] = ((count-1) * acc[key] + curr[key]) / count;
+      }
+      // update count
+      acc[actual_unique].count++;
+      acc[actual_other].count++;
+
+      return acc;
+    }, 
+    // initialize an object of average attribute ratings for each beer
+    {
+      [ article["beer_key"]["blue"] ]: {
+        count: 1,
+        attrs: {
+          balance: 0,
+          bitterness: 0,
+          malt_character: 0,
+          yeast_character: 0,
+          body: 0,
+          carbonation: 0,
+        }
+      },
+      [ article["beer_key"]["yellow"] ]: {
+        count: 1,
+        attrs: {
+          malt_character: 0,
+          yeast_character: 0,
+          bitterness: 0,
+          balance: 0,
+          body: 0,
+          carbonation: 0,
+        }
+      },
+    });
+
+    console.log(averages)
+    // console.log(Object.values(averages)[0])
+
+  const comparisonCanvas = document.getElementById("comparison");
+
+  const comparisonChartData = {
+    labels: Object.keys(averages[Object.keys(averages)[0]].attrs)
+      .map(attr => {
+        return capitalizeFirst(attr).replace("_", " ");
+      }),
+    datasets: [{
+      label: Object.keys(averages)[0],
+      display: false,
+      data: Object.values(Object.values(averages)[0].attrs),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+      ],
+      borderWidth: 1,
+      hoverOffset: 50
+    },
+    {
+      label: Object.keys(averages)[1],
+      display: false,
+      data: Object.values(Object.values(averages)[1].attrs),
+      backgroundColor: [
+        'rgba(54, 162, 235, 0.2)',
+      ],
+      borderColor: [
+        'rgb(54, 162, 235)',
+      ],
+      borderWidth: 1,
+      hoverOffset: 50
+    }],
+  }
+
+  const comparisonChartOptions = {
+    clip: false,
+    responsive: true,
+    layout: {
+      padding: 50,
+    },
+    animation: {
+      animateScale: true
+    },
+    plugins: {
+      legend: {
+        display: true
+      },
+      deferred: {
+          xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+          yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
+          delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+      }
+    },
+  };
+
+  makeChart(comparisonCanvas, 'bar', comparisonChartData, comparisonChartOptions);
+}
+
 async function getArticle() {
   try {
     const slug = window.location.href.split('/').at(-2);
@@ -159,6 +304,7 @@ async function getArticle() {
 
     graphDemographics(article);
     graphPreferences(article);
+    graphComparison(article);
 
   }
   catch(err) {
