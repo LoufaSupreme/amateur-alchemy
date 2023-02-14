@@ -277,6 +277,17 @@ function graphComparison(article) {
     layout: {
       padding: 50,
     },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'More --->',
+        },
+        ticks: {
+          display: false,
+        }
+      }
+    },
     animation: {
       animateScale: true
     },
