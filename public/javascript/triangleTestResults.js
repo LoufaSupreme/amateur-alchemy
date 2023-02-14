@@ -71,13 +71,33 @@ function graphDemographics(article) {
   makeChart(demographicsCanvas, 'bar', demographicsChartData, demographicChartOptions);
 }
 
+// translate what "unique" and "other" mean for each triangle test, by comparing the triangle test's "actual_unique" beer color to the beer key
+function translateActualBeers(article, triangleTest) {
+  const actual_unique = article.beer_key[triangleTest.actual_unique.color];
+
+  const actual_other = triangleTest.actual_unique.color === 'yellow' ? article.beer_key["blue"] : article.beer_key["yellow"];
+
+  const isCorrect = triangleTest.perceived_unique === triangleTest.actual_unique.cup;
+
+  const perceived_unique = isCorrect ? actual_unique : actual_other;
+
+  const perceived_other = isCorrect ? actual_other : actual_unique;
+
+  return {
+    actual_unique,
+    actual_other,
+    perceived_unique,
+    perceived_other
+  }
+}
+
 // make preferences chart
 function graphPreferences(article) {
   const preferences = article.triangle_tests.reduce((acc, curr) => {
-    const actual_unique = article.beer_key[curr.actual_unique.color];
-    const actual_other = curr.actual_unique.color === 'yellow' ? article.beer_key["blue"] : article.beer_key["yellow"];
-
     if (!curr.actual_unique) return acc;
+    
+    const { actual_unique, actual_other } = translateActualBeers(article, curr);
+
     const isCorrect = curr.perceived_unique === curr.actual_unique.cup;
 
     if (curr.preference === 'unique') {
@@ -167,11 +187,10 @@ function graphComparison(article) {
   const averages = triangleTests
     .reduce((acc, curr) => {
       if (curr.preference === 'none') return acc;
-
-      const actual_unique = article.beer_key[curr.actual_unique.color];
-      const actual_other = curr.actual_unique.color === 'yellow' ? article.beer_key["blue"] : article.beer_key["yellow"];
-
       if (!curr.actual_unique) return acc;
+
+      const { actual_unique, actual_other } = translateActualBeers(article, curr);
+
       const isCorrect = curr.perceived_unique === curr.actual_unique.cup;
 
       // calc running avg of each attribute
@@ -233,8 +252,7 @@ function graphComparison(article) {
       },
     });
 
-    console.log(averages)
-    // console.log(Object.values(averages)[0])
+    // console.log(averages)
 
   const comparisonCanvas = document.getElementById("comparison");
 
@@ -278,10 +296,22 @@ function graphComparison(article) {
       padding: 50,
     },
     scales: {
+      x: {
+        ticks: {
+          color: 'rgb(255 255 255 / 0.5)',
+          font: {
+            size: 16
+          }
+        },
+      },
       y: {
         title: {
           display: true,
-          text: 'More --->',
+          text: 'More ⇢',
+          font: {
+            size: 16,
+          },
+          color: 'rgb(255 255 255 / 0.5)'
         },
         ticks: {
           display: false,
@@ -293,7 +323,12 @@ function graphComparison(article) {
     },
     plugins: {
       legend: {
-        display: true
+        display: true,
+        labels: {
+          font: {
+            size: 16
+          },
+        }
       },
       deferred: {
           xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
@@ -306,23 +341,17 @@ function graphComparison(article) {
   makeChart(comparisonCanvas, 'bar', comparisonChartData, comparisonChartOptions);
 }
 
-async function getArticle() {
-  try {
-    const slug = window.location.href.split('/').at(-2);
-    const response = await fetch(`/api/get-article/${slug}`);
-    const article = await response.json();
-    console.log(article);
+// visualize off-flavours detected
+function graphFlaws(article) {
+  const flaws = article.triangle_tests.reduce((acc, curr) => {
+    if (!curr.actual_unique) return acc;
+    
+    const { actual_unique, actual_other, perceived_unique, perceived_other } = translateActualBeers(article, curr);
 
-    graphDemographics(article);
-    graphPreferences(article);
-    graphComparison(article);
-
-  }
-  catch(err) {
-    console.error(err);
-  }
+  })
 }
 
+// utility function to make a chart.js graph
 function makeChart(canvas, type, data, options=null) {
   
   const ctx = canvas.getContext('2d');
@@ -335,5 +364,24 @@ function makeChart(canvas, type, data, options=null) {
     options: options
   });
 }
+
+async function getArticle() {
+  try {
+    const slug = window.location.href.split('/').at(-2);
+    const response = await fetch(`/api/get-article/${slug}`);
+    const article = await response.json();
+    console.log(article);
+
+    graphDemographics(article);
+    graphPreferences(article);
+    graphComparison(article);
+    graphFlaws(article);
+
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
+
 
 getArticle()
