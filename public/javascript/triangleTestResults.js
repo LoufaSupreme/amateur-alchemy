@@ -343,12 +343,53 @@ function graphComparison(article) {
 
 // visualize off-flavours detected
 function graphFlaws(article) {
+  const flawsTable = document.querySelector('#flaws-table');
+  
   const flaws = article.triangle_tests.reduce((acc, curr) => {
     if (!curr.actual_unique) return acc;
+    if (!curr.flaws_detected) return acc;
     
-    const { actual_unique, actual_other, perceived_unique, perceived_other } = translateActualBeers(article, curr);
+    const { perceived_unique, perceived_other } = translateActualBeers(article, curr);
 
-  })
+    for (const [flaw, beers] of Object.entries(curr.flaws)) {
+      if (acc[flaw] === undefined && beers.length) acc[flaw] = {};
+      for (const beer of beers) {
+        if (beer.toLowerCase() === 'unique') {
+          if (acc[flaw][perceived_unique] === undefined) {
+            acc[flaw][perceived_unique] = 0;
+          }
+          acc[flaw][perceived_unique]++;
+        }
+        else if (beer.toLowerCase() === 'other') {
+          if (acc[flaw][perceived_other] === undefined) {
+            acc[flaw][perceived_other] = 0;
+          }
+          acc[flaw][perceived_other]++;
+        }
+        else {
+          makeAlert('Unknown beer label in flaws array');
+        }
+      }
+    }
+    return acc;
+  }, {});
+  console.log(flaws);
+
+  for (const [flaw, beers] of Object.entries(flaws)) {
+    // needs refining, should only add a row
+    flawsTable.innerHTML += makeTableRow(flaw, beers)
+  }
+
+  function makeTableRow(flaw, beers) {
+    return `\
+      <tr>
+        <td>${capitalizeFirst(flaw)}</td>
+        <td>${Object.values(beers)[0] || ""}</td>
+        <td>${Object.values(beers)[1] || ""}</td>
+      </tr>\
+    `
+  }
+
 }
 
 // utility function to make a chart.js graph
