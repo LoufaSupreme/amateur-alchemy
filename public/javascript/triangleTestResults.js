@@ -51,7 +51,7 @@ function graphDemographics(article) {
     clip: false,
     responsive: true,
     layout: {
-      padding: 50,
+      padding: 20,
     },
     animation: {
       animateScale: true
@@ -158,7 +158,7 @@ function graphPreferences(article) {
     clip: false,
     responsive: true,
     layout: {
-      padding: 50,
+      padding: 20,
     },
     animation: {
       animateScale: true
@@ -293,14 +293,14 @@ function graphComparison(article) {
     clip: false,
     responsive: true,
     layout: {
-      padding: 50,
+      padding: 20,
     },
     scales: {
       x: {
         ticks: {
           color: 'rgb(255 255 255 / 0.5)',
           font: {
-            size: 16
+            // size: 16
           }
         },
       },
@@ -309,7 +309,7 @@ function graphComparison(article) {
           display: true,
           text: 'More ⇢',
           font: {
-            size: 16,
+            // size: 16,
           },
           color: 'rgb(255 255 255 / 0.5)'
         },
@@ -326,7 +326,7 @@ function graphComparison(article) {
         display: true,
         labels: {
           font: {
-            size: 16
+            // size: 16
           },
         }
       },

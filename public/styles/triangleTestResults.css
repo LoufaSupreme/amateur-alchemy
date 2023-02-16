@@ -5,6 +5,7 @@
 section.title-container {
   min-height: 88vh;
 }
+
 section.results-section {
   min-height: 100vh;
   border: 1px solid green;
@@ -19,6 +20,7 @@ section.results-section {
 
 h1.title {
   font-size: 6rem;
+  text-align: center;
 }
 
 h2.subtitle {
@@ -40,9 +42,30 @@ h4.big {
   font-size: 10rem;
 }
 
+.results-container {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .chart-wrapper {
-  width: 80%;
-  max-width: 80%;
+  width: 100%;
+  max-width: 900px;
+}
+
+.padded {
+  padding-inline: 3rem;
+}
+
+.larger-text {
+  font-size: 1.3em;
+}
+
+.smaller-text {
+  font-size: 0.8em;
 }
 
 .green {
@@ -105,5 +128,45 @@ h4.big {
   font-size: 1.2rem;
 }
 
+@media (max-width:480px) {
+  .content {
+    width: 100%;
+  }
+
+  h1.title {
+    font-size: 3rem;
+  }
+
+  h2.subtitle {
+    font-size: 2rem;
+  }
+
+  h3.section-title {
+    font-size: 2rem;
+  }
+
+  h4.big {
+    font-size: 5rem;
+  }
+
+  .chart-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  #flaws-table {
+    max-width: 95%;
+    margin-inline: auto;
+  }
+
+  .cell.heading {
+    min-height: 3rem;
+  }
+
+  .cell {
+    font-size: 0.75em !important;
+    min-height: 2.5rem;
+  }
+}
 
 

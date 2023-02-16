@@ -17,42 +17,49 @@ block content
 
   section.results-section 
     h3.section-title Demographics
-    span= `${article.triangle_tests.length} responses submitted`
-    .chart-wrapper
-      canvas.chart#demographics 
+    span.smaller-text= `${article.triangle_tests.length} responses submitted`
+    .results-container
+      .chart-wrapper
+        canvas.chart#demographics 
 
   section.results-section 
     if article.stats.p_val <= 0.05
       h3.section-title Statistically Significant Results!
-      h4.big
-        span.green= `${correct.length}` 
-        span= ` / ${article.triangle_tests.length}`
-        p correct responses (p-value = 
-        span.green= `${article.stats.p_val.toFixed(2)}`
-        | )
+      .results-container
+        h4.big
+          span.green= `${correct.length}` 
+          span= ` / ${article.triangle_tests.length}`
+          p.larger-text correct responses (p-value = 
+            span.green= `${article.stats.p_val.toFixed(2)}`
+            | )
+          p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
     else 
       h3.section-title Not Statistically Significant
-      h4.big
-        span.red= `${correct.length}` 
-        span= ` / ${article.triangle_tests.length}`
-      p correct responses (p-value = 
-        span.red= `${article.stats.p_val.toFixed(2)}`
-        | )
-    p= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
+      .results-container
+        h4.big
+          span.red= `${correct.length}` 
+          span= ` / ${article.triangle_tests.length}`
+        p.larger-text correct responses (p-value = 
+          span= `${article.stats.p_val.toFixed(2)}`
+          | )
+        p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
 
   section.results-section
     h3.section-title Preferences 
-    span#preferences-stmt
-    .chart-wrapper
-      canvas.chart#preferences 
+    span#preferences-stmt.smaller-text
+    .results-container
+      .chart-wrapper
+        canvas.chart#preferences 
 
   section.results-section
     h3.section-title Sensory Comparison 
-    .chart-wrapper
-      canvas.chart#comparison 
+    .results-container
+      .chart-wrapper
+        canvas.chart#comparison 
 
   section.results-section
     h3.section-title Off Flavours 
+    .results-container
       #flaws-table
 
 block scripts 
