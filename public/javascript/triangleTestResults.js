@@ -374,20 +374,25 @@ function graphFlaws(article) {
     return acc;
   }, {});
   console.log(flaws);
-
+  
+  function makeTableCell(content, classNames=[]) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.innerText = content;
+    for (const name of classNames) {
+      cell.classList.add(name);
+    }
+    return cell;
+  }
+  
+  flawsTable.appendChild(makeTableCell(Object.values(article.beer_key)[0], ['heading']));
+  flawsTable.appendChild(makeTableCell(Object.values(article.beer_key)[1], ['heading']));
+  
   for (const [flaw, beers] of Object.entries(flaws)) {
     // needs refining, should only add a row
-    flawsTable.innerHTML += makeTableRow(flaw, beers)
-  }
-
-  function makeTableRow(flaw, beers) {
-    return `\
-      <tr>
-        <td>${capitalizeFirst(flaw)}</td>
-        <td>${Object.values(beers)[0] || ""}</td>
-        <td>${Object.values(beers)[1] || ""}</td>
-      </tr>\
-    `
+    flawsTable.appendChild(makeTableCell(capitalizeFirst(flaw)));
+    flawsTable.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
+    flawsTable.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
   }
 
 }

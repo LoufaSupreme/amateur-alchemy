@@ -55,3 +55,8 @@ h4.big {
   font-weight: bold;
 }
 
+#flaws-table {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
