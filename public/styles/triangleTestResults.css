@@ -56,7 +56,54 @@ h4.big {
 }
 
 #flaws-table {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
 }
+
+.row {
+  display: grid;
+  grid-template-columns: 0.8fr 1fr 1fr;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+.row:nth-child(2n+1) {
+  background-color: rgb(255 255 255 / 0.03);
+}
+
+.row.headings {
+  background-color: rgb(var(--clr-bg-darker));
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+.headings > .cell {
+  padding-inline: 1rem;
+  min-height: 4rem;
+}
+
+.cell {
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell:nth-child(1) {
+  border-right: 2px solid rgb(255 255 255 / 0.1);
+  font-weight: bold;
+}
+
+.cell:nth-child(2) {
+  font-size: 1.2rem;
+}
+
+.cell:nth-child(3) {
+  border-left: 2px solid rgb(255 255 255 / 0.1);
+  font-size: 1.2rem;
+}
+
+
 

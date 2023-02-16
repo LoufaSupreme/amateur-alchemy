@@ -384,15 +384,23 @@ function graphFlaws(article) {
     }
     return cell;
   }
-  
-  flawsTable.appendChild(makeTableCell(Object.values(article.beer_key)[0], ['heading']));
-  flawsTable.appendChild(makeTableCell(Object.values(article.beer_key)[1], ['heading']));
+
+  const row = document.createElement('div');
+  row.classList.add('row');
+  row.classList.add('headings');
+  row.appendChild(makeTableCell(""));
+  row.appendChild(makeTableCell(Object.values(article.beer_key)[0]));
+  row.appendChild(makeTableCell(Object.values(article.beer_key)[1]));
+  flawsTable.appendChild(row);
+
   
   for (const [flaw, beers] of Object.entries(flaws)) {
-    // needs refining, should only add a row
-    flawsTable.appendChild(makeTableCell(capitalizeFirst(flaw)));
-    flawsTable.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
-    flawsTable.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
+    const row = document.createElement('div');
+    row.classList.add('row');
+    row.appendChild(makeTableCell(capitalizeFirst(flaw)));
+    row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
+    row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
+    flawsTable.appendChild(row);
   }
 
 }
