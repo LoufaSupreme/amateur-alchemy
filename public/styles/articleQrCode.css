@@ -1,0 +1,26 @@
+.content {
+  margin-inline: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1.title {
+  font-size: 6rem;
+  color: rgb(var(--clr-accent));
+}
+
+h2.subtitle {
+
+}
+
+#qr-code {
+  width: min(90vw, 850px);
+  padding: 3rem 0 3rem 0;
+}
+
+.url {
+  color: rgb(var(--clr-accent));
+  padding-inline: 0.5rem;
+}

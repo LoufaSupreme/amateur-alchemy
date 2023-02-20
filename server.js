@@ -9,7 +9,6 @@ const session = require('express-session');
 const helpers = require('./helpers/helpers.js');
 const errorHandlers = require('./handlers/errorHandler');
 
-
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 

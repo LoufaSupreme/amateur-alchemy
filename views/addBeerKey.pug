@@ -10,11 +10,11 @@ block content
   .container
     form(action=`/articles/${article._id}/beer-key` method="POST" class="form-card" autocomplete="off")
       .text-input-container
-        input(type="text" name="beer_key[blue]" id="blue" required placeholder=" " value=`${article.beer_key && article.beer_key.blue}`)
+        input(type="text" name="beer_key[blue]" id="blue" required placeholder=" " value=`${article.beer_key.blue ? article.beer_key.blue : ""}`)
         label(for="blue") Blue:
 
       .text-input-container
-        input(type="text" name="beer_key[yellow]" id="yellow" required placeholder=" " value=`${article.beer_key && article.beer_key.yellow}`)
+        input(type="text" name="beer_key[yellow]" id="yellow" required placeholder=" " value=`${article.beer_key.yellow ? article.beer_key.yellow : ""}`)
         label(for="yellow") Yellow:
 
       input(type="submit" value="Submit" class="button" id="submit-btn")

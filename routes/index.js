@@ -113,6 +113,9 @@ router.get('/articles/:slug/triangle-test-results',
     articleController.displayTriangleTestResults
 );
 
+// display a QR code that routes to the add triangle test page for an article
+router.get('/articles/:article_num/qr-code', articleController.qrCode)
+
 ////// API ROUTES //////
 
 // delete a beer review

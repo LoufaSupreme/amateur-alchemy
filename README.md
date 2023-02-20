@@ -12,6 +12,10 @@
 ## Important Notes:
 The add-brewery pages uses a Google Maps API Place Autocomplete, which places a getPlaces() API call.  This incurs a billable charge after $200 / month (approx. 12,000 api calls per month).
 
+## Deployment
+Deployed via railway (https://railway.app/dashboard)
+Used Cloudflare (https://dash.cloudflare.com/d400ebafeea9bc15e0602908dc6687aa/amateuralchemy.ca) nameservers in google domains since google domains doesn't accept railway's @ CNAMES by default (as per https://postulate.us/@samsonzhang/postulate/p/2022-08-17-Deploying-to-custom-Google-Domain-oqJpcTW46qVU7vD4KFdyVx)
+
 ## Inspo
 #### Style
 - https://www.hopculture.com/ 

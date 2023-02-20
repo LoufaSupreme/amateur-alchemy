@@ -1,0 +1,19 @@
+extends layout 
+
+block stylesheets
+  link(rel='stylesheet', href='/styles/articleQrCode.css')
+
+block content
+  h1.title Complete a triangle test! 
+  #qr-code
+  h2.subtitle
+    span or type
+    a.url(href="#" data-article_num=article_num)= "INSERT URL"
+    span into your browser
+
+block scripts 
+  //- library for generating qr codes 
+  //- https://github.com/davidshimjs/qrcodejs
+  script(src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js")
+  //- custom script file
+  script(src="/javascript/articleQrCode.js")

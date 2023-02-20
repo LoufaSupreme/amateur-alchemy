@@ -392,6 +392,14 @@ exports.displayTriangleTestResults = async (req, res, next) => {
     }
 }
 
+// @param req.params.article_num
+exports.qrCode = (req, res) => {
+    res.render('articleQrCode', {
+        title: "QR Code",
+        article_num: req.params.article_num
+    })
+}
+
 // API Route
 // params @req.params.slug
 exports.getArticleBySlug = async (req, res, next) => {
