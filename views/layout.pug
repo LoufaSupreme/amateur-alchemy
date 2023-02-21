@@ -15,7 +15,7 @@ html(lang="en")
     link(rel='stylesheet', href='/styles/main.css')
     block stylesheets
     //- favicon
-    link(rel="shortcut icon" type="image/png" href="/images/icons/doughnut.png")
+    link(rel="shortcut icon" type="image/png" href="/images/logo.png")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
     block header
@@ -23,8 +23,9 @@ html(lang="en")
         nav.nav
           .nav__section.nav__section--logo
             li.nav__item 
-              .logo 
-                a.nav__link(href="/") AMATEUR ALCHEMY
+              .logo-container
+                img.logo(src="/images/logo.png" alt="logo")
+                a.nav__link.site-name(href="/") AMATEUR ALCHEMY
           .nav__section.nav__section--pages 
             li.nav__item 
               a.nav__link(href="/beer-reviews") Beer Reviews
@@ -41,7 +42,7 @@ html(lang="en")
           .nav__section.nav__section--user 
             .dropdown
               button.halo 
-                img.profile-img(src="/images/profile.jpg")
+                img.profile-img(src="/images/profile.jpg" alt="profile pic")
               ul.dropdown-menu 
                 a(href="#")
                   li.dropdown-menu__item 
