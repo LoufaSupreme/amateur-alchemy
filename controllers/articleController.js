@@ -383,7 +383,8 @@ exports.displayTriangleTestResults = async (req, res, next) => {
     try {
         const article = await Article.findOne({ slug: req.params.slug });
         res.render('triangleTestResults', {
-            title: "Triangle Test Results", article
+            title: "Triangle Test Results", 
+            article
         });
     }
     catch(err){

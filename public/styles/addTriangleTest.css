@@ -196,6 +196,7 @@ input[type=range] {
 
 /*Chrome*/
 input[type='range'] {
+    appearance: none;
     -webkit-appearance: none;
     background-color: rgb(var(--clr-accent) / 0.7);
     overflow: hidden;
@@ -205,10 +206,12 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-runnable-track {
+    appearance: none;
     -webkit-appearance: none;
 }
 
 input[type='range']::-webkit-slider-thumb {
+    appearance: none;
     -webkit-appearance: none;
     /* background: rgb(var(--clr-bg-darker)); */
     background: white;

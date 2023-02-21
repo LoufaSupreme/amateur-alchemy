@@ -181,6 +181,7 @@ function graphPreferences(article) {
 // graph a comparison of the 2 beers
 function graphComparison(article) {
   const triangleTests = article.triangle_tests;
+  const rangeInputs = document.querySelectorAll('.range-input');
   // calc the average score for each sensory attribute
   // for any users who detected a difference
   // baseline is 2.  2 === the beers are equal
@@ -254,91 +255,95 @@ function graphComparison(article) {
 
     // console.log(averages)
 
-  const comparisonCanvas = document.getElementById("comparison");
+    rangeInputs.forEach(range => {
+      
+    })
 
-  const comparisonChartData = {
-    labels: Object.keys(averages[Object.keys(averages)[0]].attrs)
-      .map(attr => {
-        return capitalizeFirst(attr).replace("_", " ");
-      }),
-    datasets: [{
-      label: Object.keys(averages)[0],
-      display: false,
-      data: Object.values(Object.values(averages)[0].attrs),
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-      ],
-      borderWidth: 1,
-      hoverOffset: 50
-    },
-    {
-      label: Object.keys(averages)[1],
-      display: false,
-      data: Object.values(Object.values(averages)[1].attrs),
-      backgroundColor: [
-        'rgba(54, 162, 235, 0.2)',
-      ],
-      borderColor: [
-        'rgb(54, 162, 235)',
-      ],
-      borderWidth: 1,
-      hoverOffset: 50
-    }],
-  }
+  // const comparisonCanvas = document.getElementById("comparison");
 
-  const comparisonChartOptions = {
-    clip: false,
-    responsive: true,
-    layout: {
-      padding: 20,
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: 'rgb(255 255 255 / 0.5)',
-          font: {
-            // size: 16
-          }
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'More ⇢',
-          font: {
-            // size: 16,
-          },
-          color: 'rgb(255 255 255 / 0.5)'
-        },
-        ticks: {
-          display: false,
-        }
-      }
-    },
-    animation: {
-      animateScale: true
-    },
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          font: {
-            // size: 16
-          },
-        }
-      },
-      deferred: {
-          xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
-          yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
-          delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
-      }
-    },
-  };
+  // const comparisonChartData = {
+  //   labels: Object.keys(averages[Object.keys(averages)[0]].attrs)
+  //     .map(attr => {
+  //       return capitalizeFirst(attr).replace("_", " ");
+  //     }),
+  //   datasets: [{
+  //     label: Object.keys(averages)[0],
+  //     display: false,
+  //     data: Object.values(Object.values(averages)[0].attrs),
+  //     backgroundColor: [
+  //       'rgba(255, 99, 132, 0.2)',
+  //     ],
+  //     borderColor: [
+  //       'rgb(255, 99, 132)',
+  //     ],
+  //     borderWidth: 1,
+  //     hoverOffset: 50
+  //   },
+  //   {
+  //     label: Object.keys(averages)[1],
+  //     display: false,
+  //     data: Object.values(Object.values(averages)[1].attrs),
+  //     backgroundColor: [
+  //       'rgba(54, 162, 235, 0.2)',
+  //     ],
+  //     borderColor: [
+  //       'rgb(54, 162, 235)',
+  //     ],
+  //     borderWidth: 1,
+  //     hoverOffset: 50
+  //   }],
+  // }
 
-  makeChart(comparisonCanvas, 'bar', comparisonChartData, comparisonChartOptions);
+  // const comparisonChartOptions = {
+  //   clip: false,
+  //   responsive: true,
+  //   layout: {
+  //     padding: 20,
+  //   },
+  //   scales: {
+  //     x: {
+  //       ticks: {
+  //         color: 'rgb(255 255 255 / 0.5)',
+  //         font: {
+  //           // size: 16
+  //         }
+  //       },
+  //     },
+  //     y: {
+  //       title: {
+  //         display: true,
+  //         text: 'More ⇢',
+  //         font: {
+  //           // size: 16,
+  //         },
+  //         color: 'rgb(255 255 255 / 0.5)'
+  //       },
+  //       ticks: {
+  //         display: false,
+  //       }
+  //     }
+  //   },
+  //   animation: {
+  //     animateScale: true
+  //   },
+  //   plugins: {
+  //     legend: {
+  //       display: true,
+  //       labels: {
+  //         font: {
+  //           // size: 16
+  //         },
+  //       }
+  //     },
+  //     deferred: {
+  //         xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+  //         yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
+  //         delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+  //     }
+  //   },
+  // };
+
+  // makeChart(comparisonCanvas, 'bar', comparisonChartData, comparisonChartOptions);
 }
 
 // visualize off-flavours detected

@@ -78,6 +78,126 @@ h4.big {
   font-weight: bold;
 }
 
+/************* RANGE INPUT STYLING */
+/* Copied from addTriangleTest.css */
+
+input[type=range] {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-width: 300px;
+  cursor: pointer;
+}
+
+/*Chrome*/
+input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: rgb(var(--clr-accent) / 0.7);
+  overflow: hidden;
+  width: 100%;
+  height: 25px;
+  border-radius: 20rem;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  /* background: rgb(var(--clr-bg-darker)); */
+  background: white;
+  border-radius: 50%;
+  box-shadow: -210px 0 0 200px #57c2a9;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  border: 4px solid rgb(var(--clr-bg) / 0.7);
+}
+
+/* firefox */
+input[type='range']::-moz-range-thumb {
+  background: white;
+  border-radius: 50%;
+  box-shadow: -210px 0 0 200px #57c2a9;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  border: 4px solid rgb(var(--clr-bg) / 0.7);
+}
+
+input[type="range"]::-moz-range-track {
+  appearance: none;
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: #57c2a9;
+  height: 20px
+}
+
+input[type="range"]::-ms-fill-upper {
+  appearance: none;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background-color: #57c2a9;
+}
+
+.range-input {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.range-input:nth-child(2n) {
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.range-input:nth-child(2n-1) {
+  background-color: rgb(255 255 255 / 0.02);
+}
+
+.range-input__question-subtitle {
+  margin-bottom: 0.8rem;
+  font-size: 1.3em;
+}
+
+.range-input__range {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  text-align: center;
+  justify-items: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.range-input__beer-label {
+  display: block;
+  color: rgb(255 255 255 / 0.5);
+  font-size: 0.9em;
+  max-width: 100px;
+}
+
+/* left label */
+.range-input__beer-label:nth-child(1) {
+  justify-self: end;
+}
+
+/* right label */
+.range-input__beer-label:nth-child(3) {
+  justify-self: start;
+}
+
+.range-input__subheading {
+  margin: 2rem 0 2rem 0;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+/************ TABLE STYLING */
+
 #flaws-table {
   display: flex;
   flex-direction: column;
@@ -127,6 +247,8 @@ h4.big {
   border-left: 2px solid rgb(255 255 255 / 0.1);
   font-size: 1.2rem;
 }
+
+/************** MEDIA QUERIES */
 
 @media (max-width:480px) {
   .content {
