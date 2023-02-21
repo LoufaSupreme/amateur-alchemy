@@ -305,6 +305,38 @@ function graphComparison(article) {
       },
     });
 
+    function changeRangeInput(input, val) {
+      const inputParent = input.closest('.range-input');
+      const subheading = inputParent.querySelector('.range-input__subheading');
+
+      const blueBeer = article.beer_key.blue;
+      const yellowBeer = article.beer_key.yellow;
+
+      // update range value
+      input.value = val;
+
+      // update subheading:
+      switch(true) {
+        case val > 1:
+            subheading.innerText = `The ${blueBeer} beer is MUCH higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+            break;
+        case val > 0:
+            subheading.innerText = `The ${blueBeer} beer is somewhat higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+            break;
+        case val == 0:
+            subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
+            break;
+        case val < 0:
+            subheading.innerText =  `The ${yellowBeer} beer is somewhat higher in ${subheading.dataset.attr} than the ${blueBeer} beer.`;
+            break;
+        case val < -1:
+            subheading.innerText =  `The ${yellowBeer} beer is MUCH higher in ${subheading.dataset.attr} than the ${blueBeer} beer.`
+            break;
+        default:
+            console.error({Error: "Value not recognized", val})
+      }
+    }
+
     // for each beer descriptor
     rangeInputs.forEach(range => {
       const rangeInput = range.querySelector('input[type="range"]');
@@ -323,7 +355,7 @@ function graphComparison(article) {
       let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
       const sum = ratings.reduce((acc, curr) => acc+=curr,0);
       const avg = (sum / ratings.length).toFixed(1) || 2;
-      rangeInput.value = avg;
+      changeRangeInput(rangeInput, avg);
     })
 
   // const comparisonCanvas = document.getElementById("comparison");

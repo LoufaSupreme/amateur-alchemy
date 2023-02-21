@@ -81,11 +81,14 @@ h4.big {
 /************* RANGE INPUT STYLING */
 /* Copied from addTriangleTest.css */
 
+#comparison-container {
+  margin-bottom: 10rem;
+}
+
 input[type=range] {
   padding: 0;
   margin: 0;
   width: 100%;
-  min-width: 300px;
   cursor: pointer;
 }
 
@@ -149,6 +152,8 @@ input[type="range"]::-ms-fill-lower {
 .range-input {
   padding: 1rem;
   margin-bottom: 1rem;
+  max-width: min(700px, 90%);
+  min-width: min(90%, 700px);
 }
 
 .range-input:nth-child(2n) {
