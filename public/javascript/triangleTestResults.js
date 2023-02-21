@@ -196,30 +196,38 @@ function graphComparison(article) {
 
       // calc running avg of each attribute
       // https://math.stackexchange.com/questions/106313/regular-average-calculated-accumulatively
+      // for each beer characteristic: 
       for (const key of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
         // unique beer is rated higher
         if (curr[key] <= 2) {
           // if they guessed the unique beer correctly
           if (isCorrect) {
-            acc[actual_unique]["attrs"][key] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+            acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+
+            acc[actual_unique]["attrs"][key]["ratings"].push(curr[key])
           }
           // if they guessed the unique beer incorrectly
           else {
-            acc[actual_other]["attrs"][key] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+            acc[actual_other]["attrs"][key]["avg"] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+
+            acc[actual_other]["attrs"][key]["ratings"].push(curr[key])
           }
         }
         // "other" beer is rated higher
         else {
           // if they guessed the unique beer correctly
           if (isCorrect) {
-            acc[actual_other]["attrs"][key] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+            acc[actual_other]["attrs"][key]["avg"] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
+
+            acc[actual_other]["attrs"][key]["ratings"].push(curr[key])
           }
           // if they guessed the unique beer incorrectly
           else {
-            acc[actual_unique]["attrs"][key] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+            acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
+
+            acc[actual_unique]["attrs"][key]["ratings"].push(curr[key])
           }
-        }        
-        // acc[key] = ((count-1) * acc[key] + curr[key]) / count;
+        }
       }
       // update count
       acc[actual_unique].count++;
@@ -232,31 +240,90 @@ function graphComparison(article) {
       [ article["beer_key"]["blue"] ]: {
         count: 1,
         attrs: {
-          balance: 0,
-          bitterness: 0,
-          malt_character: 0,
-          yeast_character: 0,
-          body: 0,
-          carbonation: 0,
+          balance: {
+            ratings: [],
+            avg: 0
+          },
+          bitterness: {
+            ratings: [],
+            avg: 0
+          },
+          malt_character: {
+            ratings: [],
+            avg: 0
+          },
+          yeast_character: {
+            ratings: [],
+            avg: 0
+          },
+          hop_character: {
+            ratings: [],
+            avg: 0
+          },
+          body: {
+            ratings: [],
+            avg: 0
+          },
+          carbonation: {
+            ratings: [],
+            avg: 0
+          },
         }
       },
       [ article["beer_key"]["yellow"] ]: {
         count: 1,
         attrs: {
-          malt_character: 0,
-          yeast_character: 0,
-          bitterness: 0,
-          balance: 0,
-          body: 0,
-          carbonation: 0,
+          balance: {
+            ratings: [],
+            avg: 0
+          },
+          bitterness: {
+            ratings: [],
+            avg: 0
+          },
+          malt_character: {
+            ratings: [],
+            avg: 0
+          },
+          yeast_character: {
+            ratings: [],
+            avg: 0
+          },
+          hop_character: {
+            ratings: [],
+            avg: 0
+          },
+          body: {
+            ratings: [],
+            avg: 0
+          },
+          carbonation: {
+            ratings: [],
+            avg: 0
+          },
         }
       },
     });
 
-    // console.log(averages)
-
+    // for each beer descriptor
     rangeInputs.forEach(range => {
+      const rangeInput = range.querySelector('input[type="range"]');
+      const descriptor = rangeInput.id; // malt_character, carbonation, etc
       
+      // get average of all ratings for this descriptor
+      // normalize the ratings b/w -2 and 2
+      const blueBeerAvgs = averages[article.beer_key.blue]["attrs"][descriptor]["ratings"]
+        .map(rating => rating - 2);
+      
+      // multiply yellow ratings by -1 so scores offset eachother
+      const yellowBeerAvgs = averages[article.beer_key.yellow]["attrs"][descriptor]["ratings"]
+        .map(rating => (rating-2) * -1);
+      
+      // calculate avg for both beers
+      let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
+      const sum = ratings.reduce((acc, curr) => acc+=curr,0);
+      const avg = (sum / ratings.length).toFixed(1) || 2;
+      rangeInput.value = avg;
     })
 
   // const comparisonCanvas = document.getElementById("comparison");
@@ -378,7 +445,8 @@ function graphFlaws(article) {
     }
     return acc;
   }, {});
-  console.log(flaws);
+
+  // console.log(flaws);
   
   function makeTableCell(content, classNames=[]) {
     const cell = document.createElement('div');
@@ -407,7 +475,6 @@ function graphFlaws(article) {
     row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
     flawsTable.appendChild(row);
   }
-
 }
 
 // utility function to make a chart.js graph
@@ -429,7 +496,7 @@ async function getArticle() {
     const slug = window.location.href.split('/').at(-2);
     const response = await fetch(`/api/get-article/${slug}`);
     const article = await response.json();
-    console.log(article);
+    // console.log(article);
 
     graphDemographics(article);
     graphPreferences(article);

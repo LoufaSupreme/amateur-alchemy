@@ -237,13 +237,16 @@ input[type='range']::-moz-range-thumb {
 input[type="range"]::-moz-range-track {
     appearance: none;
 }
+
 input[type="range"]::-moz-range-progress {
     background-color: #57c2a9;
     height: 20px
 }
+
 input[type="range"]::-ms-fill-upper {
     appearance: none;
 }
+
 input[type="range"]::-ms-fill-lower {
     background-color: #57c2a9;
 }

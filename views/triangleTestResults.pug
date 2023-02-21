@@ -58,11 +58,49 @@ block content
         h3.range-input__question-subtitle Maltiness
         .range-input__range 
           .range-input__beer-label= article.beer_key.blue
-          input(type="range" id="malt_character" name="malt_character" min="0" max="4" value="2" step="1")
+          input(type="range" id="malt_character" min="-2" max="2" value="0" step="0.1")
           .range-input__beer-label= article.beer_key.yellow
         p.range-input__subheading(data-attr="maltiness") The maltiness is about equal.
-      //- .chart-wrapper
-      //-   canvas.chart#comparison 
+
+      .range-input 
+        h3.range-input__question-subtitle Hoppiness
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="hop_character" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="maltiness") The hoppiness is about equal.
+
+      .range-input
+        h3.range-input__question-subtitle Yeast Character
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="yeast_character" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="maltiness") The yeast character is about equal.
+
+      .range-input
+        h3.range-input__question-subtitle Bitterness
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="bitterness" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="maltiness") The bitterness is about equal.
+
+      .range-input
+        h3.range-input__question-subtitle Carbonation
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="carbonation" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="maltiness") The carbonation is about equal.
+
+      .range-input
+        h3.range-input__question-subtitle Body
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="body" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="maltiness") The body is about equal.
 
   section.results-section
     h3.section-title Off Flavours 
