@@ -20,7 +20,8 @@ block content
   article
     h3.date= h.moment(article.created).format("MMMM D, YYYY")
     h1= title 
-    img(src=`/uploads/${article.showcase_img}`)
+    if article.showcase_img
+      img(src=`/uploads/${article.showcase_img}`)
     p !{article.body}
 
 block scripts 

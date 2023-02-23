@@ -19,8 +19,9 @@ form {
 }
 
 .table {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  /* flex-direction: column; */
 }
 
 .form-group {
