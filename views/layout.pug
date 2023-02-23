@@ -22,10 +22,10 @@ html(lang="en")
       header
         nav.nav
           .nav__section.nav__section--logo
-            li.nav__item 
-              .logo-container
-                img.logo(src="/images/logo.png" alt="logo")
-                a.nav__link.site-name(href="/") AMATEUR ALCHEMY
+            a.nav__link(href="/")
+            li.nav__item.logo-container 
+              img.logo(src="/images/logo.png" alt="logo")
+              span.site-name Amateur Alchemy
           .nav__section.nav__section--pages 
             li.nav__item 
               a.nav__link(href="/beer-reviews") Beer Reviews
@@ -69,7 +69,6 @@ html(lang="en")
                     i.fa-solid.fa-arrow-right-from-bracket
                     span Logout
                     i.fa-solid.fa-chevron-right
-
 
     .flash-container
       block messages
