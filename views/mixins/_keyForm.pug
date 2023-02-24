@@ -2,9 +2,9 @@ mixin keyForm()
   form(action=`/articles/${article._id}/key` method="POST" class="form-card" autocomplete="off")
     .table
       .form-group.headings
-        div ID Number:
-        div Unique Beer:
-        div Unique Cup:
+        span ID #
+        span Unique Beer
+        span Unique Cup
       .form-group.input-group
         input.num(type="number" name="token_1" value=1 autocomplete="off" data-num="1" required)
 

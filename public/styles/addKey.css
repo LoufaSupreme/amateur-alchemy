@@ -1,16 +1,33 @@
+:root {
+  --fs-xl: 2.2rem;
+  --fs-l: 2rem;
+  --fs-m: 1.2rem;
+  --fs-s: 1rem;
+  --fs-xs: 0.75rem;
+}
+
+@media (max-width: 540px) {
+  :root {
+    --fs-xl: 1.8rem;
+    --fs-l: 1.45rem;
+    --fs-m: 0.85rem;
+    --fs-s: 0.75rem;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 .content {
-  max-width: 90%;
-  width: min(90%, 600px);
+  width: min(98%, 600px);
   margin: auto;
 }
 
 h1.title {
   text-align: center;
   margin-bottom: 2rem;
+  font-size: var(--fs-xl);
 }
 
 form {
@@ -21,12 +38,18 @@ form {
 .table {
   display: grid;
   grid-template-columns: 1fr;
-  /* flex-direction: column; */
+  margin-right: 1rem; /* space for delete btn */
 }
 
 .form-group {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 540px) {
+  .form-group {
+    grid-template-columns: 0.5fr 1fr 1fr;
+  }
 }
 
 .form-group:nth-child(2n) {
@@ -36,11 +59,11 @@ form {
 .headings {
   background-color: rgb(var(--clr-bg-darker));
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: var(--fs-m);
 }
 
 .form-group.headings > * {
-  padding: 1rem;
+  padding: 1em;
   text-align: center;
 }
 
@@ -64,6 +87,7 @@ form {
 .btn-group {
   display: flex;
   justify-content: space-evenly;
+  gap: 0.2rem;
   padding: 0.8rem 0.5rem;
 }
 
@@ -86,7 +110,7 @@ input[type="checkbox"] {
 input[type=radio] + label,
 input[type="checkbox"] + label {
     padding: 0.6em 1em;
-    border: 1px solid black;
+    font-size: var(--fs-s);
     border-radius: 0.3rem;
     cursor: pointer;
     width: auto;
@@ -128,7 +152,7 @@ input[type="checkbox"]:checked + label:before {
 input.num {
   border-radius: 0;
   border: none;
-  font-size: 1.75rem;
+  font-size: var(--fs-l);
   text-align: center;
   text-transform: uppercase;
   width: 100%;
@@ -151,7 +175,7 @@ input[type=radio].beer.yellow:checked + label {
 .button {
   background-color: rgb(var(--clr-accent));
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: var(--fs-m);
   cursor: pointer;
 }
 
@@ -170,13 +194,14 @@ input[type=button].button:hover {
 
 #add-btn {
   width: 40%;
-  font-size: 1rem;
+  font-size: var(--fs-m);
 }
 
 button.delete-item-btn {
   border-radius: 50%;
   width: 20px;
   height: 20px;
+  font-size: var(--fs-s);
   padding: 0.3em;
   position: absolute;
   background-color: transparent;
@@ -197,5 +222,9 @@ button.delete-item-btn:hover {
   color: black;
   border: none;
   font-weight: bold;
+}
+
+button.delete-item-btn i {
+  pointer-events: none;
 }
 

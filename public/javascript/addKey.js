@@ -43,7 +43,7 @@ function createInputGroup(lastGroup, num=null) {
 
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('delete-item-btn');
-  deleteBtn.innerText = 'x';
+  deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   deleteBtn.addEventListener('click', deleteInputGroup);
   newInputGroup.appendChild(deleteBtn)
   
