@@ -228,9 +228,13 @@ exports.addKey = async (req, res, next) => {
         const article = await Article.findOne(
             { article_num: req.params.article_num },
         );
+        const triangle_key = article.triangle_key.sort((a,b) => {
+            return +a.token - +b.token;
+        })
         res.render('addKey', {
             title: 'Add Triangle Test Key',
-            article: article
+            article,
+            triangle_key
         });
     }
     catch(err) {

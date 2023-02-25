@@ -1,28 +1,34 @@
-mixin keyForm()
+mixin keyForm(keys=[])
   form(action=`/articles/${article._id}/key` method="POST" class="form-card" autocomplete="off")
     .table
       .form-group.headings
         span ID #
         span Unique Beer
         span Unique Cup
-      .form-group.input-group
-        input.num(type="number" name="token_1" value=1 autocomplete="off" data-num="1" required)
+      //- pre= h.dump(keys)
+      each key,idx in keys
+        .form-group.input-group
+          input.num(type="number" name=`token_${key.token}` value=`${key.token}` autocomplete="off" data-num=`${key.token}` required)
 
-        .btn-group
-          input.beer.blue(type="radio" name="unique_beer_1" id="blue_1" value="blue" required)
-          label(for="blue_1") Blue
+          .btn-group
+            input.beer.blue(type="radio" name=`unique_beer_${key.token}` id=`blue_${key.token}` value="blue" required checked= key.unique_beer === "blue")
+            label(for=`blue_${key.token}`) Blue
 
-          input.beer.yellow(type="radio" name="unique_beer_1" id="yellow_1" value="yellow" required)
-          label(for="yellow_1") Yellow
+            input.beer.yellow(type="radio" name=`unique_beer_${key.token}` id=`yellow_${key.token}` value="yellow" required checked= key.unique_beer === "yellow")
+            label(for="yellow_1") Yellow
 
-        .btn-group
-          input.cup(type="radio" name="unique_cup_1" id="A_1" value="A" required)
-          label(for="A_1") A
+          .btn-group
+            input.cup(type="radio" name=`unique_cup_${key.token}` id=`A_${key.token}` value="A" required checked= key.unique_cup === "A")
+            label(for=`A_${key.token}`) A
 
-          input.cup(type="radio" name="unique_cup_1" id="B_1" value="B" required)
-          label(for="B_1") B
+            input.cup(type="radio" name=`unique_cup_${key.token}` id=`B_${key.token}` value="B" required checked= key.unique_cup === "B")
+            label(for=`B_${key.token}`) B
 
-          input.cup(type="radio" name="unique_cup_1" id="C_1" value="C" required)
-          label(for="C_1") C
+            input.cup(type="radio" name=`unique_cup_${key.token}` id=`C_${key.token}` value="C" required checked= key.unique_cup === "C")
+            label(for=`C_${key.token}`) C
+
+          //- need to do fn.call(this) to access "this" object
+          button.delete-item-btn(type="button" onclick="deleteInputGroup.call(this)")
+            i.fa-solid.fa-xmark
     input(type="button" value="Add Set" class="button" id="add-btn")
     input(type="submit" value="Submit" class="button" id="submit-btn")

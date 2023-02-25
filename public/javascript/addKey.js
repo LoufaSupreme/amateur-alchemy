@@ -1,7 +1,9 @@
 const table = document.querySelector('.table');
 const addBtn = document.querySelector('#add-btn');
 const submitBtn = document.querySelector('#submit-btn');
-const store = JSON.parse(localStorage.getItem('store')) || {};
+// local storage
+const currentUrl = window.location.pathname;
+const store = JSON.parse(localStorage.getItem(currentUrl)) || {};
 
 function getInputGroups() {
   const inputGroups = Array.from(document.querySelectorAll('.input-group'));
@@ -59,15 +61,17 @@ function resetEventListener(oldLast, newLast) {
   newLast.addEventListener('click', handleClick);
 }
 
-function deleteInputGroup(e) {
-  e.stopPropagation();
-  const parent = e.target.parentElement;
-  updateLocalStorage(e, true);
+function deleteInputGroup() {
+  const parent = this.parentElement;
+  const id = parent.querySelector('.num').value;
   parent.remove();
+  deleteFromLocalStorage(id);
+  
   const newLastGroup = getInputGroups().lastGroup;
-  resetEventListener(null, newLastGroup);
+  if (newLastGroup) resetEventListener(null, newLastGroup);
 }
 
+// check if an input group has both a beer and cup selected
 function isCompleteInput(lastGroup) {
   const lastGroupBeerBtns = Array.from(lastGroup.querySelectorAll('.beer'));
   const lastGroupCupBtns = Array.from(lastGroup.querySelectorAll('.cup'));
@@ -75,9 +79,12 @@ function isCompleteInput(lastGroup) {
   return (lastGroupBeerBtns.filter(btn => btn.checked).length && lastGroupCupBtns.filter(btn => btn.checked).length);
 }
 
+// check form prior to submit to server
 function validateForm(e) {
   const allInputGroups = getInputGroups().allGroups;
   const seen = [];
+
+  // check if an ID # is duplicated
   for (const group of allInputGroups) {
     const num = group.querySelector('.num').value;
     
@@ -92,6 +99,7 @@ function validateForm(e) {
     }
     seen.push(num);
 
+    // check that all the input groups are complete
     if (!isCompleteInput(group)) {
       group.scrollIntoView();
       group.classList.add('failed-validation');
@@ -104,19 +112,15 @@ function validateForm(e) {
   }
 }
 
-function updateLocalStorage(e, remove=false) {  
-  const inputGroup = e.target.closest('.input-group');
-  if (!inputGroup) return console.log('No changes to localStorage');
-
-  const id = inputGroup.querySelector('.num').value;
-  if (!id) return console.log('No changes to localStorage');
-
-  if (remove) {
-    delete store[id]
-  }
-  else {
-    const beer = Array.from(inputGroup.querySelectorAll('.beer')).filter(btn => btn.checked)[0];
-    const cup = Array.from(inputGroup.querySelectorAll('.cup')).filter(btn => btn.checked)[0];
+function updateLocalStorage() {
+  console.log('Updating storage')
+  const inputGroups = getInputGroups().allGroups;
+  
+  inputGroups.forEach(group => {
+    // get values of inputs
+    const id = group.querySelector('.num').value;
+    const beer = Array.from(group.querySelectorAll('.beer')).filter(btn => btn.checked)[0];
+    const cup = Array.from(group.querySelectorAll('.cup')).filter(btn => btn.checked)[0];
 
     // if theres a checked value for the beer or the cup then update the store
     if (beer || cup) {
@@ -125,9 +129,13 @@ function updateLocalStorage(e, remove=false) {
         cup: cup ? cup.value : ""
       }
     }
-  }
+  });
 
-  localStorage.setItem('store', JSON.stringify(store));
+  localStorage.setItem(currentUrl, JSON.stringify(store));
+}
+
+function deleteFromLocalStorage(id) {
+  delete store[id];
 }
 
 function initializeForm() {
@@ -151,8 +159,9 @@ function initializeForm() {
 }
 
 // this fires twice due to a bug
-// the input labels have an integrated eventListener on them to check their input box if theyre clicked, which also triggers a second click event.
+// the input labels have a default eventListener on them (from the browser) to check their input box if theyre clicked, which also triggers a second click event.
 function handleClick(e) {
+  if (e.target.classList.contains("delete-item-btn")) return;
   const lastGroup = getInputGroups().lastGroup;
   if (isCompleteInput(lastGroup)) createInputGroup(lastGroup);
 }
@@ -173,9 +182,15 @@ submitBtn.addEventListener('click', (e) => {
   validateForm(e);
 })
 
+// populate the form from local storage if available
+initializeForm();
+
+// create a blank input group if there are none
+if (getInputGroups().totalGroups === 0) {
+  createInputGroup(null);
+}
+
 const lastGroup = getInputGroups().lastGroup;
 lastGroup.addEventListener('click', handleClick);
 
 table.addEventListener('click', updateLocalStorage);
-
-initializeForm();
