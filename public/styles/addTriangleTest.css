@@ -23,10 +23,9 @@ fieldset {
     border: none;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 5px;
     padding: 0.5rem;
     transition: background-color 0.25s ease-in-out;
-    border-radius: 0.3rem;
 }
 
 fieldset.failed-validation {
