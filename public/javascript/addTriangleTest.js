@@ -165,7 +165,20 @@ function handleFlawsDetected(e) {
     if (e.target.id === "flaws-true") {
         flawsContainer.classList.add('active');
     }
-    else flawsContainer.classList.remove('active');
+    else if (e.target.id === "flaws-false") {
+        flawsContainer.classList.remove('active');
+        resetFlaws();
+    }
+    else {
+        console.error('Something went wrong in handleFlawsDetected')
+    }
+}
+
+// reset all the flaw boxes to unchecked
+function resetFlaws() {
+    flawInputs.forEach(input => {
+        input.checked = false;
+    })
 }
 
 // reset all range inputs back to default
