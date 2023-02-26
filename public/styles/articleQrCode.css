@@ -14,27 +14,40 @@ h1.title {
 
 h2.subtitle {
   font-size: clamp(0.6rem, 2vw, 2rem);
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
 }
 
-@media (max-width: 480px) {
-  h2.subtitle {
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
-  }
-
-  .url {
-    font-size: clamp(0.8rem, 2vw, 2rem);
-  }
+h2.subtitle > * {
+  flex: 1;
 }
 
 #qr-code {
   width: min(90vw, 850px);
-  padding: 3rem 0 2rem 0;
+  margin: 2rem 0 2rem 0;
 }
 
 .url {
   color: rgb(var(--clr-accent));
   padding-inline: 0.5rem;
+  font-size: clamp(0.8rem, 2vw, 2rem);
 }
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0;
+  }
+  
+  h2.subtitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  #qr-code {
+    margin: 1rem;
+  }
+}
+
