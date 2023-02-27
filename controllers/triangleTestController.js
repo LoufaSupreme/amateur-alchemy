@@ -46,7 +46,9 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
   }
 };
 
-exports.displaySuccessfulTriangleTest2 = async (req, res, next) => {
+// show the success screen after a triangle test was successfully created/updated
+// requires an article object in req.body.article
+exports.displaySuccessfulTriangleTest = async (req, res, next) => {
   console.log(`Running displaySuccessfulTriangleTest for article ${req.params.article_num} and test ${req.params.token}`);
 
   try {
@@ -64,22 +66,6 @@ exports.displaySuccessfulTriangleTest2 = async (req, res, next) => {
     console.log(err);
     next(err);
   }
-}
-
-// show the success screen after a triangle test was successfully created/updated
-// requires a triangle test object to be in req.body.triangleTest and an article object in req.body.article
-exports.displaySuccessfulTriangleTest = (req, res) => {
-  console.log('Running displaySuccessfulTriangleTest')
-  // req.body.triangleTest = await TriangleTest.findOne({_id: req.params.id })
-  
-  // req.body.article = await Article.findOne({_id: req.body.triangleTest.article})
-  const triangleKey = req.body.article.triangle_key.find(key => key.token === req.body.triangleTest.token)
-
-  res.render('successfulTriangleTest', {
-    title: 'Success!',
-    triangleTest: req.body.triangleTest,
-    triangleKey
-  })
 }
 
 // update or create triangle test with the actual unique beer cup letter from an article's key

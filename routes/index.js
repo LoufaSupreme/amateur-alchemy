@@ -86,12 +86,12 @@ router.post('/articles/:article_num/triangle-test',
     articleController.getArticleByNum,
     triangleTestController.createOrUpdateTriangleTest,
     articleController.appendTriangleTest,
-    // triangleTestController.displaySuccessfulTriangleTest2
 );
 
+// display the thank you/success page after a triangle test is submitted
 router.get('/articles/:article_num/triangle-tests/:token/thanks',      
     articleController.getArticleByNum,
-    triangleTestController.displaySuccessfulTriangleTest2
+    triangleTestController.displaySuccessfulTriangleTest
 )
 
 // display form to create a new triangleTest key for an article
