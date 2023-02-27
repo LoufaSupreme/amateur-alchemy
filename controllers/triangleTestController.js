@@ -48,7 +48,6 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
       req.body.triangleTest = triangleTest;
 
     console.log(`Successfully updated/created triangleTest for token ${triangleTestInfo.value.token} in article ${req.body.article.title}`);
-    req.flash('success', `Successfully created Triangle Test!`);
 
     next();
   } 
