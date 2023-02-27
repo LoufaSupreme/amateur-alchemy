@@ -13,25 +13,24 @@ block content
 
   //- if they actually noticed a difference
   if triangleTest.preference !== "none"
-    p= `You chose Cup ${triangleTest.perceived_unique} as the odd beer out.`
+    span You chose <span class="larger">Cup #{triangleTest.perceived_unique}</span> as the odd beer out.
     //- if they picked the right cup
     if triangleTest.perceived_unique === triangleKey.unique_cup
-      p That is correct! 
+      //- span.larger That is correct! 
       //- success checkmark
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.3 193.3">
         <circle class="cls-1 circle" cx="96.65" cy="96.65" r="94.15"/>
         <polyline class="cls-1 checkmark" points="46.9 101.4 76.9 131.4 146.4 61.9"/>
       </svg>
-      p= `Cup ${triangleKey.unique_cup} was the odd beer out! The fact that you detected a difference may indicate that this variable is significant...`
+      p Correct! The unique beer was in fact <span class="hl">Cup #{triangleKey.unique_cup}!</span> Since you were able to successfully detect a difference, this <span class="ul">might</span> indicate that there is a statistically significant difference between the beers...
     //- if they picked the wrong cup
-    else 
-      p Believe it or not, that is incorrect! 
+    else  
       //- Error Checkmark
       <svg class="checkmark-error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" >
         <circle cx="26" cy="26" r="25" fill="none" class="checkmark__circle "></circle>
         <path fill="none" d="M 12,12 L 40,40 M 40,12 L 12,40" class="checkmark__check"></path>
       </svg>
-      p= `Cup ${triangleKey.unique_cup} actually contained the unique beer.`
+      p Believe it or not, that is incorrect! The odd beer out was actually in <span class="hl">Cup #{triangleKey.unique_cup}!</span> Since you were unable to successfully detect a difference, this <span class="ul">might</span> indicate that there isn't any statistically significant difference between the beers.
 
   //- if they didn't notice a difference
   else

@@ -18,6 +18,15 @@ h1 {
   font-weight: bold;
 }
 
+.larger {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.ul {
+  text-decoration: underline;
+}
+
 /* Checkmark Animation ******************/
 /* https://codepen.io/cibgraphics/pen/PzpPVe */
 
@@ -126,7 +135,7 @@ svg {
 
 .app {
   position: relative;
-  margin: 4rem 0 3.5rem 0;
+  margin: 4.5rem 0 3.5rem 0;
 }
 
 #cup1, #cup2, #cup3{
