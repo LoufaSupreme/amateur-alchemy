@@ -179,7 +179,8 @@ exports.appendTriangleTest = async (req, res, next) => {
         // update the article on the req object to
         req.body.article = article;
 
-        next();
+        // next();
+        res.redirect(`/articles/${article.article_num}/triangle-tests/${req.body.triangleTest.token}/thanks`);
     }
     catch(err) {
         console.log(err);
@@ -209,14 +210,20 @@ exports.displayArticle = async (req, res, next) => {
 
 // check if article exists with a given "article_num"
 // note that article_num is different than the mongodb _id
-exports.getArticleByNum = async (n) => {
-    console.log(`Running getArticleByNum on article_num ${n}`);
+// requires an article num in req.params.article_num
+exports.getArticleByNum = async (req, res, next) => {
+    console.log(`Running getArticleByNum on article_num ${req.params.article_num}`);
     try {
-        const article = await Article.findOne({ article_num: n });
-        return article;
+        const article = await Article.findOne({ article_num: +req.params.article_num });
+
+        if (!article) throw new Error(`Article ${req.params.article_num} not found.`);
+
+        req.body.article = article;
+        return next();
     }
     catch(err){
         console.log(err);
+        next(err);
     }
 }
 

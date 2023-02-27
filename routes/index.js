@@ -83,12 +83,16 @@ router.get('/articles/:article_num/triangle-test',
 
 // create a new triangleTest in the db
 router.post('/articles/:article_num/triangle-test', 
+    articleController.getArticleByNum,
     triangleTestController.createOrUpdateTriangleTest,
     articleController.appendTriangleTest,
-    triangleTestController.displaySuccessfulTriangleTest
+    // triangleTestController.displaySuccessfulTriangleTest2
 );
 
-router.get('/articles/:id/thanks', triangleTestController.displaySuccessfulTriangleTest)
+router.get('/articles/:article_num/triangle-tests/:token/thanks',      
+    articleController.getArticleByNum,
+    triangleTestController.displaySuccessfulTriangleTest2
+)
 
 // display form to create a new triangleTest key for an article
 router.get('/articles/:article_num/triangle-test-key', 

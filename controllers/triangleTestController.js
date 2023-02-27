@@ -1,40 +1,26 @@
 const mongoose = require("mongoose");
 const TriangleTest = mongoose.model("TriangleTest"); // schema
-const Article = mongoose.model("Article"); // schema
-const { getArticleByNum } = require("./articleController.js");
 
 // render the add triangleTest page
+// requires an article obj on req.body.article
 exports.addTriangleTest = async (req, res, next) => {
   console.log("Running addTriangleTest");
 
-  try {
-    const article = await getArticleByNum(req.params.article_num);
-    if (!article) throw new Error("Article not found");
-    
-    res.render("addTriangleTest", {
-      title: "New Triangle Test",
-      article_num: req.params.article_num,
-      schema: TriangleTest.schema.obj,
-    });
-  } 
-  catch (err) {
-    console.log(err);
-    next(err);
-  }
+  res.render("addTriangleTest", {
+    title: "New Triangle Test",
+    article_num: req.params.article_num,
+    schema: TriangleTest.schema.obj,
+  });
 };
 
 // create a new or update an existing triangleTest instance
-// needs article_num in req.params
+// requires an article obj on req.body.article
 exports.createOrUpdateTriangleTest = async (req, res, next) => {
   console.log(
-    `Running createOrUpdateTriangleTest for article ${req.params.article_num}`
+    `Running createOrUpdateTriangleTest for article ${req.body.article.article_num}`
   );
 
   try {
-    const article = await getArticleByNum(req.params.article_num);
-    if (!article) throw new Error("Article not found");
-    req.body.article = article;
-    
     // returns more than just the trianlgeTest object
     const triangleTestInfo = await TriangleTest.findOneAndUpdate(
       { token: req.body.token },
@@ -49,7 +35,7 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
       // add new triangleTest to the req.body
       req.body.triangleTest = triangleTestInfo.value;
 
-    console.log(`Successfully updated/created triangleTest for token ${triangleTestInfo.value.token} in article ${article.title}`);
+    console.log(`Successfully updated/created triangleTest for token ${triangleTestInfo.value.token} in article ${req.body.article.title}`);
     req.flash('success', `Successfully created Triangle Test!`);
 
     next();
@@ -60,13 +46,33 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
   }
 };
 
-// show the success screen after a triangle test was successfully created/updated
-// requires a triangle test object to be in req.body.triangleTest
-exports.displaySuccessfulTriangleTest = async (req, res, next) => {
-  console.log('Running displaySuccessfulTriangleTest')
-  req.body.triangleTest = await TriangleTest.findOne({_id: req.params.id })
+exports.displaySuccessfulTriangleTest2 = async (req, res, next) => {
+  console.log(`Running displaySuccessfulTriangleTest for article ${req.params.article_num} and test ${req.params.token}`);
+
+  try {
+    const triangleTest = await TriangleTest.findOne({token: +req.params.token});
   
-  req.body.article = await Article.findOne({_id: req.body.triangleTest.article})
+    const triangleKey = req.body.article.triangle_key.find(key => key.token === triangleTest.token);
+
+    res.render('successfulTriangleTest', {
+      title: 'Success!',
+      triangleTest,
+      triangleKey
+    })
+  }
+  catch(err) {
+    console.log(err);
+    next(err);
+  }
+}
+
+// show the success screen after a triangle test was successfully created/updated
+// requires a triangle test object to be in req.body.triangleTest and an article object in req.body.article
+exports.displaySuccessfulTriangleTest = (req, res) => {
+  console.log('Running displaySuccessfulTriangleTest')
+  // req.body.triangleTest = await TriangleTest.findOne({_id: req.params.id })
+  
+  // req.body.article = await Article.findOne({_id: req.body.triangleTest.article})
   const triangleKey = req.body.article.triangle_key.find(key => key.token === req.body.triangleTest.token)
 
   res.render('successfulTriangleTest', {
