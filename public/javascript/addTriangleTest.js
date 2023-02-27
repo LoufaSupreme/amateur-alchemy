@@ -138,7 +138,7 @@ function handlePreferenceChange(e) {
                 label.style.display = "none";
             }
             else {
-                input.value = "all";
+                input.value = "all"; // will send a value of "all" to the backend
                 labelIconDiv.style.display = "block";
                 labelTextDiv.style.display = "none";
                 input.checked = false;

@@ -4,7 +4,7 @@ block stylesheets
     link(rel='stylesheet', href='/styles/triangleTestResults.css')
 
 block content 
-  //- pre= h.dump(article)
+  pre= h.dump(article)
   - 
     const correct = article.triangle_tests.filter(test => {
       if (test.actual_unique) {

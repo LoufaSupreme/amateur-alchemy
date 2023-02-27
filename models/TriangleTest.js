@@ -62,7 +62,7 @@ const triangleTestSchema = new mongoose.Schema({
     flaws_detected: Boolean,
     flaws: {
         acetaldehyde: {
-            type: [String], // all, unique, other or null
+            type: [String], // all, unique, other
             description: "Green apple.",
         },
         alcoholic: {

@@ -33,7 +33,7 @@ mixin articleForm(article = {})
                             button(class="gallery-copy-btn") 
                                 i.fa-regular.fa-copy
 
-            input(type="submit" value="Save Images" class="button" disabled=`${article ? "disabled" : ""}`)
+            input(type="submit" value="Save Images" class="button")
             
             label(for="tagline") Tagline 
             textarea(name="tagline" id="tagline") #{article.tagline}

@@ -392,7 +392,8 @@ exports.updateTriangleTestStatistics = async (req, res, next) => {
 exports.displayTriangleTestResults = async (req, res, next) => {
     console.log('Running displayTriangleTestResults');
     try {
-        const article = await Article.findOne({ slug: req.params.slug });
+        const article = await Article.findOne({ slug: req.params.slug }).populate('triangle_tests');
+        
         res.render('triangleTestResults', {
             title: "Triangle Test Results", 
             article
