@@ -1,17 +1,47 @@
 extends layout 
 
 block stylesheets 
-  //- link(rel='stylesheet', href='/styles/addTriangleTest.css')
+  link(rel='stylesheet', href='/styles/successfulTriangleTest.css')
 
 block content
-  h1= title
   if msg 
     .msg= msg
-  .container
-    if triangleTest.name
-      p= `Thank you ${triangleTest.name}!`
+  if triangleTest.name
+    h1.thanks(data-actual-unique= triangleKey.unique_cup)= `Thank you ${triangleTest.name}!`
+  else 
+    h1.thanks(data-actual-unique= triangleKey.unique_cup)= `Thank you!`
+
+  //- if they actually noticed a difference
+  if triangleTest.preference !== "none"
+    p= `You chose Cup ${triangleTest.perceived_unique} as the odd beer out.`
+    //- if they picked the right cup
+    if triangleTest.perceived_unique === triangleKey.unique_cup
+      p That is correct! 
+      //- success checkmark
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.3 193.3">
+        <circle class="cls-1 circle" cx="96.65" cy="96.65" r="94.15"/>
+        <polyline class="cls-1 checkmark" points="46.9 101.4 76.9 131.4 146.4 61.9"/>
+      </svg>
+      p= `Cup ${triangleKey.unique_cup} was the odd beer out! The fact that you detected a difference may indicate that this variable is significant...`
+    //- if they picked the wrong cup
     else 
-      p= `Thank you Token ${triangleTest.token}!`
+      p Believe it or not, that is incorrect! 
+      //- Error Checkmark
+      <svg class="checkmark-error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" >
+        <circle cx="26" cy="26" r="25" fill="none" class="checkmark__circle "></circle>
+        <path fill="none" d="M 12,12 L 40,40 M 40,12 L 12,40" class="checkmark__check"></path>
+      </svg>
+      p= `Cup ${triangleKey.unique_cup} actually contained the unique beer.`
+
+  //- if they didn't notice a difference
+  else
+    p You indicated that there were no perceptible differences between these beers.
+    p If you're curious, <span class="hl">Cup #{triangleKey.unique_cup}</span> had the unique beer out of the three.
+  
+  .app
+    .cup-container 
+  p Stay tuned for a presentation about what this test was about, how these beers were made, and whether or not there was a statistically significant difference between them!
   
 block scripts
-  
+  //- custom script file
+  script(src="/javascript/successfulTriangleTest.js")

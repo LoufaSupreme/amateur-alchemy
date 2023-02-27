@@ -88,6 +88,8 @@ router.post('/articles/:article_num/triangle-test',
     triangleTestController.displaySuccessfulTriangleTest
 );
 
+router.get('/articles/:id/thanks', triangleTestController.displaySuccessfulTriangleTest)
+
 // display form to create a new triangleTest key for an article
 router.get('/articles/:article_num/triangle-test-key', 
     articleController.addKey

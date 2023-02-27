@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const TriangleTest = mongoose.model("TriangleTest"); // schema
+const Article = mongoose.model("Article"); // schema
 const { getArticleByNum } = require("./articleController.js");
 
 // render the add triangleTest page
@@ -60,10 +61,18 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
 };
 
 // show the success screen after a triangle test was successfully created/updated
-exports.displaySuccessfulTriangleTest = (req, res) => {
+// requires a triangle test object to be in req.body.triangleTest
+exports.displaySuccessfulTriangleTest = async (req, res, next) => {
+  console.log('Running displaySuccessfulTriangleTest')
+  req.body.triangleTest = await TriangleTest.findOne({_id: req.params.id })
+  
+  req.body.article = await Article.findOne({_id: req.body.triangleTest.article})
+  const triangleKey = req.body.article.triangle_key.find(key => key.token === req.body.triangleTest.token)
+
   res.render('successfulTriangleTest', {
     title: 'Success!',
-    triangleTest: req.body.triangleTest
+    triangleTest: req.body.triangleTest,
+    triangleKey
   })
 }
 
