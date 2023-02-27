@@ -4,13 +4,12 @@
 const container = document.querySelector('.content');
 const containerWidth = container.getBoundingClientRect().width;
 const dimensions = {
-  w: containerWidth/3, h: containerWidth/3 * 1.2, margin: 20
+  w: containerWidth*0.8/3, h: containerWidth*0.8/3 * 1.2, margin: 20
 }
 const cupContainer = document.querySelector('.cup-container');
 const actualUniqueCup = document.querySelector(".thanks").dataset.actualUnique;
 
 let currWindowWidth = window.innerWidth;
-let currWindowHeight = window.innerHeight;
 let cups;
 
 function buildCups(){
@@ -143,9 +142,8 @@ function onResize(){
   // mobile browsers will fire the resize event everytime the scroll bars or nav disappear/reappear
   // check if window actually resized
   const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
 
-  if (windowWidth == currWindowWidth && windowHeight == currWindowHeight) return;
+  if (windowWidth == currWindowWidth) return;
 
   // reset dimensions based on width of content box
   const containerWidth = container.getBoundingClientRect().width;
