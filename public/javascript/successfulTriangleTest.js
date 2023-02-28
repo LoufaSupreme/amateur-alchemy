@@ -9,6 +9,7 @@ const dimensions = {
 const cupContainer = document.querySelector('.cup-container');
 const actualUniqueCup = document.querySelector(".thanks").dataset.actualUnique;
 
+let blackSheep;
 let currWindowWidth = window.innerWidth;
 let cups;
 
@@ -68,7 +69,9 @@ function createUniqueMarker() {
   unique.classList.add('unique-marker');
   unique.src = '/images/black-sheep-64.png';
 
-  document.querySelector('.cup-container').append(unique)
+  document.querySelector('.cup-container').append(unique);
+
+  blackSheep = unique;
 
   return unique;
 }
@@ -159,8 +162,26 @@ function onResize(){
   buildCups()
 }
 
+function bahhh() {
+  let count = 0;
+  const sheepSounds = [
+    "Once you go black sheep you never go back sheep",
+    "Why do the horses always get the blankets?? I feel fleeced.",
+    "Don't hate me cause you ain't me",
+    "What do these beers and my Friday night have in common? Barnyard funk.",
+    "Pasteurize?? No I said I'm a pasture guy.",
+    "I'm getting a lot of grassy/vegetal notes... Fucking delicious."
+  ];
+
+  return () => {
+    makeAlert(sheepSounds[count % (sheepSounds.length)],3000);
+    count++;
+  }
+}
+
 buildCups();
 onResize();
 window.addEventListener('resize', onResize);
+blackSheep.addEventListener('click', bahhh())
 
 setTimeout(() => {raiseCup()}, 3000)
