@@ -246,6 +246,7 @@ function graphComparison(article) {
           }
         }
       }
+
       // update count
       acc[actual_unique].count++;
       acc[actual_other].count++;
@@ -322,149 +323,63 @@ function graphComparison(article) {
       },
     });
 
-    function changeRangeInput(input, val) {
-      const inputParent = input.closest('.range-input');
-      const subheading = inputParent.querySelector('.range-input__subheading');
+  function changeRangeInput(input, val) {
+    const inputParent = input.closest('.range-input');
+    const subheading = inputParent.querySelector('.range-input__subheading');
 
-      const blueBeer = article.beer_key.blue;
-      const yellowBeer = article.beer_key.yellow;
+    const blueBeer = article.beer_key.blue;
+    const yellowBeer = article.beer_key.yellow;
 
-      // update range value
-      input.value = val;
+    // update range value
+    input.value = val;
 
-      // update subheading:
-      switch(true) {
-        case val > 1:
-            subheading.innerText = `The ${blueBeer} beer is MUCH higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
-            break;
-        case val > 0:
-            subheading.innerText = `The ${blueBeer} beer is somewhat higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
-            break;
-        case val == 0:
-            subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
-            break;
-        case val < 0:
-            subheading.innerText =  `The ${blueBeer} beer is somewhat lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
-            break;
-        case val < -1:
-            subheading.innerText =  `The ${blueBeer} beer is MUCH lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`
-            break;
-        default:
-            console.error({Error: "Value not recognized", val})
-      }
+    // update subheading:
+    switch(true) {
+      case val > 1:
+          subheading.innerText = `The ${blueBeer} beer is MUCH higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+          break;
+      case val > 0:
+          subheading.innerText = `The ${blueBeer} beer is somewhat higher in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+          break;
+      case val == 0:
+          subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
+          break;
+      case val < 0:
+          subheading.innerText =  `The ${blueBeer} beer is somewhat lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+          break;
+      case val < -1:
+          subheading.innerText =  `The ${blueBeer} beer is MUCH lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`
+          break;
+      default:
+          console.error({Error: "Value not recognized", val})
     }
+  }
 
-    // for each beer descriptor
-    rangeInputs.forEach(range => {
-      const rangeInput = range.querySelector('input[type="range"]');
-      const descriptor = rangeInput.id; // malt_character, carbonation, etc
-      
-      // get average of all ratings for this descriptor
-      // normalize the ratings b/w -2 and 2
-      const blueBeerAvgs = averages[article.beer_key.blue]["attrs"][descriptor]["ratings"]
-        .map(rating => rating - 2);
-      
-      // multiply yellow ratings by -1 so scores offset eachother
-      const yellowBeerAvgs = averages[article.beer_key.yellow]["attrs"][descriptor]["ratings"]
-        .map(rating => (rating-2) * -1);
-      
-      // calculate avg for both beers
-      let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
-      const sum = ratings.reduce((acc, curr) => acc+=curr,0);
-      const avg = (sum / ratings.length).toFixed(1) || 2;
-      changeRangeInput(rangeInput, avg);
-    })
-
-  // const comparisonCanvas = document.getElementById("comparison");
-
-  // const comparisonChartData = {
-  //   labels: Object.keys(averages[Object.keys(averages)[0]].attrs)
-  //     .map(attr => {
-  //       return capitalizeFirst(attr).replace("_", " ");
-  //     }),
-  //   datasets: [{
-  //     label: Object.keys(averages)[0],
-  //     display: false,
-  //     data: Object.values(Object.values(averages)[0].attrs),
-  //     backgroundColor: [
-  //       'rgba(255, 99, 132, 0.2)',
-  //     ],
-  //     borderColor: [
-  //       'rgb(255, 99, 132)',
-  //     ],
-  //     borderWidth: 1,
-  //     hoverOffset: 50
-  //   },
-  //   {
-  //     label: Object.keys(averages)[1],
-  //     display: false,
-  //     data: Object.values(Object.values(averages)[1].attrs),
-  //     backgroundColor: [
-  //       'rgba(54, 162, 235, 0.2)',
-  //     ],
-  //     borderColor: [
-  //       'rgb(54, 162, 235)',
-  //     ],
-  //     borderWidth: 1,
-  //     hoverOffset: 50
-  //   }],
-  // }
-
-  // const comparisonChartOptions = {
-  //   clip: false,
-  //   responsive: true,
-  //   layout: {
-  //     padding: 20,
-  //   },
-  //   scales: {
-  //     x: {
-  //       ticks: {
-  //         color: 'rgb(255 255 255 / 0.5)',
-  //         font: {
-  //           // size: 16
-  //         }
-  //       },
-  //     },
-  //     y: {
-  //       title: {
-  //         display: true,
-  //         text: 'More ⇢',
-  //         font: {
-  //           // size: 16,
-  //         },
-  //         color: 'rgb(255 255 255 / 0.5)'
-  //       },
-  //       ticks: {
-  //         display: false,
-  //       }
-  //     }
-  //   },
-  //   animation: {
-  //     animateScale: true
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       display: true,
-  //       labels: {
-  //         font: {
-  //           // size: 16
-  //         },
-  //       }
-  //     },
-  //     deferred: {
-  //         xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
-  //         yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
-  //         delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
-  //     }
-  //   },
-  // };
-
-  // makeChart(comparisonCanvas, 'bar', comparisonChartData, comparisonChartOptions);
+  // for each beer descriptor
+  rangeInputs.forEach(range => {
+    const rangeInput = range.querySelector('input[type="range"]');
+    const descriptor = rangeInput.id; // malt_character, carbonation, etc
+    
+    // get average of all ratings for this descriptor
+    // normalize the ratings b/w -2 and 2
+    const blueBeerAvgs = averages[article.beer_key.blue]["attrs"][descriptor]["ratings"]
+      .map(rating => rating - 2);
+    
+    // multiply yellow ratings by -1 so scores offset eachother
+    const yellowBeerAvgs = averages[article.beer_key.yellow]["attrs"][descriptor]["ratings"]
+      .map(rating => (rating-2) * -1);
+    
+    // calculate avg for both beers
+    let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
+    const sum = ratings.reduce((acc, curr) => acc+=curr,0);
+    const avg = (sum / ratings.length).toFixed(1) || 2;
+    changeRangeInput(rangeInput, avg);
+  })
 }
 
 // visualize off-flavours detected
 function graphFlaws(article) {
-  const flawsTable = document.querySelector('#flaws-table');
+  // const flawsTable = document.querySelector('#flaws-table');
   
   const flaws = article.triangle_tests.reduce((acc, curr) => {
     if (!curr.actual_unique) return acc;
@@ -495,35 +410,131 @@ function graphFlaws(article) {
     return acc;
   }, {});
 
+  console.log(flaws)
+  const beer1 = Object.values(article.beer_key)[0];
+  const beer2 = Object.values(article.beer_key)[1];
+
+  const flawsCanvas = document.getElementById("flaws");
+  flawsCanvas.style.height = `${(Object.keys(flaws).length*10)}rem`
+
+  const flawsChartData = {
+    labels: Object.keys(flaws).map(key => capitalizeFirst(key)),
+    datasets: [
+      {
+        label: beer1,
+        categoryPercentage: 0.5,
+        barPercentage: 1.0,
+        data: Object.values(flaws).map(elem => elem[beer1]),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+        ],
+        borderWidth: 1,
+        hoverOffset: 50
+      },
+      {
+        label: beer2,
+        categoryPercentage: 0.5,
+        barPercentage: 0.9,
+        data: Object.values(flaws).map(elem => elem[beer2]),
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgb(54, 162, 235)',
+        ],
+        borderWidth: 1,
+        hoverOffset: 50
+      }
+    ],
+  }
+
+  const flawsChartOptions = {
+    indexAxis: 'y',
+    maintainAspectRatio: false,
+    clip: false,
+    responsive: true,
+    layout: {
+      padding: 20,
+    },
+    animation: {
+      animateScale: true
+    },
+    scales: {
+      x: {
+        position: 'top',
+        title: {
+          display: true,
+          text: "# of People"
+        },
+        ticks: {
+          stepSize: 1
+        }
+      },
+      x2: {
+        position: 'bottom',
+        title: {
+          display: true,
+          text: "# of People"
+        },
+        ticks: {
+          stepSize: 1
+        }
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 22,
+            weight: 'bold'
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+      },
+      deferred: {
+          xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+          yOffset: '25%',  // defer until 50% of the canvas height are inside the viewport
+          delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+      }
+    },
+  };
+
+  makeChart(flawsCanvas, 'bar', flawsChartData, flawsChartOptions);
+
   // console.log(flaws);
   
-  function makeTableCell(content, classNames=[]) {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
-    cell.innerText = content;
-    for (const name of classNames) {
-      cell.classList.add(name);
-    }
-    return cell;
-  }
+  // function makeTableCell(content, classNames=[]) {
+  //   const cell = document.createElement('div');
+  //   cell.classList.add('cell');
+  //   cell.innerText = content;
+  //   for (const name of classNames) {
+  //     cell.classList.add(name);
+  //   }
+  //   return cell;
+  // }
 
-  const row = document.createElement('div');
-  row.classList.add('row');
-  row.classList.add('headings');
-  row.appendChild(makeTableCell(""));
-  row.appendChild(makeTableCell(Object.values(article.beer_key)[0]));
-  row.appendChild(makeTableCell(Object.values(article.beer_key)[1]));
-  flawsTable.appendChild(row);
+  // const row = document.createElement('div');
+  // row.classList.add('row');
+  // row.classList.add('headings');
+  // row.appendChild(makeTableCell(""));
+  // row.appendChild(makeTableCell(Object.values(article.beer_key)[0]));
+  // row.appendChild(makeTableCell(Object.values(article.beer_key)[1]));
+  // flawsTable.appendChild(row);
 
   
-  for (const [flaw, beers] of Object.entries(flaws)) {
-    const row = document.createElement('div');
-    row.classList.add('row');
-    row.appendChild(makeTableCell(capitalizeFirst(flaw)));
-    row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
-    row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
-    flawsTable.appendChild(row);
-  }
+  // for (const [flaw, beers] of Object.entries(flaws)) {
+  //   const row = document.createElement('div');
+  //   row.classList.add('row');
+  //   row.appendChild(makeTableCell(capitalizeFirst(flaw)));
+  //   row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
+  //   row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
+  //   flawsTable.appendChild(row);
+  // }
 }
 
 // utility function to make a chart.js graph
@@ -559,4 +570,4 @@ async function getArticle() {
 }
 
 
-getArticle()
+getArticle();
