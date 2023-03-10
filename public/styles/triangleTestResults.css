@@ -1,5 +1,6 @@
 .content {
   margin-inline: auto;
+  gap: 10rem;
 }
 
 section.title-container {
@@ -97,6 +98,54 @@ h4.big {
   width: 50px;
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  align-items: center;
+}
+
+blockquote{
+  font-size: 1.4em;
+  text-align: left;
+  width:60%;
+  font-family:Open Sans;
+  font-style:italic;
+  color: #c2c2c2;
+  padding:1.2em 30px 1.2em 75px;
+  border-left:8px solid #78C0A8 ;
+  line-height:1.6;
+  position: relative;
+  background: rgb(255 255 255 / 0.15);
+}
+
+blockquote:nth-child() {
+
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#78C0A8;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote::after{
+  content: '';
+}
+
+blockquote span{
+  display:block;
+  color:rgb(255 255 255 / 0.8);
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
 }
 
 /************* RANGE INPUT STYLING */

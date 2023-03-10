@@ -410,42 +410,44 @@ function graphFlaws(article) {
     return acc;
   }, {});
 
-  console.log(flaws)
   const beer1 = Object.values(article.beer_key)[0];
   const beer2 = Object.values(article.beer_key)[1];
 
   const flawsCanvas = document.getElementById("flaws");
-  flawsCanvas.style.height = `${(Object.keys(flaws).length*10)}rem`
+  // flawsCanvas.style.height = `${(Object.keys(flaws).length*5)}rem`
+  flawsCanvas.style.height = `${flawsCanvas.parentElement.getBoundingClientRect().width}px`
 
   const flawsChartData = {
     labels: Object.keys(flaws).map(key => capitalizeFirst(key)),
     datasets: [
       {
         label: beer1,
+        xAxisID: 'x',
         categoryPercentage: 0.5,
-        barPercentage: 1.0,
+        barPercentage: 0.9,
         data: Object.values(flaws).map(elem => elem[beer1]),
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.6)',
         ],
         borderColor: [
           'rgb(255, 99, 132)',
         ],
-        borderWidth: 1,
+        borderWidth: 0,
         hoverOffset: 50
       },
       {
         label: beer2,
+        xAxisID: 'x2',
         categoryPercentage: 0.5,
         barPercentage: 0.9,
         data: Object.values(flaws).map(elem => elem[beer2]),
         backgroundColor: [
-          'rgba(54, 162, 235, 0.2)',
+          'rgba(54, 162, 235, 0.6)',
         ],
         borderColor: [
           'rgb(54, 162, 235)',
         ],
-        borderWidth: 1,
+        borderWidth: 0,
         hoverOffset: 50
       }
     ],
@@ -557,11 +559,7 @@ async function getArticle() {
     const response = await fetch(`/api/get-article/${slug}`);
     const article = await response.json();
     // console.log(article);
-
-    graphDemographics(article);
-    graphPreferences(article);
-    graphComparison(article);
-    graphFlaws(article);
+    return article;
 
   }
   catch(err) {
@@ -569,5 +567,23 @@ async function getArticle() {
   }
 }
 
+async function displayResults() {
+  try {
+    const article = await getArticle();
+    graphDemographics(article);
+    graphPreferences(article);
+    graphComparison(article);
+    graphFlaws(article);
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
 
-getArticle();
+function resizeFlawsGraph() {
+  const flawsCanvas = document.querySelector('#flaws');
+  flawsCanvas.style.height = `${flawsCanvas.parentElement.getBoundingClientRect().width}px`;
+}
+
+window.addEventListener('resize', resizeFlawsGraph);
+displayResults();

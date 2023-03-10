@@ -11,15 +11,24 @@ block content
         return test.perceived_unique === test.actual_unique.cup
       }
     });
+
     const cicerones = article.triangle_tests.filter(test => {
       return test.additional_training.includes('cicerone')
     });
+
     const bjcp = article.triangle_tests.filter(test => {
       return test.additional_training.some(elem => elem.includes('bjcp'));
     }); 
+
     const sensory = article.triangle_tests.filter(test => {
       return test.additional_training.includes('sensory')
     }); 
+
+    const comments = article.triangle_tests.filter(test => {
+      return test.comments !== "";
+    })
+
+
   section.title-container
     h1.title= `${article.title}`
     h2.subtitle= title
@@ -129,6 +138,17 @@ block content
     .results-container
       //- #flaws-table
       canvas#flaws
+
+  section.results-section
+    h3.section-title Feedback 
+    .results-container
+      .comments-container
+        each comment of comments
+          blockquote= `${comment.comments}`
+            if comment.name
+              span= `${comment.name}`
+            else
+              span Anonymous
 
 block scripts 
     //- chart.js
