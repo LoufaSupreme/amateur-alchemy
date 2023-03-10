@@ -4,20 +4,42 @@ block stylesheets
     link(rel='stylesheet', href='/styles/triangleTestResults.css')
 
 block content 
-  pre= h.dump(article)
+  //- pre= h.dump(article)
   - 
     const correct = article.triangle_tests.filter(test => {
       if (test.actual_unique) {
         return test.perceived_unique === test.actual_unique.cup
       }
     });
+    const cicerones = article.triangle_tests.filter(test => {
+      return test.additional_training.includes('cicerone')
+    });
+    const bjcp = article.triangle_tests.filter(test => {
+      return test.additional_training.some(elem => elem.includes('bjcp'));
+    }); 
+    const sensory = article.triangle_tests.filter(test => {
+      return test.additional_training.includes('sensory')
+    }); 
   section.title-container
-    h1.title= title
-    h2.subtitle= `${article.title}`
+    h1.title= `${article.title}`
+    h2.subtitle= title
 
   section.results-section 
     h3.section-title Demographics
     span.smaller-text= `${article.triangle_tests.length} responses submitted`
+    .icons 
+      if cicerones.length
+        .icon-container 
+          img(src="/images/cicerone_icon.png")
+          span.smaller-text= `${cicerones.length} Cicerones`
+      if cicerones.length
+        .icon-container 
+          img(src="/images/bjcp_icon.png")
+          span.smaller-text= `${bjcp.length} BJCP Judges`
+      if cicerones.length
+        .icon-container 
+          img(src="/images/sensory_training_icon.png")
+          span.smaller-text= `${sensory.length} With Sensory Training`
     .results-container
       .chart-wrapper
         canvas.chart#demographics 

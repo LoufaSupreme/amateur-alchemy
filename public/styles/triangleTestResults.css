@@ -8,7 +8,6 @@ section.title-container {
 
 section.results-section {
   min-height: 100vh;
-  border: 1px solid green;
 }
 
 .title-container {
@@ -25,6 +24,7 @@ h1.title {
 
 h2.subtitle {
   font-size: 3.5rem;
+  color: rgb(var(--clr-accent));
 }
 
 section.results-section {
@@ -61,11 +61,11 @@ h4.big {
 }
 
 .larger-text {
-  font-size: 1.3em;
+  font-size: 1.5em;
 }
 
 .smaller-text {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 .green {
@@ -76,6 +76,26 @@ h4.big {
 .red {
   color: rgba(133, 10, 10, 1);
   font-weight: bold;
+}
+
+.icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  width: 100%;
+  margin: 2rem 1rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-container img {
+  width: 50px;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 /************* RANGE INPUT STYLING */

@@ -3,9 +3,32 @@ function graphDemographics(article) {
   const triangleTests = article.triangle_tests;
 
   const demographics = triangleTests.reduce((acc, curr) => {
+    // check that the triangle test has a title attribute
     if (curr.title) {
-      if (!acc[curr.title]) acc[curr.title] = []
-      acc[curr.title].push(curr.additional_training)
+      // group all the cicerones
+      if (curr.additional_training.some(elem => elem.includes("cicerone"))) {
+        if (!acc["Cicerone"]) acc["Cicerone"] = [];
+        acc["Cicerone"].push(curr);
+      }
+      // group all the advanced BJCP judges
+      else if (
+        curr.additional_training.some(elem => elem.includes("bjcp-mid")) ||
+        curr.additional_training.some(elem => elem.includes("bjcp-max"))
+      ) {
+        if (!acc["Advanced BJCP Judge"]) acc["Advanced BJCP Judge"] = [];
+        acc["Advanced BJCP Judge"].push(curr);
+      }
+      // group all the beginner judges
+      else if (curr.additional_training.some(elem => elem.includes("bjcp"))) {
+        if (!acc["BJCP Judge"]) acc["BJCP Judge"] = [];
+        acc["BJCP Judge"].push(curr);
+      }
+      // otherwise just take their title (homebrewer, enthusiast, etc)
+      else {
+        const title = capitalizeFirst(curr.title);
+        if (!acc[title]) acc[title] = [];
+        acc[title].push(curr);
+      }
     }
     return acc;
   }, {});
@@ -13,15 +36,9 @@ function graphDemographics(article) {
   const demographicsCanvas = document.getElementById("demographics");
 
   const demographicsChartData = {
-    labels: Object.keys(demographics).map(key => {
-      if (key === 'enthusiast') return 'Craft Enthusiast';
-      if (key === 'bjcp-mid') return 'BJCP Judge';
-      if (key === 'bjcp-max') return 'BJCP Master';
-      if (key === 'homebrewer') return 'Homebrewer';
-      return "Unknown Category"
-    }),
+    labels: Object.keys(demographics),
     datasets: [{
-      label: 'Demographics',
+      // label: 'Demographics',
       display: false,
       data: Object.values(demographics).map(demo => demo.length),
       backgroundColor: [
