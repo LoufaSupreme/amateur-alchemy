@@ -344,10 +344,10 @@ function graphComparison(article) {
             subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
             break;
         case val < 0:
-            subheading.innerText =  `The ${yellowBeer} beer is somewhat higher in ${subheading.dataset.attr} than the ${blueBeer} beer.`;
+            subheading.innerText =  `The ${blueBeer} beer is somewhat lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
             break;
         case val < -1:
-            subheading.innerText =  `The ${yellowBeer} beer is MUCH higher in ${subheading.dataset.attr} than the ${blueBeer} beer.`
+            subheading.innerText =  `The ${blueBeer} beer is MUCH lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`
             break;
         default:
             console.error({Error: "Value not recognized", val})
