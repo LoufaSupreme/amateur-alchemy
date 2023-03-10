@@ -488,7 +488,7 @@ function graphFlaws(article) {
       y: {
         ticks: {
           font: {
-            size: 22,
+            size: Math.min(window.innerWidth * 0.03, 22),
             weight: 'bold'
           }
         }
