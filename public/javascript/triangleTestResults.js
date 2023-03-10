@@ -167,7 +167,7 @@ function graphPreferences(article) {
         'rgb(201, 203, 207)'
       ],
       borderWidth: 1,
-      hoverOffset: 50
+      hoverOffset: 20
     }],
   }
 
@@ -175,7 +175,7 @@ function graphPreferences(article) {
     clip: false,
     responsive: true,
     layout: {
-      padding: 20,
+      padding: 30,
     },
     animation: {
       animateScale: true
