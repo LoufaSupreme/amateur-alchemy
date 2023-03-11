@@ -28,7 +28,6 @@ block content
       return test.comments !== "";
     })
 
-
   section.title-container
     h1.title= `${article.title}`
     h2.subtitle= title
@@ -55,7 +54,7 @@ block content
 
   section.results-section 
     if article.stats.p_val <= 0.05
-      h3.section-title Statistically Significant Results!
+      h3.section-title Statistically Significant!
       .results-container
         h4.big
           span.green= `${correct.length}` 

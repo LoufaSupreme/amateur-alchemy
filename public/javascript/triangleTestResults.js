@@ -140,7 +140,7 @@ function graphPreferences(article) {
   const notNoPreferenceCount = notNoPreference.reduce((acc,curr) => acc += curr[1], 0);
   const highestPref = notNoPreference[0][1] > notNoPreference[1][1] ? notNoPreference[0] : notNoPreference[1];
 
-  preferencesSpan.innerText = `Of the people who detected a difference, ${highestPref[1] / notNoPreferenceCount * 100}% preferred the "${highestPref[0]}" beer`;
+  preferencesSpan.innerText = `Of the people who detected a difference, ${(highestPref[1] / notNoPreferenceCount * 100).toFixed(0)}% preferred the "${highestPref[0]}" beer`;
 
   const preferencesCanvas = document.getElementById('preferences');
 
@@ -422,7 +422,7 @@ function graphFlaws(article) {
     datasets: [
       {
         label: beer1,
-        xAxisID: 'x',
+        // xAxisID: 'top',
         categoryPercentage: 0.5,
         barPercentage: 0.9,
         data: Object.values(flaws).map(elem => elem[beer1]),
@@ -437,7 +437,7 @@ function graphFlaws(article) {
       },
       {
         label: beer2,
-        xAxisID: 'x2',
+        // xAxisID: 'top',
         categoryPercentage: 0.5,
         barPercentage: 0.9,
         data: Object.values(flaws).map(elem => elem[beer2]),
@@ -466,16 +466,6 @@ function graphFlaws(article) {
     },
     scales: {
       x: {
-        position: 'top',
-        title: {
-          display: true,
-          text: "# of People"
-        },
-        ticks: {
-          stepSize: 1
-        }
-      },
-      x2: {
         position: 'bottom',
         title: {
           display: true,

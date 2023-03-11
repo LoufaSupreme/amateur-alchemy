@@ -377,7 +377,7 @@ exports.updateTriangleTestStatistics = async (req, res, next) => {
         article.stats.p_val = p_val;
         article.stats.binomialDistribution = binomialDistribution;
         article.stats.significance_threshold = significanceThreshold;
-        article.save();
+        await article.save();
 
         next();
     }

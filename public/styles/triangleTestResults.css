@@ -63,15 +63,15 @@ h4.big {
 }
 
 .larger-text {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
 .smaller-text {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 .green {
-  color: rgba(16, 77, 16, 0.75);
+  color: rgba(26, 131, 26, 0.75);
   font-weight: bold;
 }
 
