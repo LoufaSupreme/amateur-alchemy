@@ -22,7 +22,7 @@ h2.subtitle > * {
 }
 
 #qr-code {
-  width: min(90vw, 850px);
+  width: min(90vw, 60vh);
   margin: 2rem 0 2rem 0;
 }
 
