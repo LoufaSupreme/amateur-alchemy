@@ -11,4 +11,9 @@ qr_link.href = `/articles/${article_num}/triangle-test`;
 
 // generate QR Code
 // uses https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js
-new QRCode(qrContainer, targetURL)
+new QRCode(qrContainer, {
+  text: targetURL,
+  width: 2000,
+  height: 2000,
+  correctLevel: QRCode.CorrectLevel.H
+});
