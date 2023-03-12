@@ -73,6 +73,23 @@ function graphDemographics(article) {
     animation: {
       animateScale: true
     },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            weight: 'bold',
+          }
+        }
+      },
+      y: {
+        ticks: {
+          stepSize: 1,
+          font: {
+            size: Math.min(window.innerWidth * 0.03, 22),
+          }
+        }
+      }
+    },
     plugins: {
       legend: {
         display: false

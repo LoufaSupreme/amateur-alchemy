@@ -24,9 +24,28 @@ block content
       return test.additional_training.includes('sensory')
     }); 
 
-    const comments = article.triangle_tests.filter(test => {
-      return test.comments !== "";
-    })
+    const withComments = article.triangle_tests
+      .filter(test => {
+        return test.comments.trim() !== "";
+      })
+      .map(test => {
+        if (test.actual_unique) {
+          const isCorrect = test.perceived_unique === test.actual_unique.cup;
+          const actualUniqueBeer = article.beer_key[test.actual_unique.color];
+          const notUniqueBeerColorCode = test.actual_unique.color === 'blue' ? 'yellow' : 'blue';
+          const perceivedUniqueBeer = article.beer_key[notUniqueBeerColorCode];
+          
+          test.isCorrect = isCorrect;
+          test.actualUniqueBeer = actualUniqueBeer;
+          test.perceivedUniqueBeer = perceivedUniqueBeer;
+        }
+        else {
+          test.isCorrect = 'No key submitted';
+          test.actualUniqueBeer = 'No key submitted';
+          test.perceivedUniqueBeer = 'No key submitted';
+        }
+        return test;
+      })
 
   section.title-container
     h1.title= `${article.title}`
@@ -144,12 +163,32 @@ block content
     h3.section-title Feedback 
     .results-container
       .comments-container
-        each comment of comments
+        each comment of withComments
           blockquote= `${comment.comments}`
             if comment.name
               span= `${comment.name}`
             else
               span Anonymous
+            .overlay 
+              if comment.isCorrect 
+                span.is-correct= `${comment.name} guessed correctly!`
+              else
+                span.is-correct= `${comment.name} guessed incorrectly`
+              .table
+                .row.headings
+                  .cell= comment.perceived_unique === 'A' ? 'A*' : 'A'
+                  .cell= comment.perceived_unique === 'B' ? 'B*' : 'B'
+                  .cell= comment.perceived_unique === 'C' ? 'C*' : 'C'
+                if comment.actual_unique
+                  .row 
+                    .cell= comment.actual_unique.cup === 'A' ? comment.actualUniqueBeer : comment.perceivedUniqueBeer
+                    .cell= comment.actual_unique.cup === 'B' ? comment.actualUniqueBeer : comment.perceivedUniqueBeer
+                    .cell= comment.actual_unique.cup === 'C' ? comment.actualUniqueBeer : comment.perceivedUniqueBeer
+                else 
+                  .row 
+                    .cell ?
+                    .cell ?
+                    .cell ?
 
 block scripts 
     //- chart.js

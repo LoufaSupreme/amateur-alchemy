@@ -120,6 +120,8 @@ blockquote{
   line-height:1.6;
   position: relative;
   background: rgb(255 255 255 / 0.15);
+  overflow: hidden;
+  cursor: pointer;
 }
 
 blockquote::before{
@@ -142,6 +144,31 @@ blockquote span{
   font-style: normal;
   font-weight: bold;
   margin-top:1em;
+}
+
+blockquote:hover .overlay {
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  opacity: 0;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+  background-color: black;
+  padding: 0.5rem;
+  transition: opacity 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+span.is-correct {
+  margin: 0;
+  font-size: 0.8em;
+  text-align: center;
 }
 
 /************* RANGE INPUT STYLING */
@@ -270,15 +297,16 @@ input[type="range"]::-ms-fill-lower {
 
 /************ TABLE STYLING */
 
-#flaws-table {
+.table {
   display: flex;
   flex-direction: column;
-  margin-top: 3rem;
+  margin-top: 1rem;
+  width: 100%;
 }
 
 .row {
   display: grid;
-  grid-template-columns: 0.8fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   font-weight: normal;
   font-size: 1rem;
 }
@@ -296,28 +324,29 @@ input[type="range"]::-ms-fill-lower {
 
 .headings > .cell {
   padding-inline: 1rem;
-  min-height: 4rem;
+  min-height: 3rem;
 }
 
 .cell {
-  min-height: 3rem;
+  min-height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .cell:nth-child(1) {
   border-right: 2px solid rgb(255 255 255 / 0.1);
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .cell:nth-child(2) {
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
 }
 
 .cell:nth-child(3) {
   border-left: 2px solid rgb(255 255 255 / 0.1);
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
 }
 
 /************** MEDIA QUERIES */
