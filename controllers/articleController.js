@@ -274,34 +274,45 @@ exports.createOrUpdateKey = async (req, res, next) => {
             req.body.key.push(inputSet);
         }
 
-        // add or update each token/unique_beer pair to the article key
-        for (const inputSet of req.body.key) {
-            const updateResults = await Article.updateOne(
-                { _id: req.params.article_id },
-                { $set: 
-                    { 
-                        "triangle_key.$[elem].token": inputSet.token, 
-                        "triangle_key.$[elem].unique_beer": inputSet.unique_beer, 
-                        "triangle_key.$[elem].unique_cup": inputSet.unique_cup, 
-                    } 
-                },
-                {
-                    arrayFilters: [ { "elem.token": { $eq: inputSet.token } } ]
-                }
-            );
+        const updateResults = await Article.updateOne(
+            { _id: req.params.article_id },
+            { $set: 
+                { 
+                    "triangle_key": req.body.key, 
+                } 
+            },
+        );
+        
 
-            // if it couldn't update it (didn't find a match), then push a new one.
-            if (updateResults.modifiedCount === 0) {
-                await Article.updateOne(
-                    { _id: req.params.article_id },
-                    { $push: { triangle_key: { 
-                        token: inputSet.token, 
-                        unique_beer: inputSet.unique_beer,
-                        unique_cup: inputSet.unique_cup,
-                    } } }
-                )
-            }
-        }
+
+        // // add or update each token/unique_beer pair to the article key
+        // for (const inputSet of req.body.key) {
+        //     const updateResults = await Article.updateOne(
+        //         { _id: req.params.article_id },
+        //         { $set: 
+        //             { 
+        //                 "triangle_key.$[elem].token": inputSet.token, 
+        //                 "triangle_key.$[elem].unique_beer": inputSet.unique_beer, 
+        //                 "triangle_key.$[elem].unique_cup": inputSet.unique_cup, 
+        //             } 
+        //         },
+        //         {
+        //             arrayFilters: [ { "elem.token": { $eq: inputSet.token } } ]
+        //         }
+        //     );
+
+        //     // if it couldn't update it (didn't find a match), then push a new one.
+        //     if (updateResults.modifiedCount === 0) {
+        //         await Article.updateOne(
+        //             { _id: req.params.article_id },
+        //             { $push: { triangle_key: { 
+        //                 token: inputSet.token, 
+        //                 unique_beer: inputSet.unique_beer,
+        //                 unique_cup: inputSet.unique_cup,
+        //             } } }
+        //         )
+        //     }
+        // }
 
         // add the article to the req object
         req.article = await Article.findOne({ _id: req.params.article_id });
