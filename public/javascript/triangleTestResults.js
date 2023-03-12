@@ -345,7 +345,6 @@ function graphComparison(article) {
     }
   );
 
-  console.log(averages)
   function changeRangeInput(input, val) {
     const inputParent = input.closest('.range-input');
     const subheading = inputParent.querySelector('.range-input__subheading');
@@ -355,7 +354,6 @@ function graphComparison(article) {
 
     // update range value
     input.value = val;
-    console.log(input, input.value)
 
     // update subheading:
     switch(true) {
@@ -394,7 +392,6 @@ function graphComparison(article) {
     
     // calculate avg for both beers
     let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
-    console.log({blueBeerAvgs, yellowBeerAvgs})
     const sum = ratings.reduce((acc, curr) => acc+=curr,0);
     const avg = (sum / ratings.length).toFixed(1) || 2;
     changeRangeInput(rangeInput, avg);
