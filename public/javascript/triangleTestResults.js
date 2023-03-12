@@ -562,7 +562,9 @@ function makeChart(canvas, type, data, options=null) {
 
 async function getArticle() {
   try {
-    const slug = window.location.href.split('/').at(-2);
+    // const slug = window.location.href.split('/').at(-2);
+    const urlComponents = window.location.pathname.split('/');
+    const slug = urlComponents[urlComponents.length - 2];
     const response = await fetch(`/api/get-article/${slug}`);
     const article = await response.json();
     // console.log(article);
