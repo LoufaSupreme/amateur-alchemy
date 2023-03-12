@@ -112,7 +112,7 @@ exports.addUniqueBeer = async (req, res, next) => {
       ).exec();
     }
 
-    req.flash('succcess', "Successfully added Triangle Test Key!");
+    req.flash('success', "Successfully added Triangle Test Key!");
     res.redirect('back');
   }
   catch(err) {

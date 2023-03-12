@@ -335,6 +335,7 @@ exports.addBeerKey = async (req, res, next) => {
 }
 
 // add a new beer key to decipher triangle test data
+// params: article_id
 exports.createOrUpdateBeerKey = async (req, res, next) => {
     console.log(`Running createOrUpdateBeerKey for article id ${req.params.id}`);
     try {

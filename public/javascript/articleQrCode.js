@@ -15,5 +15,7 @@ new QRCode(qrContainer, {
   text: targetURL,
   width: 2000,
   height: 2000,
-  correctLevel: QRCode.CorrectLevel.H
+  correctLevel: QRCode.CorrectLevel.H,
+  colorDark: "#12212c",
+  colorLight: "#ffffff"
 });
