@@ -238,6 +238,7 @@ function graphComparison(article) {
       for (const key of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
         // unique beer is rated higher
         if (curr[key] >= 2) {
+          if (curr.name == 'Test boy') console.log(actual_other, isCorrect)
           // if they guessed the unique beer correctly
           if (isCorrect) {
             acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
@@ -345,6 +346,7 @@ function graphComparison(article) {
     }
   );
 
+  console.log(averages)
   function changeRangeInput(input, val) {
     const inputParent = input.closest('.range-input');
     const subheading = inputParent.querySelector('.range-input__subheading');
