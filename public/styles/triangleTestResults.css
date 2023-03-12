@@ -56,6 +56,14 @@ h4.big {
 .chart-wrapper {
   width: 100%;
   max-width: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-wrapper > #preferences {
+  max-width: 600px;
+  max-height: 700px;
 }
 
 .padded {
@@ -370,11 +378,6 @@ input[type="range"]::-ms-fill-lower {
 
   h4.big {
     font-size: 5rem;
-  }
-
-  .chart-wrapper {
-    width: 100%;
-    max-width: 100%;
   }
   
   #flaws-table {
