@@ -222,7 +222,11 @@ function graphComparison(article) {
   const averages = triangleTests
     .reduce((acc, curr) => {
       if (curr.preference === 'none') return acc;
-      if (!curr.actual_unique) return acc;
+      if (!curr.actual_unique) {
+        console.error(`Test ${curr.token} is missing a triangle_test_key ("actual_unique")`);
+        makeAlert(`Test ${curr.token} is missing an answer key!`)
+        return acc;
+      }
 
       const { actual_unique, actual_other } = translateActualBeers(article, curr);
 
@@ -233,7 +237,7 @@ function graphComparison(article) {
       // for each beer characteristic: 
       for (const key of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
         // unique beer is rated higher
-        if (curr[key] <= 2) {
+        if (curr[key] >= 2) {
           // if they guessed the unique beer correctly
           if (isCorrect) {
             acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
@@ -338,8 +342,10 @@ function graphComparison(article) {
           },
         }
       },
-    });
+    }
+  );
 
+  console.log(averages)
   function changeRangeInput(input, val) {
     const inputParent = input.closest('.range-input');
     const subheading = inputParent.querySelector('.range-input__subheading');
@@ -349,6 +355,7 @@ function graphComparison(article) {
 
     // update range value
     input.value = val;
+    console.log(input, input.value)
 
     // update subheading:
     switch(true) {
@@ -380,14 +387,14 @@ function graphComparison(article) {
     // get average of all ratings for this descriptor
     // normalize the ratings b/w -2 and 2
     const blueBeerAvgs = averages[article.beer_key.blue]["attrs"][descriptor]["ratings"]
-      .map(rating => rating - 2);
+      .map(rating => rating-2);
     
-    // multiply yellow ratings by -1 so scores offset eachother
     const yellowBeerAvgs = averages[article.beer_key.yellow]["attrs"][descriptor]["ratings"]
-      .map(rating => (rating-2) * -1);
+      .map(rating => rating-2);
     
     // calculate avg for both beers
     let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();
+    console.log({blueBeerAvgs, yellowBeerAvgs})
     const sum = ratings.reduce((acc, curr) => acc+=curr,0);
     const avg = (sum / ratings.length).toFixed(1) || 2;
     changeRangeInput(rangeInput, avg);

@@ -153,6 +153,14 @@ block content
           .range-input__beer-label= article.beer_key.yellow
         p.range-input__subheading(data-attr="body") The body is about equal.
 
+      .range-input 
+        h3.range-input__question-subtitle Balance
+        .range-input__range 
+          .range-input__beer-label= article.beer_key.blue
+          input(type="range" id="balance" min="-2" max="2" value="0" step="0.1")
+          .range-input__beer-label= article.beer_key.yellow
+        p.range-input__subheading(data-attr="balance") The balance is about equal.
+
   section.results-section
     h3.section-title Off Flavours 
     .results-container
