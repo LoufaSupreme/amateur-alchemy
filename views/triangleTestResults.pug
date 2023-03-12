@@ -62,7 +62,6 @@ block content
           p.larger-text correct responses (p-value = 
             span.green= `${article.stats.p_val.toFixed(2)}`
             | )
-          p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
     else 
       h3.section-title Not Statistically Significant
       .results-container
@@ -72,7 +71,10 @@ block content
         p.larger-text correct responses (p-value = 
           span= `${article.stats.p_val.toFixed(2)}`
           | )
-        p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
+    if article.stats.significance_threshold.p_val > -1
+      p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
+    else
+      p.padded.smaller-text There are not enough responses yet to do a proper statistical analysis. 
 
   section.results-section
     h3.section-title Preferences 

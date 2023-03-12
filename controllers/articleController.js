@@ -371,7 +371,10 @@ exports.updateTriangleTestStatistics = async (req, res, next) => {
         
         const binomialDistribution = stats.calcBinomialDistribution(numTotalTestResponses, 1/3, 2/3);
         const p_val = stats.calcP_val(binomialDistribution, numCorrectTestResponses);
-        const significanceThreshold = stats.calcCriticalCorrect(binomialDistribution, 0.05);
+        let significanceThreshold = stats.calcCriticalCorrect(binomialDistribution, 0.05);
+
+        // if there are less than 3 responses, the required p_val to be statistically significant doesn't exist, and so is calculated to be NaN.  This fails the mongoDb validation for a number. So, set it to -1.
+        if (isNaN(significanceThreshold.p_val)) significanceThreshold.p_val = -1;
 
         // update the article stats
         article.stats.p_val = p_val;
