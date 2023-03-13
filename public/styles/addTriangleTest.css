@@ -109,7 +109,7 @@ input[type=text]:not(:placeholder-shown),
 input[type=number]:focus,
 input[type=number]:not(:placeholder-shown) {
     outline: none;
-    border-bottom-color: rgb(var(--clr-accent));
+    border-bottom-color: rgb(var(--clr-accent-3));
 }
 
 .text-input-container {
@@ -136,7 +136,7 @@ input[type=text]:focus + label,
 input[type=text]:not(:placeholder-shown) + label,
 input[type=number]:focus + label,
 input[type=number]:not(:placeholder-shown) + label {
-    color: rgb(var(--clr-accent));
+    color: rgb(var(--clr-accent-3));
     transform: translateY(-1.35rem);
 }
 

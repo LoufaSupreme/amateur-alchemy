@@ -323,7 +323,6 @@ function graphComparison(article) {
     }
   );
 
-  console.log(averages)
   function changeRangeInput(input, val) {
     const inputParent = input.closest('.range-input');
     const subheading = inputParent.querySelector('.range-input__subheading');
