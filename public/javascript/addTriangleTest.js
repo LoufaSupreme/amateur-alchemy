@@ -204,19 +204,19 @@ function handleRangeChange(e) {
 
     // update subheading:
     switch(e.target.value) {
-        case '4':
+        case '2':
             subheading.innerText = `Beer ${uniqueBeer} is MUCH higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
             break;
-        case '3':
+        case '1':
             subheading.innerText = `Beer ${uniqueBeer} is somewhat higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
             break;
-        case '2':
+        case '0':
             subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
             break;
-        case '1':
+        case '-1':
             subheading.innerText =  `Beer ${uniqueBeer} is somewhat lower in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
             break;
-        case '0':
+        case '-2':
             subheading.innerText =  `Beer ${uniqueBeer} is MUCH lower in ${subheading.dataset.attr} than Beers ${otherBeers}.`
             break;
         default:

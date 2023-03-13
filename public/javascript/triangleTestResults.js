@@ -121,7 +121,8 @@ function translateActualBeers(article, triangleTest) {
     actual_unique,
     actual_other,
     perceived_unique,
-    perceived_other
+    perceived_other,
+    isCorrect
   }
 }
 
@@ -228,118 +229,94 @@ function graphComparison(article) {
         return acc;
       }
 
-      const { actual_unique, actual_other } = translateActualBeers(article, curr);
+      const { perceived_unique, perceived_other } = translateActualBeers(article, curr);
 
-      const isCorrect = curr.perceived_unique === curr.actual_unique.cup;
-
-      // calc running avg of each attribute
-      // https://math.stackexchange.com/questions/106313/regular-average-calculated-accumulatively
-      // for each beer characteristic: 
-      for (const key of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
-        // unique beer is rated higher
-        if (curr[key] >= 2) {
-          if (curr.name == 'Test boy') console.log(actual_other, isCorrect)
-          // if they guessed the unique beer correctly
-          if (isCorrect) {
-            acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
-
-            acc[actual_unique]["attrs"][key]["ratings"].push(curr[key])
-          }
-          // if they guessed the unique beer incorrectly
-          else {
-            acc[actual_other]["attrs"][key]["avg"] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
-
-            acc[actual_other]["attrs"][key]["ratings"].push(curr[key])
-          }
+      // collect the ratings for each beer characteristic:
+      // just using blue here arbitrarily.  They both have same set of attributes 
+      for (const descriptor of Object.keys(acc[article["beer_key"]["blue"]].attrs)) {
+        // perceived unique beer is rated higher
+        if (curr[descriptor] >= 0) {
+          acc[perceived_unique]["attrs"][descriptor]["ratings"].push(Math.abs(curr[descriptor]));
         }
-        // "other" beer is rated higher
+        // perceived other beer is rated higher 
         else {
-          // if they guessed the unique beer correctly
-          if (isCorrect) {
-            acc[actual_other]["attrs"][key]["avg"] = ((acc[actual_other].count-1) * acc[actual_other]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_other].count;
-
-            acc[actual_other]["attrs"][key]["ratings"].push(curr[key])
-          }
-          // if they guessed the unique beer incorrectly
-          else {
-            acc[actual_unique]["attrs"][key]["avg"] = ((acc[actual_unique].count-1) * acc[actual_unique]["attrs"][key]["avg"] + Math.abs(curr[key] - 2)) / acc[actual_unique].count;
-
-            acc[actual_unique]["attrs"][key]["ratings"].push(curr[key])
-          }
+          acc[perceived_other]["attrs"][descriptor]["ratings"].push(Math.abs(curr[descriptor]));
         }
+        // // unique beer is rated higher
+        // if (curr[descriptor] >= 0) {
+        //   // if they guessed the unique beer correctly
+        //   if (isCorrect) {
+        //     acc[actual_unique]["attrs"][descriptor]["ratings"].push(curr[descriptor])
+        //   }
+        //   // if they guessed the unique beer incorrectly
+        //   else {
+        //     acc[actual_other]["attrs"][descriptor]["ratings"].push(curr[descriptor])
+        //   }
+        // }
+        // // "other" beer is rated higher
+        // else {
+        //   // if they guessed the unique beer correctly
+        //   if (isCorrect) {
+        //     acc[actual_other]["attrs"][descriptor]["ratings"].push(curr[descriptor])
+        //   }
+        //   // if they guessed the unique beer incorrectly
+        //   else {
+        //     acc[actual_unique]["attrs"][descriptor]["ratings"].push(curr[descriptor])
+        //   }
+        // }
       }
-
-      // update count
-      acc[actual_unique].count++;
-      acc[actual_other].count++;
 
       return acc;
     }, 
-    // initialize an object of average attribute ratings for each beer
+    // initialize an object for all the attribute ratings for each beer
     {
       [ article["beer_key"]["blue"] ]: {
-        count: 1,
         attrs: {
           balance: {
             ratings: [],
-            avg: 0
           },
           bitterness: {
             ratings: [],
-            avg: 0
           },
           malt_character: {
             ratings: [],
-            avg: 0
           },
           yeast_character: {
             ratings: [],
-            avg: 0
           },
           hop_character: {
             ratings: [],
-            avg: 0
           },
           body: {
             ratings: [],
-            avg: 0
           },
           carbonation: {
             ratings: [],
-            avg: 0
           },
         }
       },
       [ article["beer_key"]["yellow"] ]: {
-        count: 1,
         attrs: {
           balance: {
             ratings: [],
-            avg: 0
           },
           bitterness: {
             ratings: [],
-            avg: 0
           },
           malt_character: {
             ratings: [],
-            avg: 0
           },
           yeast_character: {
             ratings: [],
-            avg: 0
           },
           hop_character: {
             ratings: [],
-            avg: 0
           },
           body: {
             ratings: [],
-            avg: 0
           },
           carbonation: {
             ratings: [],
-            avg: 0
           },
         }
       },
@@ -368,12 +345,12 @@ function graphComparison(article) {
       case val == 0:
           subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
           break;
-      case val < 0:
-          subheading.innerText =  `The ${blueBeer} beer is somewhat lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
-          break;
       case val < -1:
-          subheading.innerText =  `The ${blueBeer} beer is MUCH lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`
-          break;
+        subheading.innerText =  `The ${blueBeer} beer is MUCH lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`
+        break;
+      case val < 0:
+        subheading.innerText =  `The ${blueBeer} beer is somewhat lower in ${subheading.dataset.attr} than the ${yellowBeer} beer.`;
+        break;
       default:
           console.error({Error: "Value not recognized", val})
     }
@@ -387,10 +364,10 @@ function graphComparison(article) {
     // get average of all ratings for this descriptor
     // normalize the ratings b/w -2 and 2
     const blueBeerAvgs = averages[article.beer_key.blue]["attrs"][descriptor]["ratings"]
-      .map(rating => rating-2);
+      .map(rating => rating*-1);
     
     const yellowBeerAvgs = averages[article.beer_key.yellow]["attrs"][descriptor]["ratings"]
-      .map(rating => rating-2);
+      .map(rating => rating);
     
     // calculate avg for both beers
     let ratings = [blueBeerAvgs, yellowBeerAvgs].flat();

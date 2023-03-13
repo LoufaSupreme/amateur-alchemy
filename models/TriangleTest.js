@@ -22,38 +22,38 @@ const triangleTestSchema = new mongoose.Schema({
     preference: String, // unique, other, or none
     malt_character: {
         type: Number,
-        min: 0, // 0 means unique beer is most
-        max: 4 // 4 means non-unique beer is most
+        min: -2, // -2 means unique beer is most
+        max: 2 // 2 means non-unique beer is most
     },
     hop_character: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     yeast_character: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     bitterness: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     body: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     carbonation: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     balance: {
         type: Number,
-        min: 0,
-        max: 4
+        min: -2,
+        max: 2
     },
     scores: {
         unique: Number, // score goes here and below if beers were perceived as different

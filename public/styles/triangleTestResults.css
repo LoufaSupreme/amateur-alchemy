@@ -341,6 +341,7 @@ input[type="range"]::-ms-fill-lower {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding-inline: 0.5rem;
 }
 
 .cell:nth-child(1) {
