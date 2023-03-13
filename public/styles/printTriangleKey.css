@@ -1,8 +1,11 @@
 /************ TABLE STYLING */
+.content {
+  text-align: center;
+}
 
 .table {
   display: grid;
-  grid-template-columns: auto 1fr 1fr 1fr;
+  grid-template-columns: 0.33fr 1fr 1fr 1fr;
   margin-top: 1rem;
   width: 100%;
 }
