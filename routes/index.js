@@ -99,6 +99,12 @@ router.get('/articles/:article_num/triangle-test-key',
     articleController.addKey
 )
 
+// display all the triangle test keys so people can see what's in their cups
+router.get('/articles/:slug/triangle-test-key/print', 
+    articleController.findArticleBySlug,
+    triangleTestController.printTriangleKey
+)
+
 // save new triangle test key to the article
 router.post('/articles/:article_id/key',
     articleController.createOrUpdateKey,

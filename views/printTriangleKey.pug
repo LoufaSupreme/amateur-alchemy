@@ -1,0 +1,35 @@
+extends layout 
+
+block stylesheets
+    link(rel='stylesheet', href='/styles/printTriangleKey.css')
+
+block content 
+    - 
+      const keyInfo = article.triangle_key.map(key => {
+        const uniqueBeerName = article.beer_key[key.unique_beer];
+        const notUniqueBeerColorCode = key.unique_beer === 'blue' ? 'yellow' : 'blue';
+        const otherBeerName = article.beer_key[notUniqueBeerColorCode];
+
+        key.uniqueBeerName = uniqueBeerName;
+        key.otherBeerName = otherBeerName;
+        return key;
+      });
+    //- pre= h.dump(article.triangle_key)
+    h1.title= `${article.title} Experiment: ${title}`
+    .table 
+      .cell.headings ID #
+      .cell.headings A 
+      .cell.headings B 
+      .cell.headings C 
+      each key, idx in keyInfo
+        if (idx+1) % 2 === 0
+          .cell.hl= key.token
+          .cell.hl= key.unique_cup === 'A' ? key.uniqueBeerName : key.otherBeerName
+          .cell.hl= key.unique_cup === 'B' ? key.uniqueBeerName : key.otherBeerName
+          .cell.hl= key.unique_cup === 'C' ? key.uniqueBeerName : key.otherBeerName
+        else
+          .cell= key.token
+          .cell= key.unique_cup === 'A' ? key.uniqueBeerName : key.otherBeerName
+          .cell= key.unique_cup === 'B' ? key.uniqueBeerName : key.otherBeerName
+          .cell= key.unique_cup === 'C' ? key.uniqueBeerName : key.otherBeerName
+

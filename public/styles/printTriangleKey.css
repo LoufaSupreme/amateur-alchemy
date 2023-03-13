@@ -1,0 +1,40 @@
+/************ TABLE STYLING */
+
+.table {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.cell.headings {
+  background-color: rgb(var(--clr-bg-darker));
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+.headings > .cell {
+  padding-inline: 1rem;
+  min-height: 3rem;
+}
+
+.cell {
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.cell.hl {
+  background-color: rgb(255 255 255 / 0.03);
+
+}
+
+/* .cell:nth-child(n+5) {
+  background-color: rgb(255 255 255 / 0.03);
+} */
+

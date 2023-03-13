@@ -57,6 +57,27 @@ exports.createOrUpdateTriangleTest = async (req, res, next) => {
   }
 };
 
+// display all the triangle keys in a table so people can see what they had in their cups
+// @params: requires the article instance on req.body
+exports.printTriangleKey = async (req, res, next) => {
+  console.log('Running printTriangleKey');
+  try {
+    if (!req.body.article) throw new Error('No article passed in!');
+
+    const triangleKeys = await TriangleTest.find({ article: req.body.article }).sort({ token: 1 });
+
+    res.render('printTriangleKey', {
+        title: 'Triangle Keys',
+        article: req.body.article,
+        triangleKeys
+    });
+  }
+  catch(err) {
+    console.log(err);
+    next(err);
+  }
+}
+
 // show the success screen after a triangle test was successfully created/updated
 // requires an article object in req.body.article
 // requires req.params.token and req.params.article_num

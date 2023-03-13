@@ -428,6 +428,25 @@ exports.qrCode = (req, res) => {
     })
 }
 
+// @param req.params.slug
+exports.findArticleBySlug = async (req, res, next) => {
+    console.log(`Running findArticleBySlug for ${req.params.slug}`);
+    try {
+        if (!req.params.slug) throw new Error('No slug provided');
+        
+        const article = await Article.findOne({ slug: req.params.slug }).populate('triangle_tests');
+
+        if (!article) throw new Error('No article found!');
+
+        req.body.article = article;
+        return next();
+    }
+    catch(err) {
+        console.log(err);
+        next(err);
+    }
+}
+
 // API Route
 // params @req.params.slug
 exports.getArticleBySlug = async (req, res, next) => {
