@@ -428,6 +428,20 @@ input[type="range"]::-ms-fill-lower {
     position: relative;
     background: rgb(255 255 255 / 0.15);
   }
+
+  .overlay .table .headings > .cell {
+    padding-inline: 0.5rem;
+    min-height: 1rem;
+  }
+  
+  .overlay .table .cell {
+    min-height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-inline: 0.3rem;
+  }
 }
 
 
