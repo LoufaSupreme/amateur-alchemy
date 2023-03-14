@@ -33,14 +33,18 @@ function graphDemographics(article) {
     return acc;
   }, {});
 
+  const sortedDemos = Object.entries(demographics).sort((a,b) => {
+    return a[0].localeCompare(b[0]);
+  }).reverse();
+
   const demographicsCanvas = document.getElementById("demographics");
 
   const demographicsChartData = {
-    labels: Object.keys(demographics),
+    labels: sortedDemos.map(cat => cat[0]),
     datasets: [{
       // label: 'Demographics',
       display: false,
-      data: Object.values(demographics).map(demo => demo.length),
+      data: sortedDemos.map(cat => cat[1].length),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',

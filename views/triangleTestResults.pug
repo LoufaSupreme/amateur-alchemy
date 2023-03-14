@@ -180,9 +180,9 @@ block content
               span Anonymous
             .overlay 
               if comment.isCorrect 
-                span.is-correct= `${comment.name} guessed correctly!`
+                span.is-correct= `${comment.name || 'Anonymous'} guessed correctly!`
               else
-                span.is-correct= `${comment.name} guessed incorrectly`
+                span.is-correct= `${comment.name || 'Anonymous'} guessed incorrectly`
               .table
                 .row.headings
                   .cell= comment.perceived_unique === 'A' ? 'A*' : 'A'
