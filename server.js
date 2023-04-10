@@ -32,10 +32,6 @@ require('./models/TriangleTest');
 // const promisify = require('es6-promisify');
 // const expressValidator = require('express-validator');
 
-const routes = require('./routes/index');  // has to be after requiring the models
-// const helpers = require('./helpers');
-// const errorHandlers = require('./handlers/errorHandlers');
-
 const app = express();
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
@@ -77,8 +73,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// After allllll that above middleware, we finally handle our own routes!
-app.use('/', routes);
+// routes:
+// has to be after requiring the models:
+const indexRoutes = require('./routes/index');  
+const articleRoutes = require('./routes/articleRoutes');
+
+app.use('/', indexRoutes);
+app.use('/articles', articleRoutes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

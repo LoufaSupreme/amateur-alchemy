@@ -166,12 +166,12 @@ exports.deleteArticle = async (req, res, next) => {
 }
 
 // add a triangleTest to an existing article
-// needs to have "article_num" in the request params and trianlgeTest in req.body 
+// needs to have article_id in req.params
 exports.appendTriangleTest = async (req, res, next) => {
     console.log(`Running appendTriangleTest to article ${req.params.article_num}`);
     try {
         const article = await Article.findOneAndUpdate(
-            { article_num: req.params.article_num },
+            { _id: req.params.article_id },
             { $addToSet: { triangle_tests: req.body.triangleTest } },
             { returnNewDocument: true }
         ).exec();
@@ -217,6 +217,24 @@ exports.getArticleByNum = async (req, res, next) => {
         const article = await Article.findOne({ article_num: +req.params.article_num });
 
         if (!article) throw new Error(`Article ${req.params.article_num} not found.`);
+
+        req.body.article = article;
+        return next();
+    }
+    catch(err){
+        console.log(err);
+        next(err);
+    }
+}
+
+// check if article exists with a given id
+// requires an article id in req.params.article_id
+exports.getArticleByID = async (req, res, next) => {
+    console.log(`Running getArticleByID on ID ${req.params.article_id}`);
+    try {
+        const article = await Article.findOne({ _id: req.params.article_id });
+
+        if (!article) throw new Error(`Article ${req.params.article_id} not found.`);
 
         req.body.article = article;
         return next();
@@ -460,76 +478,3 @@ exports.getArticleBySlug = async (req, res, next) => {
         next(err);
     }
 }
-
-// // creates a new article instance in db
-// exports.createArticle = async (req, res, next) => {
-//     console.log('Running createArticle');
-//     try {
-//         console.log(req.body)
-//         req.body.tags = parseList(req.body.tags);
-//         req.body.google_data.tags = parseList(req.body.google_data["tags"]);
-//         req.body.google_data.images = parseList(req.body.google_data["images"]);
-//         if (isComplete(req)) req.body.completed = true;
-//         const brewery = new Brewery(req.body);
-//         const savedBrewery = await brewery.save();
-//         console.log('New Brewery created');
-//         req.flash('success', `Successfully created ${brewery.name}`)
-//         res.redirect(`/breweries/${savedBrewery.slug}`)
-//     }
-//     catch(err) {
-//         next(err);
-//     }
-// }
-
-// renders the addBrewery page with preloaded brewery info
-// exports.editBrewery = async (req, res, next) => {
-//     try {
-//         const brewery_slug = req.params.slug;
-//         const brewery = await Brewery.findOne({ slug: brewery_slug });
-
-//         res.render('addBrewery', {
-//             title: `Edit ${brewery.name}`,
-//             brewery: brewery,
-//         });
-//     }
-//     catch(err) {
-//         console.log(err);
-//         next(err);
-//     }
-// }
-
-// // updates existing beer instance in db
-// exports.updateBrewery = async (req, res, next) => {
-//     console.log('Running updateBrewery');
-//     try {
-//         req.body.tags = parseList(req.body.tags);
-
-//         req.body.google_data.tags = parseList(req.body.google_data["tags"]);
-//         req.body.google_data.images = parseList(req.body.google_data["images"]);
-//         req.body.slug = slug(req.body.name);
-//         // check if all fields are filled out:
-//         if (isComplete(req)) req.body.completed = true;
-//         // update the location type since mongo's findOneAndUpdate method doesn't take into account the Schema defaults
-//         req.body.location.type = "Point";
-//         req.body.lastUpdated = Date.now();
-
-//         const brewery = await Brewery.findOneAndUpdate(
-//             { _id: req.params.id }, 
-//             {
-//                 $inc: { updateCount: 1 },
-//                 $set: req.body
-//             },
-//             {
-//                 new: true, // return newly updated obj, not the old unupdated version
-//                 runValidators: true, // forces validation of the options set in the Schema model, e.g. required:true for name and trim:true for description, etc
-//             }).exec(); // run the query
-
-//         req.flash('success', `Successfully updated <strong>${brewery.name}</strong>`);
-//         res.redirect(`/breweries/${brewery.slug}`);
-//     }
-//     catch(err) {
-//         console.log(err);
-//         next(err);
-//     }
-// }
-

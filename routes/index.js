@@ -52,95 +52,14 @@ router.post('/add-brewery/:id',
     breweryController.updateBrewery
 );
 
-// go to add new article page
-router.get('/add-article', articleController.addArticle);
-
-// create new article in db
-router.post('/add-article', 
-    articleController.upload,
-    articleController.resize,    
-    articleController.createArticle
-)
-
-// update existing article
-// display form to create or edit article
-router.get('/articles/:slug/edit', articleController.editArticle);
-
-// update article and apply changes to db and reroute
-router.post('/add-article/:id', 
-    articleController.upload,
-    articleController.resize,
-    articleController.updateArticle    
-)
-
-// display article
-router.get('/articles/:slug', articleController.displayArticle);
-
-// display form to create new triangleTest for an article/experiment
-router.get('/articles/:article_num/triangle-test',
-    triangleTestController.addTriangleTest
-);
-
-// create a new triangleTest in the db
-router.post('/articles/:article_num/triangle-test', 
-    articleController.getArticleByNum,
-    triangleTestController.createOrUpdateTriangleTest,
-    articleController.appendTriangleTest,
-);
-
-// display the thank you/success page after a triangle test is submitted
-router.get('/articles/:article_num/triangle-tests/:token/thanks',      
-    articleController.getArticleByNum,
-    triangleTestController.displaySuccessfulTriangleTest
-)
-
-// display form to create a new triangleTest key for an article
-router.get('/articles/:article_num/triangle-test-key', 
-    articleController.addKey
-)
-
-// display all the triangle test keys so people can see what's in their cups
-router.get('/articles/:slug/triangle-test-key/print', 
-    articleController.findArticleBySlug,
-    triangleTestController.printTriangleKey
-)
-
-// save new triangle test key to the article
-router.post('/articles/:article_id/key',
-    articleController.createOrUpdateKey,
-    triangleTestController.addUniqueBeer
-)
-
-// display form to create a new beer key
-router.get('/articles/:id/beer-key', articleController.addBeerKey)
-
-// create or update an beer key for an article
-router.post('/articles/:id/beer-key', 
-    articleController.createOrUpdateBeerKey
-)
-
-// display raw graphs for an article's triangle tests
-router.get('/articles/:slug/triangle-test-results',
-    articleController.updateTriangleTestStatistics,
-    articleController.displayTriangleTestResults
-);
-
-// display a QR code that routes to the add triangle test page for an article
-router.get('/articles/:article_num/qr-code', articleController.qrCode)
 
 ////// API ROUTES //////
 
 // delete a beer review
 router.post('/api/beer-reviews/:id/delete', beerController.deleteReview);
 
-// delete a beer review
-router.post('/api/articles/:id/delete', articleController.deleteArticle);
-
 // get the details for one beer
 router.get('/api/get-beer/:slug', beerController.getBeer);
-
-// get the details for one article
-router.get('/api/get-article/:slug', articleController.getArticleBySlug);
 
 // search for all breweries matching a user input query
 router.get('/api/search/breweries', breweryController.searchBreweries);
@@ -151,12 +70,6 @@ router.get('/api/breweries/near', breweryController.mapBreweries);
 // get a list of all the breweries (json):
 router.get('/api/breweries/all', breweryController.getAllBreweries);
 
-// create new article if needed and upload images to article
-// router.post('/api/articles/upload', 
-//     articleController.upload,
-//     articleController.resize,    
-//     articleController.createOrUpdateArticle
-// )
 
 
 module.exports = router;

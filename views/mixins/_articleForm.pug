@@ -1,5 +1,5 @@
 mixin articleForm(article = {})
-    form(action=`/add-article/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+    form(action=`/articles/new/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Content
             label(for="title") Title 

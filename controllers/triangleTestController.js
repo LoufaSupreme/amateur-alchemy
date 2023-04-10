@@ -8,7 +8,7 @@ exports.addTriangleTest = async (req, res, next) => {
 
   res.render("addTriangleTest", {
     title: "New Triangle Test",
-    article_num: req.params.article_num,
+    article: req.body.article,
     schema: TriangleTest.schema.obj,
   });
 };
@@ -17,7 +17,7 @@ exports.addTriangleTest = async (req, res, next) => {
 // requires an article obj on req.body.article
 exports.createOrUpdateTriangleTest = async (req, res, next) => {
   console.log(
-    `Running createOrUpdateTriangleTest for article ${req.body.article.article_num}`
+    `Running createOrUpdateTriangleTest for article ${req.body.article.slug}`
   );
 
   try {
