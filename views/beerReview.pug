@@ -9,8 +9,8 @@ block content
     if msg 
         .msg= msg 
     form.control-panel(method="POST")
-        a.btn.btn-edit(href=`/beer-reviews/${beer.slug}/edit`) Edit
-        button.btn.btn-delete(type="submit" formaction=`/api/beer-reviews/${beer._id}/delete`) Delete
+        a.btn.btn-edit(href=`/reviews/${beer.slug}/edit`) Edit
+        button.btn.btn-delete(type="submit" formaction=`/reviews/${beer._id}/delete`) Delete
     +reviewBody(beer)
 
 block scripts 

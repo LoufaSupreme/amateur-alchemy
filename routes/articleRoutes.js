@@ -92,7 +92,7 @@ router.post('/:article_id/triangle-test',
 );
 
 // display the thank you/success page after a triangle test is submitted
-router.get('/:article_num/triangle-tests/:token/thanks',      
+router.get('/:article_num/triangle-test/:token/thanks',      
     articleController.getArticleByNum,
     triangleTestController.displaySuccessfulTriangleTest
 )

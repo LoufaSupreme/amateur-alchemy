@@ -18,7 +18,7 @@ sortBtn.addEventListener('click', () => {
     if (match_criteria && match_value) query.push(`${match_criteria}=${match_value}`);
 
     const url = `
-        /beer-reviews?${query.join('&')}
+        /reviews?${query.join('&')}
     `
     window.location.href=url;
 })

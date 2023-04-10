@@ -92,7 +92,7 @@ const opaqueWhite = 'rgb(255 255 255 / 0.6)';
 
 async function getBeerJSON(slug) {
     try {
-        const response = await fetch(`/api/get-beer/${slug}`);
+        const response = await fetch(`/reviews/api/get/${slug}`);
         const beerData = await response.json();
         const beerAttributes = Object.keys(beerData.beer.attributes).map(attr => {
             return capitalizeFirst(attr).replace('_', ' ');

@@ -77,9 +77,11 @@ app.use((req, res, next) => {
 // has to be after requiring the models:
 const indexRoutes = require('./routes/index');  
 const articleRoutes = require('./routes/articleRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 app.use('/', indexRoutes);
 app.use('/articles', articleRoutes);
+app.use('/reviews', reviewRoutes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

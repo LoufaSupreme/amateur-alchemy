@@ -8,7 +8,7 @@ block stylesheets
 block content 
     h1= title
     //- pre=h.dump(schema)
-    form(action="/beer-reviews" method="GET")
+    form(action="/reviews" method="GET")
         .match-area 
             label(for="match-criteria") Match
             select(name="match-criteria" class="" id="match-criteria")

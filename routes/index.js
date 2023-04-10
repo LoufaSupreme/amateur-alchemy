@@ -2,33 +2,10 @@ const express = require('express');
 const router = express.Router();
 const beerController = require('../controllers/beerController');
 const breweryController = require('../controllers/breweryController');
-const articleController = require('../controllers/articleController');
-const triangleTestController = require('../controllers/triangleTestController');
 
 // home page
 router.get('/', beerController.home);
 
-// add new beer review
-router.get('/add-beer', beerController.addBeer);
-router.post('/add-beer', 
-    beerController.uploadMedia, 
-    beerController.resizeImage, 
-    beerController.createBeer
-);
-
-// display one beer review
-router.get('/beer-reviews/:slug', beerController.displayReview);
-
-// update existing beer review
-router.get('/beer-reviews/:slug/edit', beerController.editBeer);
-router.post('/add-beer/:id',
-    beerController.uploadMedia, 
-    beerController.resizeImage, 
-    beerController.updateBeer
-);
-
-// show all beer reviews
-router.get('/beer-reviews', beerController.displayReviews);
 
 // add new brewery
 router.get('/add-brewery', breweryController.addBrewery);
@@ -54,12 +31,6 @@ router.post('/add-brewery/:id',
 
 
 ////// API ROUTES //////
-
-// delete a beer review
-router.post('/api/beer-reviews/:id/delete', beerController.deleteReview);
-
-// get the details for one beer
-router.get('/api/get-beer/:slug', beerController.getBeer);
 
 // search for all breweries matching a user input query
 router.get('/api/search/breweries', breweryController.searchBreweries);
