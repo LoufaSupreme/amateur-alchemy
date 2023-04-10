@@ -78,10 +78,12 @@ app.use((req, res, next) => {
 const indexRoutes = require('./routes/index');  
 const articleRoutes = require('./routes/articleRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const breweryRoutes = require('./routes/breweryRoutes');
 
 app.use('/', indexRoutes);
 app.use('/articles', articleRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/breweries', breweryRoutes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

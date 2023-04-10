@@ -16,7 +16,7 @@ async function getBreweries(lat=null, lng=null) {
 
     // if a lat and lng are provided, then query for all nearby breweries:
     if (lat && lng) {
-        const breweryData = await fetch(`/api/breweries/near?lat=${lat}&lng=${lng}`);
+        const breweryData = await fetch(`/breweries/api/near?lat=${lat}&lng=${lng}`);
         breweryList = await breweryData.json();
         if (!breweryList.length) {
             makeAlert('No breweries within 20km of that area!');
@@ -25,7 +25,7 @@ async function getBreweries(lat=null, lng=null) {
     }
     // otherwise, get all breweries in db:
     else {
-        const breweryData = await fetch('/api/breweries/all');
+        const breweryData = await fetch('/breweries/api/all');
         breweryList = await breweryData.json();
         if (!breweryList.length) {
             makeAlert('No breweries found!');

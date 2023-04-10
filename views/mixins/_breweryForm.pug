@@ -1,5 +1,5 @@
 mixin breweryForm(brewery = {})
-    form(action=`/add-brewery/${brewery._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
+    form(action=`/breweries/new/${brewery._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
             h2.form-card__section--heading Identity
             label(for="name") Name 
