@@ -121,6 +121,23 @@ exports.uploadToAWS = async (req, res, next) => {
     }
 }
 
+// display all article cards
+exports.articles = async (req, res, next) => {
+    console.log('Running articles');
+    try {
+        const articles = await Article.find();
+        
+        res.render('articles', { 
+            title: 'Articles',
+            articles
+        });
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
 // render the add article page 
 exports.addArticle = (req, res) => {
     console.log('Running addArticle');

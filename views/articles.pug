@@ -1,0 +1,13 @@
+extends layout 
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/articles.css')
+
+block content 
+    h1= title
+    .content
+      each article in articles 
+        a(href=`/articles/${article.slug}`)= article.title
+
+block scripts 
+    script(src='/javascript/breweries.js' type="module")

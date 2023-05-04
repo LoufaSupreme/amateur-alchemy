@@ -5,6 +5,10 @@ const triangleTestController = require('../controllers/triangleTestController');
 
 // all routes below are prefixed by "/articles"
 
+
+// go to articles main page
+router.get('/', articleController.articles);
+
 // go to add new article page
 router.get('/new', articleController.addArticle);
 
