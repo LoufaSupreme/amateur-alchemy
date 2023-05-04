@@ -10,8 +10,9 @@ router.get('/new', articleController.addArticle);
 
 // create new article in db
 router.post('/new', 
-    articleController.upload,
-    articleController.resize,    
+    articleController.uploadToMemory,
+    articleController.resize,
+    articleController.uploadToAWS,    
     articleController.createArticle
 )
 
@@ -21,9 +22,9 @@ router.get('/:slug/edit', articleController.editArticle);
 
 // update article and apply changes to db and reroute
 router.post('/new/:id', 
-    articleController.upload,
-    articleController.resize,
-    articleController.updateArticle    
+    // articleController.upload,
+    // articleController.resize,
+    // articleController.updateArticle    
 )
 
 // display article

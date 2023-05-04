@@ -246,28 +246,6 @@ function graphComparison(article) {
         else {
           acc[perceived_other]["attrs"][descriptor]["ratings"].push(Math.abs(curr[descriptor]));
         }
-        // // unique beer is rated higher
-        // if (curr[descriptor] >= 0) {
-        //   // if they guessed the unique beer correctly
-        //   if (isCorrect) {
-        //     acc[actual_unique]["attrs"][descriptor]["ratings"].push(curr[descriptor])
-        //   }
-        //   // if they guessed the unique beer incorrectly
-        //   else {
-        //     acc[actual_other]["attrs"][descriptor]["ratings"].push(curr[descriptor])
-        //   }
-        // }
-        // // "other" beer is rated higher
-        // else {
-        //   // if they guessed the unique beer correctly
-        //   if (isCorrect) {
-        //     acc[actual_other]["attrs"][descriptor]["ratings"].push(curr[descriptor])
-        //   }
-        //   // if they guessed the unique beer incorrectly
-        //   else {
-        //     acc[actual_unique]["attrs"][descriptor]["ratings"].push(curr[descriptor])
-        //   }
-        // }
       }
 
       return acc;

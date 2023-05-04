@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const Article = mongoose.model('Article');  // schema from Article.js
 const multer = require("multer"); // package for uplaoding multiple files.  Needed since our _storeForm.pug has a form w/ enctype=multipart/form-data
 const jimp = require("jimp"); // for image uploads
+const sharp = require("sharp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
 const slug = require('slugs');
 // stat calculations for p_value and binomial distribution
 const stats = require('.././helpers/statistics.js');
+const s3 = require('.././helpers/s3.js');
 
 
 const multerOptions = {
@@ -21,49 +23,100 @@ const multerOptions = {
     }
 }
 
-exports.upload = multer(multerOptions).fields([
+exports.uploadToMemory = multer(multerOptions).fields([
     { name: 'showcase_img' },
     { name: 'photos' }
 ]);
 
+// rename and resize images
 exports.resize = async (req, res, next) => {
+    console.log('Resizing files');
     try {
         // check if there is no new files to resize
-        if (!req.files) {
-            next(); // skip to next middleware
-            return;
-        }
+        if (!req.files) return next(); // skip to next middleware
 
         req.body.photos = [];
+        const resizedFiles = [];
+
         for (const fileInput in req.files) {
             for (const file of req.files[fileInput]) {
+                
+                // randomly name file
+                const fileNamePrefix = `${file.originalname.split('.')[0]}_${uuid.v4()}`;
                 // get the type of image
-                const fileExtension = file.mimetype.split('/')[1]; 
+                const fileExtension = file.mimetype.split('/')[1];
     
                 // create a new unique name for the image
-                const fileName = `${uuid.v4()}.${fileExtension}`;
+                const fileName = `${fileNamePrefix}.${fileExtension}`;
 
                 if (fileInput === 'showcase_img') {
                     req.body.showcase_img = fileName;
                 }
                 else req.body.photos.push(fileName); 
-    
-                // // resize photo:
-                // // pass in image buffer to jimp
-                const photo = await jimp.read(file.buffer);
-                // console.log(photo)
-    
-                await photo.resize(800, jimp.AUTO); // length and width
-                
-                // // write photo into uploads folder
-                await photo.writeAsync(`./public/uploads/${fileName}`);  // save the resized image to the public folder 
+
+                // rename original file
+                file.newFileName = fileName;
+
+                // RESIZE
+                // original file size
+                const large = file;
+                resizedFiles.push(large);
+
+                // resize to medium size
+                const midsizeBuffer = await sharp(file.buffer).resize({
+                    width: undefined,
+                    height: 1000,
+                    fit: "cover",
+                    position: "centre",
+                }).toBuffer();
+
+                const med = {
+                    newFileName: `${fileNamePrefix}_med.${fileExtension}`,
+                    buffer: midsizeBuffer,
+                    mimetype: file.mimetype
+                }
+                resizedFiles.push(med);
+
+                // resize to thumbnail size
+                const thumbnailBuffer = await sharp(file.buffer).resize({
+                    width: 500,
+                    height: 500,
+                    fit: "cover",
+                    position: "centre",
+                }).toBuffer();
+
+                const small = {
+                    newFileName: `${fileNamePrefix}_small.${fileExtension}`,
+                    buffer: thumbnailBuffer,
+                    mimetype: file.mimetype
+                }
+                resizedFiles.push(small);
             }
         }
-        
-        next(); 
+
+        req.body.resizedFiles = resizedFiles;
+        next();
     }
     catch(err) {
         req.error = err;
+        next(err);
+    }
+}
+
+// uploads the resized files to AWS S3
+// requires req.body.resizedFiles array
+exports.uploadToAWS = async (req, res, next) => {
+    console.log('Uploading images to AWS');
+    try {
+        if (!req.body.resizedFiles) return next();
+
+        for (const file of req.body.resizedFiles) {
+            s3.uploadFile(file)
+        }
+        next();
+    }
+    catch(err) {
+        console.error(err);
         next(err);
     }
 }
