@@ -25,6 +25,7 @@
   "homepage": "https://github.com/LoufaSupreme/amateur-alchemy#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.315.0",
+    "@aws-sdk/s3-request-presigner": "^3.335.0",
     "@fortawesome/fontawesome-free": "^6.2.1",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",

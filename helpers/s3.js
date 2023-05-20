@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const region = process.env.AWS_BUCKET_REGION;
@@ -26,4 +27,29 @@ exports.uploadFile = async (file) => {
 
   const putCommand = new PutObjectCommand(uploadParams);
   s3.send(putCommand);
+}
+
+// delete file in s3
+exports.deleteFile = async (imgName) => {
+  
+  const params = {
+    Bucket: bucketName,
+    Key: imgName
+  }
+
+  const delCommand = new DeleteObjectCommand(params);
+  s3.send(command);
+}
+
+// request presigned URL for s3 file
+exports.getImageURL = async (imgName) => {
+  const params = {
+    Bucket: bucketName,
+    Key: imgName
+  };
+
+  const getCommand = new GetObjectCommand(params);
+  const url = await getSignedUrl(s3, getCommand, { expiresIn: 3600 });
+
+  return url;
 }

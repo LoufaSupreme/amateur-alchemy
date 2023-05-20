@@ -183,6 +183,19 @@ exports.createArticle = async (req, res, next) => {
     }
 }
 
+// request a signed private url from aws s3 for an image
+// requires the image name in req.params
+exports.getUrl = async (req, res, next) => {
+    try {
+        const url = await s3.getImageURL(req.params.url);
+        res.json(url);
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
 // update an article instance
 exports.updateArticle = async (req, res, next) => {
     console.log(`Running updateArticle on article ${req.params.id}`);
@@ -223,14 +236,43 @@ exports.deleteArticle = async (req, res, next) => {
     try {
         const article = await Article.findOneAndDelete({ _id: req.params.id });
         console.log(`${article.name} deleted`);
+        
+        req.body.article = article;
 
         // TODO: delete all associated triangle tests
 
         req.flash('success', `Article successfully deleted`);
-        res.redirect('/');
+        next();
     }
     catch(err) {
         console.log(err);
+        next(err);
+    }
+}
+
+// delete any photos associated with a deleted article
+// requires article instance on req.body.article
+exports.deletePhotos = async (req, res, next) => {
+    try {
+        const article = await Article.findOne({ _id: req.params.id });
+        req.body.article = article;
+        
+        const photos = [article.showcase_img, ...article.photos];
+
+        for (const photo of photos) {
+            const fileExt = photo.split('.').pop();
+            const fileName = photo.replace(/\.[^/.]+$/, "");
+            
+            s3.deleteFile(photo);
+            s3.deleteFile(`${fileName}_med.${fileExt}`);
+            s3.deleteFile(`${fileName}_small.${fileExt}`);
+        }
+
+        res.redirect('back');
+
+    }
+    catch(err) {
+        console.error(err);
         next(err);
     }
 }

@@ -38,7 +38,13 @@ router.get('/:slug', articleController.displayArticle);
 router.get('/api/get/:slug', articleController.getArticleBySlug);
 
 // delete an article
-router.post('/:id/delete', articleController.deleteArticle);
+router.post('/:id/delete', 
+    articleController.deletePhotos,
+    // articleController.deleteArticle,
+);
+
+// request an aws signed url for an article image
+router.get('/api/getUrl/:url', articleController.getUrl)
 
 
 //// TRIANGLE TEST KEYS, QR CODE, RESULTS ROUTES //////////////////
