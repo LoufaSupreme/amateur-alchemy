@@ -86,40 +86,34 @@ textarea {
 }
 
 .img-gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.img-gallery__row {
     display: grid;
-    grid-template-columns: 100px 1fr auto auto;
-    gap: 1rem;
-    max-height: 100px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.25rem;
+    justify-items: center;
     align-items: center;
-    transition: background-color 0.06s ease-in-out;
 }
 
-.img-gallery__row:hover {
-    background-color: rgb(255 255 255 / 0.1);
+.gallery-img-container {
+    position: relative;
+    max-height: 150px;
+    max-width: 150px;
+    overflow: hidden;
+    border-radius: 0.4rem;
 }
 
-.img-gallery__row.locked {
-    background-color: rgb(255 0 0 / 0.1);
+.gallery-img-container.locked {
+    -webkit-filter: grayscale(100%) brightness(50%);
+    filter: grayscale(100%) brightness(50%);
 }
 
 .gallery-img {
     object-fit: cover;
     max-height: 100%;
-    max-width: 100px;
+    max-width: 100%;
     aspect-ratio: 1 / 1;
     cursor: pointer;
-    padding: 2px;
 }
 
-.gallery-url {
-
-}
 
 button {
     border-radius: 0.3rem;
@@ -135,15 +129,35 @@ button:hover {
     opacity: 0.8;
 }
 
-.gallery-lock-btn {
-    padding: 0.6rem;
+.gallery-btn {
+    padding: 0.5rem;
     font-size: 1.1rem;
+    position: absolute;
+    background-color: rgb(255 255 255 / 0.25);
 }
 
-.gallery-copy-btn {
-    padding: 0.6rem;
-    font-size: 1.1rem;
-    margin-right: 1rem;
+.gallery-btn:hover {
+    background-color: rgb(255 255 255 / 0.6);
+}
+
+.lock-btn {
+    top: 0;
+    left: 0;
+}
+
+.expand-btn {
+    bottom: 0;
+    left: 0;
+}
+
+.delete-btn {
+    top: 0;
+    right: 0;
+}
+
+.rotate-btn {
+    bottom: 0;
+    right: 0;
 }
 
 .editor-container {

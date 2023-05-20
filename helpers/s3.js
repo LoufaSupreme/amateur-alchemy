@@ -38,7 +38,7 @@ exports.deleteFile = async (imgName) => {
   }
 
   const delCommand = new DeleteObjectCommand(params);
-  s3.send(command);
+  s3.send(delCommand);
 }
 
 // request presigned URL for s3 file
@@ -52,4 +52,24 @@ exports.getImageURL = async (imgName) => {
   const url = await getSignedUrl(s3, getCommand, { expiresIn: 3600 });
 
   return url;
+}
+
+// get image from s3
+exports.getImage = async (imgName) => {
+  try {
+    const params = {
+      Bucket: bucketName,
+      Key: imgName
+    };
+  
+    const getCommand = new GetObjectCommand(params);
+    const data = await s3.send(getCommand);
+    const imgBuffer = await data.Body.transformToByteArray();
+    console.log(imgBuffer);
+    return imgBuffer;
+  }
+  catch(err){
+    console.error(err);
+    throw new Error(`Could not retrieve file from S3: ${err.message}`);
+  }
 }

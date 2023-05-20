@@ -23,6 +23,20 @@ const multerOptions = {
     }
 }
 
+// sizes to resize images to
+const imageSizes = [
+    {
+        size: 'med',
+        height: 1500,
+        width: undefined,
+    },
+    {
+        size: 'small',
+        height: 200,
+        width: 200,
+    }
+]
+
 exports.uploadToMemory = multer(multerOptions).fields([
     { name: 'showcase_img' },
     { name: 'photos' }
@@ -36,7 +50,7 @@ exports.resize = async (req, res, next) => {
         if (!req.files) return next(); // skip to next middleware
 
         req.body.photos = [];
-        const resizedFiles = [];
+        const modifiedFiles = [];
 
         for (const fileInput in req.files) {
             for (const file of req.files[fileInput]) {
@@ -60,41 +74,26 @@ exports.resize = async (req, res, next) => {
                 // RESIZE
                 // original file size
                 const large = file;
-                resizedFiles.push(large);
+                modifiedFiles.push(large);
 
-                // resize to medium size
-                const midsizeBuffer = await sharp(file.buffer).resize({
-                    width: undefined,
-                    height: 1000,
-                    fit: "cover",
-                    position: "centre",
-                }).toBuffer();
+                for (const size of imageSizes) {
+                    const buffer = await sharp(file.buffer).resize({
+                        width: size.width,
+                        height: size.height,
+                        fit: "cover",
+                        position: "centre",
+                    }).toBuffer();
 
-                const med = {
-                    newFileName: `${fileNamePrefix}_med.${fileExtension}`,
-                    buffer: midsizeBuffer,
-                    mimetype: file.mimetype
+                    modifiedFiles.push({
+                        newFileName: `${fileNamePrefix}_${size.size}.${fileExtension}`,
+                        buffer: buffer,
+                        mimetype: file.mimetype 
+                    })
                 }
-                resizedFiles.push(med);
-
-                // resize to thumbnail size
-                const thumbnailBuffer = await sharp(file.buffer).resize({
-                    width: 500,
-                    height: 500,
-                    fit: "cover",
-                    position: "centre",
-                }).toBuffer();
-
-                const small = {
-                    newFileName: `${fileNamePrefix}_small.${fileExtension}`,
-                    buffer: thumbnailBuffer,
-                    mimetype: file.mimetype
-                }
-                resizedFiles.push(small);
             }
         }
 
-        req.body.resizedFiles = resizedFiles;
+        req.body.modifiedFiles = modifiedFiles;
         next();
     }
     catch(err) {
@@ -104,15 +103,85 @@ exports.resize = async (req, res, next) => {
 }
 
 // uploads the resized files to AWS S3
-// requires req.body.resizedFiles array
+// requires req.body.modifiedFiles array
 exports.uploadToAWS = async (req, res, next) => {
     console.log('Uploading images to AWS');
     try {
-        if (!req.body.resizedFiles) return next();
+        if (!req.body.modifiedFiles) return next();
 
-        for (const file of req.body.resizedFiles) {
+        for (const file of req.body.modifiedFiles) {
             s3.uploadFile(file)
         }
+        next();
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
+// get image buffer from AWS
+// requires imgName in req.params
+exports.getImageBuffer = async (req, res, next) => {
+    console.log('Getting image buffer');
+    try {
+        const imgBuffer = await s3.getImage(req.params.imgName);
+        req.imgBuffer = imgBuffer;
+        next();
+    }
+    catch(err) {
+        console.error(err);
+        next(err);
+    }
+}
+
+// rotate image using buffer
+// requires imgBuffer on req and imgName in req.params
+exports.rotateImage = async (req, res, next) => {
+    console.log('Rotating image');
+    try {
+        const modifiedFiles = [];
+
+        const fileName = req.params.imgName.split('.')[0];
+        const fileExtension = req.params.imgName.split('.')[1];
+
+        // original file size:
+        const buffer = await sharp(req.imgBuffer).rotate(
+            90, 
+            { background: { r: 0, g: 0, b: 0, alpha: 0 }
+        }).toBuffer();
+
+        const rotatedImg = {
+            newFileName: `${fileName}.${fileExtension}`,
+            buffer: buffer,
+        }
+
+        modifiedFiles.push(rotatedImg);
+
+        // other file sizes:
+        for (const size of imageSizes) {
+            const buffer = await sharp(req.imgBuffer)
+                .rotate(
+                    90, 
+                    { background: { r: 0, g: 0, b: 0, alpha: 0 }
+                })
+                .resize({
+                    width: size.width,
+                    height: size.height,
+                    fit: "cover",
+                    position: "centre",
+                })
+                .toBuffer();
+
+            const rotatedImg = {
+                newFileName: `${fileName}_${size.size}.${fileExtension}`,
+                buffer: buffer,
+            }
+
+            modifiedFiles.push(rotatedImg);
+        }
+
+        req.body.modifiedFiles = modifiedFiles;
         next();
     }
     catch(err) {

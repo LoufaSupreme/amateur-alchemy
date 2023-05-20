@@ -12,26 +12,33 @@ mixin articleForm(article = {})
             label(for="showcase_img") Showcase Image 
             input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
             if article.showcase_img
-                .img-gallery
-                    .img-gallery__row
-                        img.gallery-img(src=`/uploads/${article.showcase_img}`, alt=article.title width=100)
-                        .gallery-url= `/uploads/${article.showcase_img}`
-                        button(class="gallery-lock-btn")
-                            i.fa-solid.fa-lock-open
-                        button(class="gallery-copy-btn") 
-                            i.fa-regular.fa-copy
+              .img-gallery
+                .gallery-img-container
+                  img.gallery-img(src=`/uploads/${article.showcase_img}`, data-name=article.showcase_img  alt=article.title width=150)
+                  button(class="gallery-btn lock-btn")
+                    i.fa-solid.fa-lock-open
+                  button(class="gallery-btn expand-btn") 
+                    i.fa-solid.fa-expand
+                  button(class="gallery-btn rotate-btn") 
+                    i.fa-solid.fa-rotate-right
+                  button(class="gallery-btn delete-btn") 
+                    i.fa-solid.fa-trash
+
             label(for="photos") Photos 
             input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg" multiple)
             if article.photos
                 .img-gallery
                     each photo of article.photos
-                        .img-gallery__row
-                            img.gallery-img(src=`/uploads/${photo}`, alt=article.title width=100)
-                            .gallery-url= `/uploads/${photo}`
-                            button(class="gallery-lock-btn")
-                                i.fa-solid.fa-lock-open
-                            button(class="gallery-copy-btn") 
-                                i.fa-regular.fa-copy
+                      .gallery-img-container
+                        img.gallery-img(src=`/uploads/${photo}`, data-name=photo  alt=article.title width=150)
+                        button(class="gallery-btn lock-btn")
+                          i.fa-solid.fa-lock-open
+                        button(class="gallery-btn expand-btn") 
+                          i.fa-solid.fa-expand
+                        button(class="gallery-btn rotate-btn") 
+                          i.fa-solid.fa-rotate-right
+                        button(class="gallery-btn delete-btn") 
+                          i.fa-solid.fa-trash
 
             input(type="submit" value="Save Images" class="button")
             

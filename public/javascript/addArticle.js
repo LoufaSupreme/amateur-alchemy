@@ -86,7 +86,7 @@ const htmlPreview = `\
 const preview = document.querySelector('.preview');
 const hiddenBodyInput = document.querySelector('#body');
 const editor = ace.edit("editor", {
-    maxLines: 120
+  maxLines: 120
 });
 
 editor.setTheme("ace/theme/monokai");
@@ -96,52 +96,69 @@ editor.setShowPrintMargin(false);
 editor.session.setTabSize(2);
 
 editor.session.on('change', function(delta) {
-    // delta.start, delta.end, delta.lines, delta.action
-    preview.innerHTML = editor.getValue();
-    hiddenBodyInput.value = editor.getValue();
+  // delta.start, delta.end, delta.lines, delta.action
+  preview.innerHTML = editor.getValue();
+  hiddenBodyInput.value = editor.getValue();
 });
 
 if (editor.getValue() === '') editor.setValue(htmlPreview);
 preview.innerHTML = editor.getValue();
 
 
-const copyUrlBtns = document.querySelectorAll('.gallery-copy-btn');
-const lockBtns = document.querySelectorAll('.gallery-lock-btn');
+const deleteBtns = document.querySelectorAll('.delete-btn');
+const expandBtns = document.querySelectorAll('.expand-btn');
+const rotateBtns = document.querySelectorAll('.rotate-btn');
+const lockBtns = document.querySelectorAll('.lock-btn');
+const galleryImgs = document.querySelectorAll('.gallery-img');
 
 function copyToClipboard(targetText) {
-    const dummy = document.createElement("textarea");
-    document.body.appendChild(dummy);
-    dummy.value = targetText
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-    makeAlert('Copied to Clipboard!')
+  const dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = targetText
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+  makeAlert('Copied to Clipboard!')
 }
 
 lockBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
 
-        btn.classList.toggle('locked');
-        btn.parentElement.classList.toggle('locked');
-        if (btn.classList.contains('locked')) {
-            btn.innerHTML = '<i class="fa-solid fa-lock"></i>'
-        }
-        else btn.innerHTML = '<i class="fa-solid fa-lock-open"></i>'
-    })
+    btn.classList.toggle('locked');
+    btn.parentElement.classList.toggle('locked');
+    if (btn.classList.contains('locked')) {
+      btn.innerHTML = '<i class="fa-solid fa-lock"></i>'
+    }
+    else btn.innerHTML = '<i class="fa-solid fa-lock-open"></i>'
+  })
 })
 
-copyUrlBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
+galleryImgs.forEach(img => {
+  img.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
 
-        copyToClipboard(this.parentElement.querySelector('.gallery-url').innerText);
+    copyToClipboard(this.dataset.name);
 
-        this.parentElement.classList.add('locked');
-        const lockBtn = this.parentElement.querySelector('.gallery-lock-btn');
-        lockBtn.classList.add('locked');
-        lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
-    })
+    this.parentElement.classList.add('locked');
+    const lockBtn = this.parentElement.querySelector('.lock-btn');
+    lockBtn.classList.add('locked');
+    lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
+  })
+})
+
+rotateBtns.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const img = this.parentElement.querySelector('img');
+    const imgName = img.dataset.name;
+    
+    fetch(`/articles/rotate/${imgName}`, {
+      method: 'PUT'
+    });
+  })
 })
