@@ -286,7 +286,7 @@ exports.createArticle = async (req, res, next) => {
 // NO LONGER USED. s3 BUCKET CHANGED TO PUBLIC
 // request a signed private url from aws s3 for an image
 // requires the image name in req.params
-exports.getUrl = async (req, res, next) => {
+exports.geImageUrl = async (req, res, next) => {
     try {
         const url = await s3.getImageURL(req.params.url);
         res.json(url);
@@ -298,6 +298,7 @@ exports.getUrl = async (req, res, next) => {
 }
 
 // update an article instance
+// requires article id in req.params
 exports.updateArticle = async (req, res, next) => {
     console.log(`Running updateArticle on article ${req.params.id}`);
     try {

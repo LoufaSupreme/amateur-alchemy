@@ -26,8 +26,9 @@ router.get('/:slug/edit', articleController.editArticle);
 
 // update article and apply changes to db and reroute
 router.post('/new/:id', 
-    // articleController.upload,
+    // articleController.uploadToMemory,
     // articleController.resize,
+    // articleController.uploadToAWS, 
     // articleController.updateArticle    
 )
 
@@ -53,10 +54,6 @@ router.post('/:id/delete',
     articleController.deletePhotos,
     // articleController.deleteArticle,
 );
-
-// request an aws signed url for an article image
-router.get('/api/getUrl/:url', articleController.getUrl)
-
 
 //// TRIANGLE TEST KEYS, QR CODE, RESULTS ROUTES //////////////////
 
