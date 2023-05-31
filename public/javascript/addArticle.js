@@ -140,7 +140,9 @@ galleryImgs.forEach(img => {
     e.stopPropagation();
     e.preventDefault();
 
-    copyToClipboard(this.dataset.name);
+    const [imgName, imgExt] = splitFilename(this.dataset.name);
+
+    copyToClipboard(`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}_small.${imgExt}`);
 
     this.parentElement.classList.add('locked');
     const lockBtn = this.parentElement.querySelector('.lock-btn');
@@ -155,10 +157,73 @@ rotateBtns.forEach(btn => {
     e.preventDefault();
 
     const img = this.parentElement.querySelector('img');
-    const imgName = img.dataset.name;
-    
-    fetch(`/articles/rotate/${imgName}`, {
-      method: 'PUT'
-    });
+    const newAngle = +img.dataset.angle - 90;
+
+    img.dataset.angle = newAngle;
+    img.style.transform = `rotate(${newAngle}deg)`;
+  
+    debouncedRotateImage(img, newAngle);
   })
-})
+});
+
+const debouncedRotateImage = debounce(rotateImage, 2000);
+
+function rotateImage(img, angle) {
+  const imgName = img.dataset.name;
+
+  const translatedAngle = Math.abs(360 - Math.abs(angle));
+  
+  fetch(`/articles/rotate/${imgName}/${translatedAngle}`, {
+    method: 'PUT'
+  });
+}
+
+// splits a filename into its name and extension
+function splitFilename(filename) {
+  const [name, ext] = filename.split('.');
+  return [name, ext];
+}
+
+// https://stackoverflow.com/questions/24004791/what-is-the-debounce-function-in-javascript
+function debounce(func, wait, immediate) {
+  // 'private' variable for instance
+  // The returned function will be able to reference this due to closure.
+  // Each call to the returned function will share this common timer.
+  var timeout;
+
+  // Calling debounce returns a new anonymous function
+  return function() {
+    // reference the context and args for the setTimeout function
+    var context = this,
+      args = arguments;
+
+    // Should the function be called now? If immediate is true
+    //   and not already in a timeout then the answer is: Yes
+    var callNow = immediate && !timeout;
+
+    // This is the basic debounce behaviour where you can call this
+    //   function several times, but it will only execute once
+    //   (before or after imposing a delay).
+    //   Each time the returned function is called, the timer starts over.
+    clearTimeout(timeout);
+
+    // Set the new timeout
+    timeout = setTimeout(function() {
+
+      // Inside the timeout function, clear the timeout variable
+      // which will let the next execution run when in 'immediate' mode
+      timeout = null;
+
+      // Check if the function already ran with the immediate flag
+      if (!immediate) {
+        // Call the original function with apply
+        // apply lets you define the 'this' object as well as the arguments
+        //    (both captured before setTimeout)
+        func.apply(context, args);
+      }
+    }, wait);
+
+    // Immediate mode and no wait timer? Execute the function...
+    if (callNow) func.apply(context, args);
+  }
+}

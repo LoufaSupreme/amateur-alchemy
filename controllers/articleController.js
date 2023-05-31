@@ -125,7 +125,7 @@ exports.uploadToAWS = async (req, res, next) => {
 exports.getImageBuffer = async (req, res, next) => {
     console.log('Getting image buffer');
     try {
-        const imgBuffer = await s3.getImage(req.params.imgName);
+        const imgBuffer = await s3.getImageBuffer(req.params.imgName);
         req.imgBuffer = imgBuffer;
         next();
     }
@@ -136,9 +136,9 @@ exports.getImageBuffer = async (req, res, next) => {
 }
 
 // rotate image using buffer
-// requires imgBuffer on req and imgName in req.params
+// requires imgBuffer on req, imgName in req.params and angle in req.params
 exports.rotateImage = async (req, res, next) => {
-    console.log('Rotating image');
+    console.log(`Rotating image by ${req.params.angle} degrees`);
     try {
         const modifiedFiles = [];
 
@@ -147,13 +147,14 @@ exports.rotateImage = async (req, res, next) => {
 
         // original file size:
         const buffer = await sharp(req.imgBuffer).rotate(
-            90, 
+            +req.params.angle, 
             { background: { r: 0, g: 0, b: 0, alpha: 0 }
         }).toBuffer();
 
         const rotatedImg = {
             newFileName: `${fileName}.${fileExtension}`,
             buffer: buffer,
+            mimetype: `image/${fileExtension}`
         }
 
         modifiedFiles.push(rotatedImg);
@@ -162,7 +163,7 @@ exports.rotateImage = async (req, res, next) => {
         for (const size of imageSizes) {
             const buffer = await sharp(req.imgBuffer)
                 .rotate(
-                    90, 
+                    +req.params.angle, 
                     { background: { r: 0, g: 0, b: 0, alpha: 0 }
                 })
                 .resize({
@@ -176,6 +177,7 @@ exports.rotateImage = async (req, res, next) => {
             const rotatedImg = {
                 newFileName: `${fileName}_${size.size}.${fileExtension}`,
                 buffer: buffer,
+                mimetype: `image/${fileExtension}`
             }
 
             modifiedFiles.push(rotatedImg);

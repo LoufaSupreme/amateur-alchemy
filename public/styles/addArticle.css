@@ -112,6 +112,7 @@ textarea {
     max-width: 100%;
     aspect-ratio: 1 / 1;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
 

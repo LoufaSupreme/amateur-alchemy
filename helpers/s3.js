@@ -54,8 +54,8 @@ exports.getImageURL = async (imgName) => {
   return url;
 }
 
-// get image from s3
-exports.getImage = async (imgName) => {
+// get image buffer from s3
+exports.getImageBuffer = async (imgName) => {
   try {
     const params = {
       Bucket: bucketName,
@@ -65,7 +65,6 @@ exports.getImage = async (imgName) => {
     const getCommand = new GetObjectCommand(params);
     const data = await s3.send(getCommand);
     const imgBuffer = await data.Body.transformToByteArray();
-    console.log(imgBuffer);
     return imgBuffer;
   }
   catch(err){

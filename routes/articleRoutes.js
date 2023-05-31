@@ -32,7 +32,7 @@ router.post('/new/:id',
 )
 
 // rotate an existing image
-router.put('/rotate/:imgName', 
+router.put('/rotate/:imgName/:angle', 
     articleController.getImageBuffer,
     articleController.rotateImage,
     articleController.uploadToAWS
