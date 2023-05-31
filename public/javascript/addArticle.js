@@ -166,11 +166,38 @@ rotateBtns.forEach(btn => {
   })
 });
 
+deleteBtns.forEach(btn => {
+  btn.addEventListener('click', async function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const img = this.parentElement.querySelector('img');
+    const imgName = img.dataset.name;
+
+    const slug = location.pathname.split('/')[2];
+
+    const response = await fetch(`/articles/${slug}/delete/${imgName}`, {
+      method: 'DELETE'
+    });
+
+    const json = await response.json();
+    console.log(`${json.status}: ${json.message}`);
+
+    if (json.status === 'success') {
+      makeAlert("Image deleted");
+      img.remove();
+    }
+    else makeAlert(`Error: ${json.message}`);
+  })
+})
+
 const debouncedRotateImage = debounce(rotateImage, 2000);
 
+// fetch call to rotate image in s3
 function rotateImage(img, angle) {
   const imgName = img.dataset.name;
 
+  // sharp only accepts positive rotation values:
   const translatedAngle = Math.abs(360 - Math.abs(angle));
   
   fetch(`/articles/rotate/${imgName}/${translatedAngle}`, {

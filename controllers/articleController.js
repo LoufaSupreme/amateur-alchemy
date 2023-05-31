@@ -192,6 +192,35 @@ exports.rotateImage = async (req, res, next) => {
     }
 }
 
+// deletes an image from the database
+// requires imgName in req.params and slug in req.params
+exports.deleteImage = async (req, res, next) => {
+    console.log(`Deleting image ${req.params.imgName}`);
+    try {
+        // delete from s3
+        s3.deleteFile(req.params.imgName);
+        for (const size of imageSizes) {
+            const [fileName, fileExt] = req.params.imgName.split(".");
+            const img = `${fileName}_${size.size}.${fileExt}`;
+            s3.deleteFile(img);
+        }
+
+        // remove from db article instance
+        await Article.findOneAndUpdate(
+            { slug: req.params.slug },
+            { $pull: { photos: req.params.imgName } },
+            { returnNewDocument: true }
+        ).exec();
+
+        // return success msg
+        res.json({status: "success", message: `${req.params.imgName} deleted successfully.`});
+    }
+    catch(err) {
+        console.error(err);
+        res.json({status: "error", message: err.message});
+    }
+}
+
 // display all article cards
 exports.articles = async (req, res, next) => {
     console.log('Running articles');
@@ -254,6 +283,7 @@ exports.createArticle = async (req, res, next) => {
     }
 }
 
+// NO LONGER USED. s3 BUCKET CHANGED TO PUBLIC
 // request a signed private url from aws s3 for an image
 // requires the image name in req.params
 exports.getUrl = async (req, res, next) => {

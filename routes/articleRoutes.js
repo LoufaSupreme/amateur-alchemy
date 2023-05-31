@@ -38,6 +38,10 @@ router.put('/rotate/:imgName/:angle',
     articleController.uploadToAWS
 )
 
+router.delete('/:slug/delete/:imgName',
+    articleController.deleteImage
+)
+
 // display article
 router.get('/:slug', articleController.displayArticle);
 
