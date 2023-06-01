@@ -26,10 +26,10 @@ router.get('/:slug/edit', articleController.editArticle);
 
 // update article and apply changes to db and reroute
 router.post('/new/:id', 
-    // articleController.uploadToMemory,
-    // articleController.resize,
-    // articleController.uploadToAWS, 
-    // articleController.updateArticle    
+    articleController.uploadToMemory,
+    articleController.resize,
+    articleController.uploadToAWS, 
+    articleController.updateArticle    
 )
 
 // rotate an existing image

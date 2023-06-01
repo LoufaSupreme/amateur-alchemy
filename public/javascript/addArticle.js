@@ -172,22 +172,32 @@ deleteBtns.forEach(btn => {
     e.preventDefault();
 
     const img = this.parentElement.querySelector('img');
+    const isShowcase = img.classList.contains('showcase') ? true : false;
+    const imgContainer = img.parentElement;
     const imgName = img.dataset.name;
 
     const slug = location.pathname.split('/')[2];
 
-    const response = await fetch(`/articles/${slug}/delete/${imgName}`, {
-      method: 'DELETE'
-    });
-
-    const json = await response.json();
-    console.log(`${json.status}: ${json.message}`);
-
-    if (json.status === 'success') {
-      makeAlert("Image deleted");
-      img.remove();
+    try {
+      const response = await fetch(`/articles/${slug}/delete/${imgName}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ isShowcase }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
+      const json = await response.json();
+      console.log(`${json.status}: ${json.message}`);
+  
+      if (json.status === 'success') {
+        makeAlert("Image deleted");
+        imgContainer.remove();
+      }
+      else makeAlert(`Error: ${json.message}`);
     }
-    else makeAlert(`Error: ${json.message}`);
+    catch(err) {
+      console.error(err);
+      makeAlert(err);
+    }
   })
 })
 

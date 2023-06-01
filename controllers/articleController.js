@@ -205,12 +205,23 @@ exports.deleteImage = async (req, res, next) => {
             s3.deleteFile(img);
         }
 
-        // remove from db article instance
-        await Article.findOneAndUpdate(
-            { slug: req.params.slug },
-            { $pull: { photos: req.params.imgName } },
-            { returnNewDocument: true }
-        ).exec();
+        // check if the image was a showcase_img
+        // remove image from db article instance
+        if (req.body.isShowcase) {
+            await Article.findOneAndUpdate(
+                { slug: req.params.slug },
+                { $unset: { showcase_img: "" } },
+                { returnNewDocument: true }
+            ).exec();
+        }
+        // if its not showcase, then its just in the photos array
+        else {
+            await Article.findOneAndUpdate(
+                { slug: req.params.slug },
+                { $pull: { photos: req.params.imgName } },
+                { returnNewDocument: true }
+            ).exec();
+        }
 
         // return success msg
         res.json({status: "success", message: `${req.params.imgName} deleted successfully.`});
@@ -286,7 +297,7 @@ exports.createArticle = async (req, res, next) => {
 // NO LONGER USED. s3 BUCKET CHANGED TO PUBLIC
 // request a signed private url from aws s3 for an image
 // requires the image name in req.params
-exports.geImageUrl = async (req, res, next) => {
+exports.getImageUrl = async (req, res, next) => {
     try {
         const url = await s3.getImageURL(req.params.url);
         res.json(url);
@@ -304,22 +315,25 @@ exports.updateArticle = async (req, res, next) => {
     try {
         req.body.slug = slug(req.body.title);
 
+        const photos = req.body.photos;
+        delete req.body.photos;
+        
         // if no photos were attached, just ignore those fields
         // i.e. don't overwrite the existing images with nothing
         if (req.body.showcase_img === 'undefined') delete req.body.showcase_img;
-        if (req.body.photos.length === 0) delete req.body.photos;
 
         const articleInfo = await Article.findOneAndUpdate(
             { _id: req.params.id },
-            req.body,
+            [
+                { $set: req.body },
+                { $set: { photos: { $concatArrays: ['$photos', [...photos]] } } }
+            ],
             {
                 new: true,
                 rawResult: true,
                 runValidators: true,
             }
         ).exec();
-
-        console.log(articleInfo)
         
         console.log(`Updated ${articleInfo.value.title}`);
         req.flash('success', `Successfully updated ${articleInfo.value.title}`);

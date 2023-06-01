@@ -15,7 +15,7 @@ mixin articleForm(article = {})
               .img-gallery
                 .gallery-img-container
                   - const [filename, ext] = article.showcase_img.split('.');
-                  img.gallery-img(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=article.showcase_img data-angle="0" alt=article.title width=150)
+                  img.gallery-img.showcase(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=article.showcase_img data-angle="0" alt=article.title width=150)
                   button(class="gallery-btn lock-btn")
                     i.fa-solid.fa-lock-open
                   button(class="gallery-btn expand-btn") 
