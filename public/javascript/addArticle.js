@@ -83,6 +83,9 @@ const htmlPreview = `\
   </tbody>
 </table>\ 
 `;
+const modal = document.querySelector('.modal');
+const modalImg = modal.querySelector('img');
+
 const preview = document.querySelector('.preview');
 const hiddenBodyInput = document.querySelector('#body');
 const editor = ace.edit("editor", {
@@ -199,6 +202,26 @@ deleteBtns.forEach(btn => {
       makeAlert(err);
     }
   })
+})
+
+expandBtns.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const imgName = this.parentElement.querySelector('img').dataset.name;
+
+    modalImg.src = `https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}`;
+    modal.classList.add('open');
+    modalImg.classList.add('open');
+  })
+})
+
+modal.addEventListener('click', () => {
+  // modal.close();
+  modal.classList.remove('open');
+  modalImg.src = "";
+  modalImg.classList.remove('open');
 })
 
 const debouncedRotateImage = debounce(rotateImage, 2000);
