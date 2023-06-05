@@ -1,13 +1,18 @@
 extends layout 
 
+include mixins/_articleCard
+
 block stylesheets 
-    link(rel='stylesheet', href='/styles/articles.css')
+  link(rel='stylesheet', href='/styles/articles.css')
 
 block content 
-    h1= title
-    .content
-      each article in articles 
-        a(href=`/articles/${article.slug}`)= article.title
+  h1= title
+  .grid.article-grid
+    each article, idx in articles 
+      if idx === 0
+        +articleCard(article, true)
+      else 
+        +articleCard(article, false)
 
 block scripts 
-    script(src='/javascript/articles.js' type="module")
+  script(src='/javascript/articles.js' type="module")

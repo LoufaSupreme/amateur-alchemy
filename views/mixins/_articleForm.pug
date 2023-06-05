@@ -8,6 +8,9 @@ mixin articleForm(article = {})
             label(for="category") Category 
             input(type="text" name="category" id="category" required value=article.category)
 
+            label(for="tagline") Tagline 
+            textarea(name="tagline" id="tagline") #{article.tagline}
+
             //- image upload
             label(for="showcase_img") Showcase Image 
             input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
@@ -43,9 +46,6 @@ mixin articleForm(article = {})
                           i.fa-solid.fa-trash
 
             input(type="submit" value="Save Images" class="button")
-            
-            label(for="tagline") Tagline 
-            textarea(name="tagline" id="tagline") #{article.tagline}
 
             //- main content
             label(for="body") Body 

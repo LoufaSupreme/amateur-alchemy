@@ -3,7 +3,7 @@ mixin beerCard(beer)
         a(href=`/reviews/${beer.slug}`)
             //- .beer-card__image
             if beer.photos.length > 0
-                img.beer-card__image(src=`/uploads/${beer.photos[0]}` alt=beer.name)
+                img.beer-card__image(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${splitFilename(beer.photos[0]).name}_small.${splitFilename(beer.photos[0]).ext}}` alt=beer.name)
             else 
                 img.beer-card__image(src="/images/MysteryBeer.jpg", alt="mystery beer")
         .beer-card__content

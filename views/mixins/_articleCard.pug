@@ -1,0 +1,19 @@
+mixin articleCard(article, isFeatured)
+  - 
+    // splits a filename into its name and extension
+    function splitFilename(filename) {
+      const [name, ext] = filename.split('.');
+      return {name, ext};
+    }
+  
+  a(href=`/articles/${article.slug}` class= isFeatured ? "featured" : "").card.article-card 
+    if article.showcase_img 
+      img.article-card__image(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${splitFilename(article.showcase_img).name}_small.${splitFilename(article.showcase_img).ext}` alt=article.title)
+    else if article.photos.length > 0
+      img.article-card__image(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${splitFilename(article.photos[0]).name}_small.${splitFilename(article.photos[0]).ext}` alt=article.title)
+    else 
+      img.article-card__image(src="/images/MysteryBeer.jpg", alt="mystery beer")
+    .article-card__content
+      h4= article.category
+      h2= article.title
+      h5= h.moment(article.date_created).format("MMM Do")

@@ -1,0 +1,39 @@
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.5rem;
+}
+
+.article-card {
+  height: 300px;
+  position: relative;
+}
+
+.featured {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+
+.article-card__image {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.featured .article-card__image {
+  /* aspect-ratio: 1 / 1.25; */
+}
+
+.article-card__content {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  translate: 0 -50%;
+}
+
+.article-card__content > * {
+  background-color: black;
+  padding: 1rem;
+  color: rgb(var(--clr-accent));
+
+}
