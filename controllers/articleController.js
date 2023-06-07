@@ -236,7 +236,7 @@ exports.deleteImage = async (req, res, next) => {
 exports.articles = async (req, res, next) => {
     console.log('Running articles');
     try {
-        const articles = await Article.find();
+        const articles = await Article.find().sort({ date_created: -1 });
         
         res.render('articles', { 
             title: 'Articles',
