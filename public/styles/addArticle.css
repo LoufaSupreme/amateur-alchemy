@@ -10,13 +10,14 @@ input[type=submit]:disabled {
 
 .content {
     max-width: 100%;
+    width: min(2000px, 80%);
 }
 
 .container {
     display: grid;
     grid-template-columns: 50% 50%;
     justify-content: center;
-    width: 90vw;
+    max-width: 100%;
     gap: 1rem;
     align-items: flex-start;
 }

@@ -39,6 +39,7 @@ router.put('/rotate/:imgName/:angle',
     articleController.uploadToAWS
 )
 
+// delete an image
 router.delete('/:slug/delete/:imgName',
     articleController.deleteImage
 )
@@ -54,6 +55,9 @@ router.post('/:id/delete',
     articleController.deletePhotos,
     // articleController.deleteArticle,
 );
+
+// request a list of existing tags
+router.get('/api/tags', articleController.getUniqueTagList)
 
 //// TRIANGLE TEST KEYS, QR CODE, RESULTS ROUTES //////////////////
 

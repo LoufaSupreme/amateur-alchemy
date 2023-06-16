@@ -287,3 +287,11 @@ function debounce(func, wait, immediate) {
     if (callNow) func.apply(context, args);
   }
 }
+
+// request a list of existing tags from the server
+async function getTagList() {
+  const tagsData = await fetch('/articles/api/tags');
+  const tags = await tagsData.json();
+
+  console.log(tags)
+}

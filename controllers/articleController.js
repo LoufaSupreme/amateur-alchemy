@@ -256,11 +256,12 @@ exports.addArticle = (req, res) => {
 }
 
 // turn the text from the tags input into an array of tags
-function parseList(commaSeperatedList) {
-    const listArray = commaSeperatedList.split(', ').map(tag => tag.toLowerCase());
-    return listArray;
+function parseTags(rawTags) {
+    const tagsArray = rawTags !== "" ? rawTags.split(', ').map(tag => tag.toLowerCase()) : [];
+    return tagsArray;
 }
 
+// displays the edit article page
 exports.editArticle = async (req, res, next) => {
     console.log(`Running editArticle on ${req.params.slug}`);
     try {
@@ -281,6 +282,7 @@ exports.createArticle = async (req, res, next) => {
     console.log('Running createArticle');
     try {
         req.body.slug = slug(req.body.title);
+        req.body.tags = parseTags(req.body.tags);
         const article = new Article(req.body);
         await article.save();
 
@@ -297,35 +299,41 @@ exports.createArticle = async (req, res, next) => {
 // NO LONGER USED. s3 BUCKET CHANGED TO PUBLIC
 // request a signed private url from aws s3 for an image
 // requires the image name in req.params
-exports.getImageUrl = async (req, res, next) => {
-    try {
-        const url = await s3.getImageURL(req.params.url);
-        res.json(url);
-    }
-    catch(err) {
-        console.error(err);
-        next(err);
-    }
-}
+// exports.getImageUrl = async (req, res, next) => {
+//     try {
+//         const url = await s3.getImageURL(req.params.url);
+//         res.json(url);
+//     }
+//     catch(err) {
+//         console.error(err);
+//         next(err);
+//     }
+// }
 
 // update an article instance
 // requires article id in req.params
 exports.updateArticle = async (req, res, next) => {
     console.log(`Running updateArticle on article ${req.params.id}`);
     try {
+
+        // update slug based on title
         req.body.slug = slug(req.body.title);
+
+        // split tags list into array of tags
+        req.body.tags = parseTags(req.body.tags);
 
         const photos = req.body.photos;
         delete req.body.photos;
         
-        // if no photos were attached, just ignore those fields
-        // i.e. don't overwrite the existing images with nothing
+        // if no showcase photo was attached, just ignore that field
+        // i.e. don't overwrite the existing image with nothing
         if (req.body.showcase_img === 'undefined') delete req.body.showcase_img;
 
         const articleInfo = await Article.findOneAndUpdate(
             { _id: req.params.id },
             [
                 { $set: req.body },
+                // add any new images to the existing array of images
                 { $set: { photos: { $concatArrays: ['$photos', [...photos]] } } }
             ],
             {
@@ -702,6 +710,28 @@ exports.getArticleBySlug = async (req, res, next) => {
         res.json(article);
     }
     catch(err){
+        console.log(err);
+        next(err);
+    }
+}
+
+// API ROUTE
+// get a list of all unique tags from all articles
+exports.getUniqueTagList = async (req, res, next) => {
+    console.log('Running getUniqueTagList');
+    try {
+        const articles = await Article.find();
+        const uniqueTagList = articles.reduce((acc, curr) => {
+            for (const tag of curr.tags) {
+                acc.add(tag);
+            }
+            return acc;
+        }, new Set())
+
+        // have to convert the set to array to jsonify it
+        res.json([...uniqueTagList]);
+    }
+    catch(err) {
         console.log(err);
         next(err);
     }
