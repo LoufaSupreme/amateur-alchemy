@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Article = mongoose.model('Article');  // schema from Article.js
 const multer = require("multer"); // package for uplaoding multiple files.  Needed since our _storeForm.pug has a form w/ enctype=multipart/form-data
-const jimp = require("jimp"); // for image uploads
 const sharp = require("sharp"); // for image uploads
 const uuid = require("uuid"); // helps with making unique file names for uploaded files (to avoid duplicates)
 const slug = require('slugs');

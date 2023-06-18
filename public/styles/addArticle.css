@@ -211,3 +211,66 @@ button:hover {
 .modal img.open {
     transform: translate(-50%, -50%) scale(1);
   }
+
+/***************************** tags */
+.tags__holder {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    border-radius: 1rem;
+    padding: 0.4rem 0.75rem 0.4rem 1rem;
+    background-image: var(--accent-gradient);
+    background-clip: padding-box;
+    border: 2px solid rgb(255 255 255 / 0.1);
+    background-size: 250% 100%;
+    opacity: 0.8;
+    color: white;
+    background-position: left;
+    display: flex;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    animation: bg-gradient-right 20s ease-in-out infinite alternate;
+}
+
+.tag:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+/************************ typeAhead dropdowns */
+.tags__input-container {
+    position: relative;
+    width: 100%;
+}
+
+#tags__input {
+    width: 100%;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.dropdown {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    gap: 0.2rem;
+    background-color: rgb(var(--clr-bg));
+    z-index: 10;
+    border-bottom-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.dropdown__suggestion {
+    cursor: pointer;
+    border-bottom: 1px solid grey;
+    padding: 0.3rem 0.5rem;
+}
+
+.dropdown__suggestion--active {
+    background-color: rgb(255 255 255 / 0.2);
+}
+

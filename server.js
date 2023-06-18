@@ -35,8 +35,9 @@ require('./models/TriangleTest');
 const app = express();
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.resolve(__dirname, 'public')));
 // app.use('/public', express.static('public'))
+// app.use("public", express.static(path.resolve(__dirname + 'public')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files

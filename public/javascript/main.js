@@ -1,3 +1,4 @@
+// import typeAhead from './modules/typeAhead.js'
 
 const flashes = document.querySelectorAll('.flash');
 flashes.forEach(flash => {

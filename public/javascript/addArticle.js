@@ -1,3 +1,4 @@
+
 const htmlPreview = `\
 <style>
 
@@ -289,9 +290,71 @@ function debounce(func, wait, immediate) {
 }
 
 // request a list of existing tags from the server
-async function getTagList() {
-  const tagsData = await fetch('/articles/api/tags');
-  const tags = await tagsData.json();
+async function tagsTypeAhead() {
+  try {
+    const tagsData = await fetch('/articles/api/tags');
+    const tags = await tagsData.json();
 
-  console.log(tags)
+    if (!tags.length) return;
+    const tagsContainer = document.querySelector('.tags');
+    // uses the typeAhead module to convert the tags input box into a dropdown suggestion
+    typeAhead(tagsContainer, tags);
+    
+  }
+  catch(err) {
+    console.error(err);
+    makeAlert(err);
+  }
 }
+
+// handles clicking or hitting enter on a selected dropdown suggestion
+function handleDropdownSelection(selected) {
+  const tagsContainer = document.querySelector('.tags');
+  const input = tagsContainer.querySelector('input');
+  const dropdown = tagsContainer.querySelector('.dropdown');
+  const tagsHolder = tagsContainer.querySelector('.tags__holder');
+  
+  // add the tag
+  // tagsHolder.innerHTML += `<div class="tag">${selected.innerText}</div>`
+
+  tagsHolder.appendChild(makeTag(selected.innerText));
+
+  // clear the input
+  input.value = "";
+
+  // clear the dropdown
+  dropdown.style.display = 'none';
+}
+
+// makes a tag element with delete btn
+function makeTag(label) {
+  const tag = document.createElement('div');
+  tag.classList.add('tag');
+  const delBtn = document.createElement('div');
+  delBtn.classList.add('tag__delBtn');
+  delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  delBtn.addEventListener('click', () => {
+    tag.remove();
+  });
+
+  tag.innerHTML = label;
+  tag.appendChild(delBtn);
+
+  return tag;
+}
+
+// tags the list of article tags and turns them into tag elements
+function initializeTags() {
+  const tagsContainer = document.querySelector('.tags');
+  const tagsHolder = tagsContainer.querySelector('.tags__holder');
+  const input = tagsContainer.querySelector('input');
+
+  input.value.split(', ').map(tag => {
+    tagsHolder.appendChild(makeTag(tag));
+  })
+
+  input.value = "";
+}
+
+tagsTypeAhead();
+initializeTags();
