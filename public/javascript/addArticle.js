@@ -95,6 +95,60 @@ const tagsInput = tagsContainer.querySelector('#tags__input');
 const tagsDropdown = tagsContainer.querySelector('.dropdown');
 const tagsHolder = tagsContainer.querySelector('.tags__holder');
 
+// content btns
+const contentBtns = document.querySelectorAll(".btn-catalogue__btn");
+
+const contentBtnsDict = {
+  "img-left": `\
+<figure class="float-left fig-small">
+  <img src="#" alt="#">
+  <figcaption>Caption</figcaption>
+</figure>`,
+  "img-center": `\
+<figure class="fig-full">
+  <img src="#" alt="#">
+  <figcaption>Caption</figcaption>
+</figure>`,
+  "img-right": `\
+<figure class="float-right fig-small">
+  <img src="#" alt="#">
+  <figcaption>Caption</figcaption>
+</figure>`,
+  "sidebar-right": `\
+<aside class="float-right">
+  <p>Sidebar</p>
+</aside>`,
+  "sidebar-left": `\
+<aside class="float-left">
+  <p>Sidebar</p>
+</aside>`,
+  "table": `\
+  <table class="styled-table">
+  <thead>
+    <tr>
+      <th>Heading 1</th>
+      <th>Heading 2</th>
+      <th>Heading 3</th>
+      <th>Heading 4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data 1</td>
+      <td>Data 2</td>
+      <td>Data 3</td>
+      <td>Data 4</td>
+    </tr>
+    <tr>
+      <td>Data 5</td>
+      <td>Data 6</td>
+      <td>Data 7</td>
+      <td>Data 8</td>
+    </tr>
+  </tbody>
+</table>`,
+}
+
 // editor/body elements
 const preview = document.querySelector('.preview');
 const hiddenBodyInput = document.querySelector('#body');
@@ -384,5 +438,14 @@ function addToHiddenInput(hiddenInput, word) {
   else hiddenInput.value += `, ${word}`;
 }
 
+function configureContentBtns() {
+  contentBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      copyToClipboard(contentBtnsDict[btn.id]);
+    })
+  });
+}
+
 tagsTypeAhead();
 initializeTags();
+configureContentBtns();
