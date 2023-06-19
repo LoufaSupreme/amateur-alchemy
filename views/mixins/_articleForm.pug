@@ -12,40 +12,48 @@ mixin articleForm(article = {})
             textarea(name="tagline" id="tagline") #{article.tagline}
 
             //- image upload
-            label(for="showcase_img") Showcase Image 
-            input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
-            if article.showcase_img
-              .img-gallery
-                .gallery-img-container
-                  - const [filename, ext] = article.showcase_img.split('.');
-                  img.gallery-img.showcase(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=article.showcase_img data-angle="0" alt=article.title width=150)
-                  button(class="gallery-btn lock-btn")
-                    i.fa-solid.fa-lock-open
-                  button(class="gallery-btn expand-btn") 
-                    i.fa-solid.fa-expand
-                  button(class="gallery-btn rotate-btn") 
-                    i.fa-solid.fa-rotate-left
-                  button(class="gallery-btn delete-btn") 
-                    i.fa-solid.fa-trash
+            .section-container
+              .input-container
+                label(for="showcase_img") Showcase Image 
+                input(type="file" name="showcase_img" id="showcase_img" accept="image/gif, image/png, image/jpeg")
+              .input-container
+                label(for="photos") Photos 
+                input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg" multiple)
 
-            label(for="photos") Photos 
-            input(type="file" name="photos" id="photos" accept="image/gif, image/png, image/jpeg" multiple)
             if article.photos
-                .img-gallery
-                    each photo of article.photos
-                      - const [filename, ext] = photo.split('.');
-                      .gallery-img-container
-                        img.gallery-img(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=photo  alt=article.title data-angle="0" width=150)
-                        button(class="gallery-btn lock-btn")
-                          i.fa-solid.fa-lock-open
-                        button(class="gallery-btn expand-btn") 
-                          i.fa-solid.fa-expand
-                        button(class="gallery-btn rotate-btn") 
-                          i.fa-solid.fa-rotate-left
-                        button(class="gallery-btn delete-btn") 
-                          i.fa-solid.fa-trash
+              - 
+                let images = [...article.photos];
+                if (article.showcase_img) images.unshift(article.showcase_img);
+              .img-gallery                    
+                  each photo of images
+                    - const [filename, ext] = photo.split('.');
+                    .gallery-img-container
+                      img.gallery-img(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=photo  alt=article.title data-angle="0" width=150)
+                      button(class="gallery-btn lock-btn")
+                        i.fa-solid.fa-lock-open
+                      button(class="gallery-btn expand-btn") 
+                        i.fa-solid.fa-expand
+                      button(class="gallery-btn rotate-btn") 
+                        i.fa-solid.fa-rotate-left
+                      button(class="gallery-btn delete-btn") 
+                        i.fa-solid.fa-trash
 
             input(type="submit" value="Save Images" class="button")
+
+            .btn-catalogue 
+              button(class="btn-catalogue__btn", type="button" id="left-img")!= h.icon("left-img")
+              
+              button(class="btn-catalogue__btn", type="button" id="center-img")!= h.icon("center-img")
+              
+              button(class="btn-catalogue__btn", type="button" id="right-img")!= h.icon("right-img")
+              
+              button(class="btn-catalogue__btn", type="button" id="sidebyside")!= h.icon("sideBySide")
+              
+              button(class="btn-catalogue__btn", type="button" id="sidebar-left")!= h.icon("sidebar-left")
+              
+              button(class="btn-catalogue__btn", type="button" id="sidebar-right")!= h.icon("sidebar-right")
+              
+              button(class="btn-catalogue__btn", type="button" id="table")!= h.icon("table")
 
             //- main content
             label(for="body") Body 

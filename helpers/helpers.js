@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 // HELPER FUNCTIONS
 
 // Dump is a handy debugging function we can use to sort of "console.log" our data
@@ -11,3 +13,6 @@ exports.capitalizeFirst = (string) => {
 
 // moment.js is a handy library for displaying dates. We need this in our templates to display things like "Posted 5 minutes ago"
 exports.moment = require('moment');
+
+// inserting an SVG
+exports.icon = (name) => fs.readFileSync(`./public/images/icons/${name}.svg`);

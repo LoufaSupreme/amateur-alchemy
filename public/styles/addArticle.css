@@ -11,6 +11,7 @@ input[type=submit]:disabled {
 .content {
     max-width: 100%;
     width: min(2000px, 80%);
+    font-family: 'Roboto', sans-serif;
 }
 
 .container {
@@ -65,17 +66,36 @@ input[type=submit]:disabled {
     text-align: left;
 }
 
+label {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: rgb(var(--clr-text) / 0.8);
+}
+
+input[type="text"] {
+    border: 1px solid rgb(var(--clr-text) / 0.25);
+}
+
 textarea {
-    /* min-width: 500px; */
-    min-height: 200px;
+    min-height: 100px;
+    font-family: 'Roboto', sans-serif;
 }
 
 #tagline {
-    min-height: 100px;
+    min-height: 50px;
 }
 
 #tags-input {
     min-height: 100px;
+}
+
+.section-container {
+    display: flex;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .form-card input[type=submit] {
@@ -84,6 +104,27 @@ textarea {
 
 .form-card input[type=submit]:hover {
     background-color: rgb(var(--clr-accent) / 0.7);
+}
+
+.btn-catalogue {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-catalogue button {
+    width: 3rem;
+    height: 3rem;
+    padding: 0.75rem;
+    background-color: rgb(var(--clr-bg));
+    color: rgb(var(--clr-text));
+}
+
+.btn-catalogue button svg {
+    width: 100%;
+    height: 100%;
 }
 
 .img-gallery {
@@ -205,7 +246,7 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%) scale(0.5);
     transition: 0.25s ease-in-out;
-    object-fit: none;
+    object-fit: cover;
 }
 
 .modal img.open {
