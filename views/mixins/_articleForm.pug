@@ -56,7 +56,8 @@ mixin articleForm(article = {})
             h2.form-card__section--heading Tags 
             .tags__holder
             .tags__input-container
-              input(type="text" name="tags" id="tags__input" placeholder="Add a tag" value=article.tags && article.tags.join(', '))
+              input(type="text" name="tags__input" id="tags__input" placeholder="Add a tag" value=article.tags && article.tags.join(', '))
               ul.tags__dropdown.dropdown
+              input(type="hidden" name="tags" id="tags" value=article.tags && article.tags.join(', '))
 
         input(type="submit" value="Save" class="button")

@@ -75,7 +75,7 @@ const htmlPreview = `\
       <td>Data 3</td>
       <td>Data 4</td>
     </tr>
-     <tr>
+    <tr>
       <td>Data 5</td>
       <td>Data 6</td>
       <td>Data 7</td>
@@ -84,9 +84,18 @@ const htmlPreview = `\
   </tbody>
 </table>\ 
 `;
+// img modal elements
 const modal = document.querySelector('.modal');
 const modalImg = modal.querySelector('img');
 
+// tag elements
+const tagsContainer = document.querySelector('.tags');
+const hiddenTagsInput = document.querySelector('#tags');
+const tagsInput = tagsContainer.querySelector('#tags__input');
+const tagsDropdown = tagsContainer.querySelector('.dropdown');
+const tagsHolder = tagsContainer.querySelector('.tags__holder');
+
+// editor/body elements
 const preview = document.querySelector('.preview');
 const hiddenBodyInput = document.querySelector('#body');
 const editor = ace.edit("editor", {
@@ -296,7 +305,6 @@ async function tagsTypeAhead() {
     const tags = await tagsData.json();
 
     if (!tags.length) return;
-    const tagsContainer = document.querySelector('.tags');
     // uses the typeAhead module to convert the tags input box into a dropdown suggestion
     typeAhead(tagsContainer, tags);
     
@@ -309,21 +317,22 @@ async function tagsTypeAhead() {
 
 // handles clicking or hitting enter on a selected dropdown suggestion
 function handleDropdownSelection(selected) {
-  const tagsContainer = document.querySelector('.tags');
-  const input = tagsContainer.querySelector('input');
-  const dropdown = tagsContainer.querySelector('.dropdown');
-  const tagsHolder = tagsContainer.querySelector('.tags__holder');
-  
-  // add the tag
-  // tagsHolder.innerHTML += `<div class="tag">${selected.innerText}</div>`
+  // selected could be either a word or an html element
+  const tagLabel = selected.innerText || selected;
+  const existingTags = hiddenTagsInput.value.split(', ');
 
-  tagsHolder.appendChild(makeTag(selected.innerText));
+  if (!isDuplicated(tagLabel, existingTags)) {
+    // add the tag
+    tagsHolder.appendChild(makeTag(tagLabel));
+    // append tag on hidden tag input
+    addToHiddenInput(hiddenTagsInput, tagLabel);
+  }
 
   // clear the input
-  input.value = "";
+  tagsInput.value = "";
 
   // clear the dropdown
-  dropdown.style.display = 'none';
+  tagsDropdown.style.display = 'none';
 }
 
 // makes a tag element with delete btn
@@ -334,6 +343,7 @@ function makeTag(label) {
   delBtn.classList.add('tag__delBtn');
   delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   delBtn.addEventListener('click', () => {
+    removeFromHiddenInput(hiddenTagsInput, label)
     tag.remove();
   });
 
@@ -345,15 +355,33 @@ function makeTag(label) {
 
 // tags the list of article tags and turns them into tag elements
 function initializeTags() {
-  const tagsContainer = document.querySelector('.tags');
-  const tagsHolder = tagsContainer.querySelector('.tags__holder');
-  const input = tagsContainer.querySelector('input');
-
-  input.value.split(', ').map(tag => {
+  tagsInput.value.split(', ').map(tag => {
     tagsHolder.appendChild(makeTag(tag));
   })
 
-  input.value = "";
+  tagsInput.value = "";
+}
+
+// checks to see if target word in already in list
+function isDuplicated(target, list) {
+  return list.includes(target);
+}
+
+// remove a tag from a hidden input
+function removeFromHiddenInput(hiddenInput, word) {
+  const existingList = hiddenInput.value.split(', ');
+  const indexOfWord = existingList.indexOf(word);
+  // remove the word if its found
+  if (indexOfWord > -1) existingList.splice(indexOfWord, 1);
+  // set the value of the hidden input to the updated list
+  const newList = existingList.join(', ');
+  hiddenInput.value = newList;
+}
+
+// add a tag to a hidden input
+function addToHiddenInput(hiddenInput, word) {
+  if (hiddenInput.value === "") hiddenInput.value = word;
+  else hiddenInput.value += `, ${word}`;
 }
 
 tagsTypeAhead();

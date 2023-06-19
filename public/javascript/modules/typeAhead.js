@@ -1,7 +1,7 @@
 function typeAhead(container, allData) {
   if (!container) return;
 
-  const input = container.querySelector('input');
+  const input = container.querySelector('input[type="text"]');
   const dropdown = container.querySelector('.dropdown');
 
   // populate dropdown list
@@ -52,6 +52,10 @@ function typeAhead(container, allData) {
     // if user presses enter
     else if (e.keyCode === 13 && current) {
       handleDropdownSelection(current)
+      return;
+    }
+    else if (e.keyCode === 13 && !current) {
+      handleDropdownSelection(input.value);
       return;
     }
     if (current) current.classList.remove(activeClass);
