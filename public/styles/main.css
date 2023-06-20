@@ -187,11 +187,11 @@ img.logo {
     justify-self: end;
 }
 
-.nav__section.nav__section--user .dropdown {
+.nav__section.nav__section--user .nav__dropdown {
     position: relative;
 }
 
-.dropdown .dropdown-menu {
+.nav__dropdown .dropdown-menu {
     position:absolute;
     right: 0;
     display: flex;
@@ -205,7 +205,7 @@ img.logo {
     pointer-events: none;
 }
 
-.dropdown:hover .dropdown-menu {
+.nav__dropdown:hover .dropdown-menu {
     opacity: 1;
     transform: translateY(0%);
     pointer-events: all;

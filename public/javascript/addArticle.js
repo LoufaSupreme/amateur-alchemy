@@ -4,85 +4,19 @@ const htmlPreview = `\
 
 </style>
 <section>
-  <figure class="float-right fig-small">
-      <img  src="/uploads/b62f70af-e190-4eb6-83a2-23db7b9b2bd9.jpeg" alt="canoeing">
-      <figcaption>We out here we finna bust</figcaption>
-  </figure>
+  <h1>Title</h1>
   <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum lacinia dui at sagittis. Etiam suscipit erat dapibus, dictum eros vitae, pharetra tellus. Mauris pellentesque venenatis metus. Maecenas iaculis malesuada odio at sollicitudin. Donec vulputate convallis semper. Cras pretium sit amet elit sed laoreet. Duis porta tristique nibh. Maecenas imperdiet molestie tellus, ut aliquet nisi ornare vitae. Nunc auctor tristique turpis nec tristique. Pellentesque blandit lectus eu est consectetur mattis non eget quam. In nec cursus elit, quis dictum augue.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum lacinia dui at sagittis. Etiam suscipit erat 
   </p>
-  <h2>Brewing Dank Ass Beers</h2>
+  <h2>Subtitle</h2>
   <p>
-    Vivamus at tempor odio. Pellentesque posuere, mi in tempus vehicula, eros risus luctus dolor, condimentum commodo mauris mauris sit amet nulla. Cras tincidunt pharetra turpis nec congue. Sed ornare consectetur facilisis. Mauris ultrices vulputate lacus, ac fermentum risus porttitor in. Vivamus varius rutrum enim. Pellentesque varius, augue vel tristique hendrerit, dolor lorem fringilla diam, vitae luctus ligula mauris quis turpis. Proin suscipit elit non ante dignissim, id pharetra velit iaculis. Pellentesque ac libero pellentesque, suscipit orci et, posuere risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec euismod dui, eget laoreet diam. In pretium quis diam nec mattis. In ultrices nec magna vel tincidunt. Fusce ex quam, eleifend sit amet egestas quis, vehicula a ex.
+    Vivamus at tempor odio. Pellentesque posuere, mi in tempus vehicula, eros risus luctus dolor, condimentum commodo mauris 
   </p>
 </section>
-
-<canvas id="chart1" class="chart" data-type="radar"></canvas> 
-
-<div class="sidebyside flex">
-  <figure>
-    <img  src="/uploads/ab48b59b-d0ca-46e5-85a1-cc3d91d5e8a9.jpeg" alt="tanks">
-    <figcaption>We out here we finna bust</figcaption>
-  </figure>
-  <figure>
-      <img  src="/uploads/b62f70af-e190-4eb6-83a2-23db7b9b2bd9.jpeg" alt="canoeing">
-      <figcaption>We out here we finna bust</figcaption>
-  </figure>
-</div>
 <section>
-  <p>
-    Suspendisse sapien risus, venenatis sed ultrices eget, facilisis vitae sem. Nam eget lectus ut elit vestibulum dapibus. Praesent pretium eleifend consequat. Etiam consectetur, nisi et gravida placerat, neque 
-  </p>
-  <figure class="float-left fig-small">
-      <img  src="/uploads/b62f70af-e190-4eb6-83a2-23db7b9b2bd9.jpeg" alt="canoeing">
-      <figcaption>We out here we finna bust</figcaption>
-  </figure>
-  <p>
-    Suspendisse sapien risus, venenatis sed ultrices eget, facilisis vitae sem. Nam eget lectus ut elit vestibulum dapibus. Praesent pretium eleifend consequat. Etiam consectetur, nisi et gravida placerat, neque mauris congue dui, sit amet semper lacus mi a leo. Nunc ac nisl elit. Duis sed sapien pulvinar, dapibus libero ac, pulvinar velit. Nulla at lorem elit. Aenean laoreet sodales ipsum nec hendrerit. Maecenas ut urna cursus, porta sapien eu, rhoncus ligula. 
-  </p>
+  <canvas id="chart1" class="chart" data-type="radar"></canvas> 
 </section>
-<blockquote>
-  "Block quote. Block quote. Block quote. Block quote."
-</blockquote>
-<figure class="fig-full">
-    <img  src="/uploads/b62f70af-e190-4eb6-83a2-23db7b9b2bd9.jpeg" alt="canoeing">
-    <figcaption>We out here we finna bust</figcaption>
-</figure>
-<h2>Subheadings R' Us</h2>
-<section>
-  <aside class="float-right">
-    <p>
-    Suspendisse sapien risus, venenatis sed ultrices eget, facilisis vitae sem. Nam eget lectus ut elit vestibulum dapibus. Praesent pretium eleifend consequat.
-    </p>
-  </aside>
-  <p>
-    Suspendisse sapien risus, venenatis sed ultrices eget, facilisis vitae sem. Nam eget lectus ut elit vestibulum dapibus. Praesent pretium eleifend consequat. Etiam consectetur, nisi et gravida placerat, neque mauris congue dui, sit amet semper lacus mi a leo. Nunc ac nisl elit. Duis sed sapien pulvinar, dapibus libero ac, pulvinar velit. Nulla at lorem elit. Aenean laoreet sodales ipsum nec hendrerit. Maecenas ut urna cursus, porta sapien eu, rhoncus ligula. 
-  </p>
-</section>
-<table class="styled-table">
-  <thead>
-    <tr>
-      <th>Heading 1</th>
-      <th>Heading 2</th>
-      <th>Heading 3</th>
-      <th>Heading 4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Data 1</td>
-      <td>Data 2</td>
-      <td>Data 3</td>
-      <td>Data 4</td>
-    </tr>
-    <tr>
-      <td>Data 5</td>
-      <td>Data 6</td>
-      <td>Data 7</td>
-      <td>Data 8</td>
-    </tr>
-  </tbody>
-</table>\ 
+\ 
 `;
 // img modal elements
 const modal = document.querySelector('.modal');
@@ -122,6 +56,10 @@ const contentBtnsDict = {
 <aside class="float-left">
   <p>Sidebar</p>
 </aside>`,
+  "blockquote": `\
+<blockquote>
+  Blockquote
+</blockquote>`,
   "table": `\
   <table class="styled-table">
   <thead>
