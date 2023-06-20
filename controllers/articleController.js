@@ -111,12 +111,17 @@ exports.uploadToAWS = async (req, res, next) => {
         for (const file of req.body.modifiedFiles) {
             s3.uploadFile(file)
         }
-        next();
+        return next();
     }
     catch(err) {
         console.error(err);
         next(err);
     }
+}
+
+exports.sendBrowserResponse = (req, res) => {
+    console.log('Running sendBrowserResponse');
+    res.sendStatus(200);
 }
 
 // get image buffer from AWS

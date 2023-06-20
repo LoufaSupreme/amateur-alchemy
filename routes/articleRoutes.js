@@ -36,7 +36,8 @@ router.post('/new/:id',
 router.put('/rotate/:imgName/:angle', 
     articleController.getImageBuffer,
     articleController.rotateImage,
-    articleController.uploadToAWS
+    articleController.uploadToAWS,
+    articleController.sendBrowserResponse
 )
 
 // delete an image

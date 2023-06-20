@@ -229,15 +229,22 @@ modal.addEventListener('click', () => {
 const debouncedRotateImage = debounce(rotateImage, 2000);
 
 // fetch call to rotate image in s3
-function rotateImage(img, angle) {
-  const imgName = img.dataset.name;
-
-  // sharp only accepts positive rotation values:
-  const translatedAngle = Math.abs(360 - Math.abs(angle));
+async function rotateImage(img, angle) {
+  try {
+    const imgName = img.dataset.name;
   
-  fetch(`/articles/rotate/${imgName}/${translatedAngle}`, {
-    method: 'PUT'
-  });
+    // sharp only accepts positive rotation values:
+    const translatedAngle = Math.abs(360 - Math.abs(angle));
+    
+    const response = await fetch(`/articles/rotate/${imgName}/${translatedAngle}`, {
+      method: 'PUT'
+    });
+    console.log({code: response.status, status: response.statusText, url: response.url})
+  }
+  catch(err) {
+    console.error(err);
+    makeAlert(err);
+  }
 }
 
 // splits a filename into its name and extension
@@ -310,7 +317,9 @@ async function tagsTypeAhead() {
 // handles clicking or hitting enter on a selected dropdown suggestion
 function handleDropdownSelection(selected) {
   // selected could be either a word or an html element
-  const tagLabel = selected.innerText || selected;
+  let tagLabel = selected.innerText || selected;
+  tagLabel = tagLabel.trim().toLowerCase();
+  console.log(tagLabel)
   const existingTags = hiddenTagsInput.value.split(', ');
 
   if (!isDuplicated(tagLabel, existingTags)) {
