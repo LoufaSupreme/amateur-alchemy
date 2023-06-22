@@ -54,7 +54,7 @@ router.get('/api/get/:slug', articleController.getArticleBySlug);
 // delete an article
 router.post('/:id/delete', 
     articleController.deletePhotos,
-    // articleController.deleteArticle,
+    articleController.deleteArticle,
 );
 
 // request a list of existing tags

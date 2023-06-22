@@ -375,7 +375,8 @@ exports.deleteArticle = async (req, res, next) => {
         // TODO: delete all associated triangle tests
 
         req.flash('success', `Article successfully deleted`);
-        next();
+        if (next) return next();
+        res.redirect('/articles');
     }
     catch(err) {
         console.log(err);
@@ -387,10 +388,9 @@ exports.deleteArticle = async (req, res, next) => {
 // requires article instance on req.body.article
 exports.deletePhotos = async (req, res, next) => {
     try {
-        const article = await Article.findOne({ _id: req.params.id });
-        req.body.article = article;
-        
-        const photos = [article.showcase_img, ...article.photos];
+        const article = await Article.findOne({ _id: req.params.id });        
+        const photos = [...article.photos];
+        if (article.showcase_img) photos.unshift(article.showcase_img);
 
         for (const photo of photos) {
             const fileExt = photo.split('.').pop();
@@ -401,8 +401,7 @@ exports.deletePhotos = async (req, res, next) => {
             s3.deleteFile(`${fileName}_small.${fileExt}`);
         }
 
-        res.redirect('back');
-
+        next();
     }
     catch(err) {
         console.error(err);

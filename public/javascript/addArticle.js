@@ -47,6 +47,17 @@ const contentBtnsDict = {
   <img src="#" alt="#">
   <figcaption>Caption</figcaption>
 </figure>`,
+  "side-by-side": `\
+<div class="sidebyside flex">
+  <figure>
+    <img src="#" alt="#">
+    <figcaption>Caption</figcaption>
+  </figure>
+  <figure>
+    <img src="#" alt="#">
+    <figcaption>Caption</figcaption>
+  </figure>
+</div>`,
   "sidebar-right": `\
 <aside class="float-right">
   <p>Sidebar</p>
@@ -60,7 +71,7 @@ const contentBtnsDict = {
   Blockquote
 </blockquote>`,
   "table": `\
-  <table class="styled-table">
+<table class="styled-table">
   <thead>
     <tr>
       <th>Heading 1</th>
