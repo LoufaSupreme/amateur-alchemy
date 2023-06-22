@@ -93,6 +93,7 @@ exports.resize = async (req, res, next) => {
         }
 
         req.body.modifiedFiles = modifiedFiles;
+        console.log('Resizing complete')
         next();
     }
     catch(err) {
@@ -111,6 +112,7 @@ exports.uploadToAWS = async (req, res, next) => {
         for (const file of req.body.modifiedFiles) {
             s3.uploadFile(file)
         }
+        console.log('Upload complete')
         return next();
     }
     catch(err) {
@@ -327,7 +329,10 @@ exports.updateArticle = async (req, res, next) => {
         req.body.tags = parseTags(req.body.tags);
 
         const photos = req.body.photos;
+        // don't want to set req.body.photos directly b/c it would overwrite the existing photos, so remove it from rew.body
         delete req.body.photos;
+        // req.body.modifiedFiles contains a ton of buffer info, which can overload mongo and cause an error.  Remove it. 
+        delete req.body.modifiedFiles;
         
         // if no showcase photo was attached, just ignore that field
         // i.e. don't overwrite the existing image with nothing

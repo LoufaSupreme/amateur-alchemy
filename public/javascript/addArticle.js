@@ -162,7 +162,7 @@ rotateBtns.forEach(btn => {
     e.preventDefault();
 
     const img = this.parentElement.querySelector('img');
-    const newAngle = +img.dataset.angle - 90;
+    const newAngle = +img.dataset.angle + 90;
 
     img.dataset.angle = newAngle;
     img.style.transform = `rotate(${newAngle}deg)`;
@@ -234,9 +234,9 @@ async function rotateImage(img, angle) {
     const imgName = img.dataset.name;
   
     // sharp only accepts positive rotation values:
-    const translatedAngle = Math.abs(360 - Math.abs(angle));
+    // const translatedAngle = Math.abs(360 - Math.abs(angle));
     
-    const response = await fetch(`/articles/rotate/${imgName}/${translatedAngle}`, {
+    const response = await fetch(`/articles/rotate/${imgName}/${angle}`, {
       method: 'PUT'
     });
     console.log({code: response.status, status: response.statusText, url: response.url})
