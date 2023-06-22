@@ -1,4 +1,3 @@
-
 const htmlPreview = `\
 <style>
 
@@ -87,99 +86,124 @@ const contentBtnsDict = {
 </table>`,
 }
 
-// editor/body elements
-const preview = document.querySelector('.preview');
-const hiddenBodyInput = document.querySelector('#body');
-const editor = ace.edit("editor", {
-  maxLines: 120
-});
+// class for the image gallery containers
+// makes it possible to debounce rotate functions separately by image
+class GalleryImage extends HTMLElement {
+  constructor(container) {
+    super();
+    this.container = container;
+    this.img = container.querySelector('img');
+    this.rotateBtn = container.querySelector('.rotate-btn');
+    this.deleteBtn = container.querySelector('.delete-btn');
+    this.expandBtn = container.querySelector('.expand-btn');
+    this.lockBtn = container.querySelector('.lock-btn');
+  }
 
-editor.setTheme("ace/theme/monokai");
-editor.session.setMode("ace/mode/html");
-editor.session.setUseWrapMode(true);
-editor.setShowPrintMargin(false);
-editor.session.setTabSize(2);
+  makeEventListeners() {
+    // clicking image itself
+    this.img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
 
-editor.session.on('change', function(delta) {
-  // delta.start, delta.end, delta.lines, delta.action
-  preview.innerHTML = editor.getValue();
-  hiddenBodyInput.value = editor.getValue();
-});
+      this.copySrc();
+      this.lock();
+    })
 
-if (editor.getValue() === '') editor.setValue(htmlPreview);
-preview.innerHTML = editor.getValue();
-
-
-const deleteBtns = document.querySelectorAll('.delete-btn');
-const expandBtns = document.querySelectorAll('.expand-btn');
-const rotateBtns = document.querySelectorAll('.rotate-btn');
-const lockBtns = document.querySelectorAll('.lock-btn');
-const galleryImgs = document.querySelectorAll('.gallery-img');
-
-function copyToClipboard(targetText) {
-  const dummy = document.createElement("textarea");
-  document.body.appendChild(dummy);
-  dummy.value = targetText
-  dummy.select();
-  document.execCommand("copy");
-  document.body.removeChild(dummy);
-  makeAlert('Copied to Clipboard!')
-}
-
-lockBtns.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    btn.classList.toggle('locked');
-    btn.parentElement.classList.toggle('locked');
-    if (btn.classList.contains('locked')) {
-      btn.innerHTML = '<i class="fa-solid fa-lock"></i>'
-    }
-    else btn.innerHTML = '<i class="fa-solid fa-lock-open"></i>'
-  })
-})
-
-galleryImgs.forEach(img => {
-  img.addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const [imgName, imgExt] = splitFilename(this.dataset.name);
-
-    copyToClipboard(`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}_small.${imgExt}`);
-
-    this.parentElement.classList.add('locked');
-    const lockBtn = this.parentElement.querySelector('.lock-btn');
-    lockBtn.classList.add('locked');
-    lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
-  })
-})
-
-rotateBtns.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const img = this.parentElement.querySelector('img');
-    const newAngle = +img.dataset.angle + 90;
-
-    img.dataset.angle = newAngle;
-    img.style.transform = `rotate(${newAngle}deg)`;
+    // clicking rotate btn
+    this.rotateBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+    
+      this.updateAngle(90);
   
-    debouncedRotateImage(img, newAngle);
-  })
-});
+      this.img.style.transform = `rotate(${this.img.dataset.angle}deg)`;
+    
+      // this.debounce(this.rotate(this.img, this.img.dataset.angle), 2000);
 
-deleteBtns.forEach(btn => {
-  btn.addEventListener('click', async function(e) {
-    e.stopPropagation();
-    e.preventDefault();
+      this.debouncedRotate(this.img, this.img.dataset.angle);
+    })
 
-    const img = this.parentElement.querySelector('img');
-    const isShowcase = img.classList.contains('showcase') ? true : false;
-    const imgContainer = img.parentElement;
-    const imgName = img.dataset.name;
+    // clicking lock btn
+    this.lockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+  
+      this.toggleLock();
+    })
+
+    // clicking expand btn
+    this.expandBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      modalImg.src = `https://amateur-alchemy.s3.us-east-2.amazonaws.com/${this.img.dataset.name}`;
+      modal.classList.add('open');
+      modalImg.classList.add('open');
+    })
+
+    // clicking delete btn
+    this.deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      this.delete();
+    })
+  }
+
+  // https://stackoverflow.com/questions/24004791/what-is-the-debounce-function-in-javascript
+  debounce(func, wait, immediate) {
+    // 'private' variable for instance
+    // The returned function will be able to reference this due to closure.
+    // Each call to the returned function will share this common timer.
+    var timeout;
+
+    // Calling debounce returns a new anonymous function
+    return function() {
+      // reference the context and args for the setTimeout function
+      var context = this,
+        args = arguments;
+
+      // Should the function be called now? If immediate is true
+      //   and not already in a timeout then the answer is: Yes
+      var callNow = immediate && !timeout;
+
+      // This is the basic debounce behaviour where you can call this
+      //   function several times, but it will only execute once
+      //   (before or after imposing a delay).
+      //   Each time the returned function is called, the timer starts over.
+      clearTimeout(timeout);
+
+      // Set the new timeout
+      timeout = setTimeout(function() {
+
+        // Inside the timeout function, clear the timeout variable
+        // which will let the next execution run when in 'immediate' mode
+        timeout = null;
+
+        // Check if the function already ran with the immediate flag
+        if (!immediate) {
+          // Call the original function with apply
+          // apply lets you define the 'this' object as well as the arguments
+          //    (both captured before setTimeout)
+          func.apply(context, args);
+        }
+      }, wait);
+
+      // Immediate mode and no wait timer? Execute the function...
+      if (callNow) func.apply(context, args);
+    }
+  }
+
+  debouncedRotate = this.debounce(this.rotate, 2000)
+
+  updateAngle(angle) {
+    this.img.dataset.angle = +this.img.dataset.angle + angle;
+  }
+
+  async delete() {
+    const isShowcase = this.img.classList.contains('showcase') ? true : false;
+    const imgContainer = this.img.parentElement;
+    const imgName = this.img.dataset.name;
 
     const slug = location.pathname.split('/')[2];
 
@@ -203,21 +227,86 @@ deleteBtns.forEach(btn => {
       console.error(err);
       makeAlert(err);
     }
-  })
+  }
+
+  toggleLock() {
+    this.lockBtn.classList.toggle('locked');
+    this.container.classList.toggle('locked');
+    if (this.lockBtn.classList.contains('locked')) {
+      this.lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
+    }
+    else this.lockBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i>'
+  }
+
+  lock() {
+    this.container.classList.add('locked');
+    this.lockBtn.classList.add('locked');
+    this.lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
+  }
+
+  copySrc() {
+    const [imgName, imgExt] = splitFilename(this.img.dataset.name);
+    copyToClipboard(`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}_small.${imgExt}`);
+  }
+
+  async rotate() {
+    try {
+      // sharp only accepts positive rotation values:
+      // const translatedAngle = Math.abs(360 - Math.abs(angle));
+      const response = await fetch(`/articles/rotate/${this.img.dataset.name}/${this.img.dataset.angle}`, {
+        method: 'PUT'
+      });
+      console.log({code: response.status, status: response.statusText, url: response.url})
+    }
+    catch(err) {
+      console.error(err);
+      makeAlert(err);
+    }
+  }
+}
+
+const galleryImageContainers = document.querySelectorAll('.gallery-img-container');
+
+// required in order to use the GalleryImage class as an HTMLElement extension
+customElements.define('gallery-img-container', GalleryImage);
+
+// make each container an instance of the class
+galleryImageContainers.forEach(container => {
+  const galleryImage = new GalleryImage(container);
+  galleryImage.makeEventListeners();
 })
 
-expandBtns.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
+// editor/body elements
+const preview = document.querySelector('.preview');
+const hiddenBodyInput = document.querySelector('#body');
+const editor = ace.edit("editor", {
+  maxLines: 120
+});
 
-    const imgName = this.parentElement.querySelector('img').dataset.name;
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/html");
+editor.session.setUseWrapMode(true);
+editor.setShowPrintMargin(false);
+editor.session.setTabSize(2);
 
-    modalImg.src = `https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}`;
-    modal.classList.add('open');
-    modalImg.classList.add('open');
-  })
-})
+editor.session.on('change', function(delta) {
+  // delta.start, delta.end, delta.lines, delta.action
+  preview.innerHTML = editor.getValue();
+  hiddenBodyInput.value = editor.getValue();
+});
+
+if (editor.getValue() === '') editor.setValue(htmlPreview);
+preview.innerHTML = editor.getValue();
+
+function copyToClipboard(targetText) {
+  const dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = targetText
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+  makeAlert('Copied to Clipboard!')
+}
 
 modal.addEventListener('click', () => {
   // modal.close();
@@ -226,75 +315,10 @@ modal.addEventListener('click', () => {
   modalImg.classList.remove('open');
 })
 
-const debouncedRotateImage = debounce(rotateImage, 2000);
-
-// fetch call to rotate image in s3
-async function rotateImage(img, angle) {
-  try {
-    const imgName = img.dataset.name;
-  
-    // sharp only accepts positive rotation values:
-    // const translatedAngle = Math.abs(360 - Math.abs(angle));
-    
-    const response = await fetch(`/articles/rotate/${imgName}/${angle}`, {
-      method: 'PUT'
-    });
-    console.log({code: response.status, status: response.statusText, url: response.url})
-  }
-  catch(err) {
-    console.error(err);
-    makeAlert(err);
-  }
-}
-
 // splits a filename into its name and extension
 function splitFilename(filename) {
   const [name, ext] = filename.split('.');
   return [name, ext];
-}
-
-// https://stackoverflow.com/questions/24004791/what-is-the-debounce-function-in-javascript
-function debounce(func, wait, immediate) {
-  // 'private' variable for instance
-  // The returned function will be able to reference this due to closure.
-  // Each call to the returned function will share this common timer.
-  var timeout;
-
-  // Calling debounce returns a new anonymous function
-  return function() {
-    // reference the context and args for the setTimeout function
-    var context = this,
-      args = arguments;
-
-    // Should the function be called now? If immediate is true
-    //   and not already in a timeout then the answer is: Yes
-    var callNow = immediate && !timeout;
-
-    // This is the basic debounce behaviour where you can call this
-    //   function several times, but it will only execute once
-    //   (before or after imposing a delay).
-    //   Each time the returned function is called, the timer starts over.
-    clearTimeout(timeout);
-
-    // Set the new timeout
-    timeout = setTimeout(function() {
-
-      // Inside the timeout function, clear the timeout variable
-      // which will let the next execution run when in 'immediate' mode
-      timeout = null;
-
-      // Check if the function already ran with the immediate flag
-      if (!immediate) {
-        // Call the original function with apply
-        // apply lets you define the 'this' object as well as the arguments
-        //    (both captured before setTimeout)
-        func.apply(context, args);
-      }
-    }, wait);
-
-    // Immediate mode and no wait timer? Execute the function...
-    if (callNow) func.apply(context, args);
-  }
 }
 
 // request a list of existing tags from the server
