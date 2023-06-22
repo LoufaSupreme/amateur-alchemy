@@ -23,12 +23,16 @@ mixin articleForm(article = {})
             if article.photos
               - 
                 let images = [...article.photos];
-                if (article.showcase_img) images.unshift(article.showcase_img);
+                let hasShowcase = false;
+                if (article.showcase_img) {
+                  images.unshift(article.showcase_img);
+                  hasShowcase = true;
+                }
               .img-gallery                    
-                  each photo of images
+                  each photo, idx in images
                     - const [filename, ext] = photo.split('.');
                     .gallery-img-container
-                      img.gallery-img(src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=photo  alt=article.title data-angle="0" width=150)
+                      img.gallery-img(class=`${idx===0 && hasShowcase ? "showcase" : ""}` src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=photo  alt=article.title data-angle="0" width=150)
                       button(class="gallery-btn lock-btn")
                         i.fa-solid.fa-lock-open
                       button(class="gallery-btn expand-btn") 
