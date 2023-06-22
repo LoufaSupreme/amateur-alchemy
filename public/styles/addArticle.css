@@ -158,7 +158,6 @@ textarea {
     transition: transform 0.2s ease-in-out;
 }
 
-
 button {
     border-radius: 0.3rem;
     border: none;
@@ -173,35 +172,52 @@ button:hover {
     opacity: 0.8;
 }
 
+.gallery-img-container__btns {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    width: 100%;
+    background-color: rgb(0 0 0 / 0.5);
+    padding: 0.15rem 0;
+}
+
+.gallery-img-container:hover .gallery-img-container__btns {
+    opacity: 1;
+}
+
 .gallery-btn {
     padding: 0.5rem;
     font-size: 1.1rem;
-    position: absolute;
     background-color: rgb(255 255 255 / 0.25);
+    translate: 0 3rem;
+    transition: translate 0.1s ease-in-out;
+}
+
+.gallery-img-container:hover .gallery-btn:nth-child(1) {
+    translate: 0;
+    transition-delay: 0.0s;
+}
+
+.gallery-img-container:hover .gallery-btn:nth-child(2) {
+    transition-delay: 0.05s;
+    translate: 0;
+}
+
+.gallery-img-container:hover .gallery-btn:nth-child(3) {
+    transition-delay: 0.1s;
+    translate: 0;
+}
+
+.gallery-img-container:hover .gallery-btn:nth-child(4) {
+    transition-delay: 0.15s;
+    translate: 0;
 }
 
 .gallery-btn:hover {
     background-color: rgb(255 255 255 / 0.6);
-}
-
-.lock-btn {
-    top: 0;
-    left: 0;
-}
-
-.expand-btn {
-    bottom: 0;
-    left: 0;
-}
-
-.delete-btn {
-    top: 0;
-    right: 0;
-}
-
-.rotate-btn {
-    bottom: 0;
-    right: 0;
 }
 
 .editor-container {

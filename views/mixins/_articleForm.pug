@@ -33,14 +33,15 @@ mixin articleForm(article = {})
                     - const [filename, ext] = photo.split('.');
                     .gallery-img-container
                       img.gallery-img(class=`${idx===0 && hasShowcase ? "showcase" : ""}` src=`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${filename}_small.${ext}`, data-name=photo  alt=article.title data-angle="0" width=150)
-                      button(class="gallery-btn lock-btn")
-                        i.fa-solid.fa-lock-open
-                      button(class="gallery-btn expand-btn") 
-                        i.fa-solid.fa-expand
-                      button(class="gallery-btn rotate-btn") 
-                        i.fa-solid.fa-rotate-right
-                      button(class="gallery-btn delete-btn") 
-                        i.fa-solid.fa-trash
+                      .gallery-img-container__btns
+                        button(class="gallery-btn lock-btn")
+                          i.fa-solid.fa-lock-open
+                        button(class="gallery-btn expand-btn") 
+                          i.fa-solid.fa-expand
+                        button(class="gallery-btn rotate-btn") 
+                          i.fa-solid.fa-rotate-right
+                        button(class="gallery-btn delete-btn") 
+                          i.fa-solid.fa-trash
 
             input(type="submit" value="Save Images" class="button")
 
