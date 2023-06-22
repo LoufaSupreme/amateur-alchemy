@@ -328,6 +328,9 @@ exports.updateArticle = async (req, res, next) => {
         // split tags list into array of tags
         req.body.tags = parseTags(req.body.tags);
 
+        // set modified date
+        req.body.date_modified = Date.now();
+
         const photos = req.body.photos;
         // don't want to set req.body.photos directly b/c it would overwrite the existing photos, so remove it from rew.body
         delete req.body.photos;
@@ -355,7 +358,8 @@ exports.updateArticle = async (req, res, next) => {
         console.log(`Updated ${articleInfo.value.title}`);
         req.flash('success', `Successfully updated ${articleInfo.value.title}`);
 
-        res.redirect(`/articles/${articleInfo.value.slug}`)
+        // res.redirect(`/articles/${articleInfo.value.slug}`)
+        res.redirect(req.originalUrl);
     }
     catch(err) {
         console.log(err);

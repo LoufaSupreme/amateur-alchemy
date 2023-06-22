@@ -62,17 +62,22 @@ mixin articleForm(article = {})
               
               button(class="btn-catalogue__btn", type="button" id="blockquote")!= h.icon("blockquote")
 
-            //- main content
-            label(for="body") Body 
-            #editor= article.body
-            textarea(name="body" id="body" hidden) #{article.body}
+        //- main content
+        .form-card__section.body
+          label(for="body") Body 
+          #editor= article.body
+          textarea(name="body" id="body" hidden) #{article.body}
 
         .form-card__section.tags
-            h2.form-card__section--heading Tags 
-            .tags__holder
-            .tags__input-container
-              input(type="text" name="tags__input" id="tags__input" placeholder="Add a tag" value=article.tags && article.tags.join(', '))
-              ul.tags__dropdown.dropdown
-              input(type="hidden" name="tags" id="tags" value=article.tags && article.tags.join(', '))
+          h2.form-card__section--heading Tags 
+          .tags__holder
+          .tags__input-container
+            input(type="text" name="tags__input" id="tags__input" placeholder="Add a tag" value=article.tags && article.tags.join(', '))
+            ul.tags__dropdown.dropdown
+            input(type="hidden" name="tags" id="tags" value=article.tags && article.tags.join(', '))
+
+        .checkbox-container
+          input(type="checkbox" id="publish" name="publish" value=true)
+          label(for="publish") Publish
 
         input(type="submit" value="Save" class="button")

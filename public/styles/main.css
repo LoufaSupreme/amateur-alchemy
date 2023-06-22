@@ -60,6 +60,7 @@ input[type=number] {
     --clr-bg: 18 33 44;
     --clr-bg-darker: 15 25 30;
     --clr-text: 255 255 255; 
+    --clr-text-dark: 0 0 0;
     --clr-accent: 255 61 106; /* pink */
     --clr-accent-2: 63 94 251; /* purple */
     --clr-accent-3: 0 255 136; /* green */

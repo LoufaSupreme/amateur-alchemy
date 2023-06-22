@@ -332,3 +332,30 @@ button:hover {
     background-color: rgb(255 255 255 / 0.2);
 }
 
+.checkbox-container {
+    font-size: 1.1rem;
+    display: flex;
+    justify-self: start;
+    color: rgb(var(--clr-text-dark));
+}
+
+#publish {
+    right: -1rem;
+    margin-right: -1rem;
+    position: relative;
+}
+
+.checkbox-container input + label {
+    background-color: rgb(var(--clr-text) / 0.75);
+    padding: 1rem 1rem 1rem 4rem; 
+    color: inherit;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input:checked + label {
+    background-color: goldenrod;
+}
+
+

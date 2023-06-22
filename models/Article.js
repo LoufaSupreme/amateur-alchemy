@@ -54,7 +54,7 @@ const articleSchema = new mongoose.Schema({
     date_modified: Date,
     showcase_img: String,
     photos: [String],
-    completed: {
+    published: {
         type: Boolean,
         default: false
     },
