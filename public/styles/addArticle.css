@@ -333,7 +333,6 @@ button:hover {
 }
 
 .checkbox-container {
-    font-size: 1.1rem;
     display: flex;
     justify-self: start;
     color: rgb(var(--clr-text-dark));
@@ -343,15 +342,19 @@ button:hover {
     right: -1rem;
     margin-right: -1rem;
     position: relative;
+    width: 1.1rem;
 }
 
 .checkbox-container input + label {
-    background-color: rgb(var(--clr-text) / 0.75);
+    background-color: rgb(255 255 255 / 0.1);
     padding: 1rem 1rem 1rem 4rem; 
     color: inherit;
     border-radius: 0.3rem;
     cursor: pointer;
     user-select: none;
+    font-size: 1.4rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
 }
 
 .checkbox-container input:checked + label {
