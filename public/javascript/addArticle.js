@@ -95,6 +95,7 @@ const contentBtnsDict = {
     </tr>
   </tbody>
 </table>`,
+"chart": `<canvas id="chart1" class="chart" data-type="radar"></canvas>`,
 }
 
 // class for the image gallery containers
@@ -257,7 +258,7 @@ class GalleryImage extends HTMLElement {
 
   copySrc() {
     const [imgName, imgExt] = splitFilename(this.img.dataset.name);
-    copyToClipboard(`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}_small.${imgExt}`);
+    copyToClipboard(`https://amateur-alchemy.s3.us-east-2.amazonaws.com/${imgName}_tiny.${imgExt}`);
   }
 
   async rotate() {

@@ -16,7 +16,7 @@ input[type=submit]:disabled {
 
 .container {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: auto 1fr;
     justify-content: center;
     max-width: 100%;
     gap: 1rem;
@@ -138,8 +138,8 @@ textarea {
 
 .gallery-img-container {
     position: relative;
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 250px;
+    max-width: 250px;
     overflow: hidden;
     border-radius: 0.4rem;
 }
@@ -173,7 +173,9 @@ button:hover {
 }
 
 .gallery-img-container__btns {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15%, 1fr));
+    gap: 0.2rem;
     position: absolute;
     bottom: 0;
     justify-content: space-between;

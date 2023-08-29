@@ -1,7 +1,7 @@
 mixin articleForm(article = {})
     form(action=`/articles/new/${article._id || ''}` method="POST" class="form-card" enctype="multipart/form-data")
         .form-card__section.main
-            h2.form-card__section--heading Content
+            //- h2.form-card__section--heading Content
             label(for="title") Title 
             input(type="text" name="title" id="title" required value=article.title)
 
@@ -48,22 +48,11 @@ mixin articleForm(article = {})
 
         //- main content
         .form-card__section.body
+          - const btns = ["img-left", "img-center", "img-right", "side-by-side", "sidebar-left", "sidebar-right", "table", "blockquote", "chart"];
           .btn-catalogue 
-            button(class="btn-catalogue__btn", type="button" id="img-left")!= h.icon("left-img")
+            each btn in btns
+              button(class="btn-catalogue__btn", type="button" id=btn)!= h.icon(btn)
             
-            button(class="btn-catalogue__btn", type="button" id="img-center")!= h.icon("center-img")
-            
-            button(class="btn-catalogue__btn", type="button" id="img-right")!= h.icon("right-img")
-            
-            button(class="btn-catalogue__btn", type="button" id="side-by-side")!= h.icon("sideBySide")
-            
-            button(class="btn-catalogue__btn", type="button" id="sidebar-left")!= h.icon("sidebar-left")
-            
-            button(class="btn-catalogue__btn", type="button" id="sidebar-right")!= h.icon("sidebar-right")
-            
-            button(class="btn-catalogue__btn", type="button" id="table")!= h.icon("table")
-            
-            button(class="btn-catalogue__btn", type="button" id="blockquote")!= h.icon("blockquote")
           #editor= article.body
           textarea(name="body" id="body" hidden) #{article.body}
 

@@ -33,7 +33,12 @@ const imageSizes = [
         size: 'small',
         height: 200,
         width: 200,
-    }
+    },
+    {
+        size: 'tiny',
+        height: 10,
+        width: 10,
+    },
 ]
 
 exports.uploadToMemory = multer(multerOptions).fields([
