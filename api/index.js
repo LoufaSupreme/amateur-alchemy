@@ -6,8 +6,8 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const helpers = require('./helpers/helpers.js');
-const errorHandlers = require('./handlers/errorHandler.js');
+const helpers = require('../helpers/helpers.js');
+const errorHandlers = require('../handlers/errorHandler.js');
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
@@ -20,10 +20,10 @@ mongoose.connection.on('error', (err) => {
 });
 
 // import all of our models:
-require('./models/Beer.js');
-require('./models/Brewery.js');
-require('./models/Article.js');
-require('./models/TriangleTest.js');
+require('../models/Beer.js');
+require('../models/Brewery.js');
+require('../models/Article.js');
+require('../models/TriangleTest.js');
 // require('./models/User');
 // require('./models/Review');
 
@@ -76,10 +76,10 @@ app.use((req, res, next) => {
 
 // routes:
 // has to be after requiring the models:
-const indexRoutes = require('./routes/index');  
-const articleRoutes = require('./routes/articleRoutes.js');
-const reviewRoutes = require('./routes/reviewRoutes.js');
-const breweryRoutes = require('./routes/breweryRoutes.js');
+const indexRoutes = require('../routes/index');  
+const articleRoutes = require('../routes/articleRoutes.js');
+const reviewRoutes = require('../routes/reviewRoutes.js');
+const breweryRoutes = require('../routes/breweryRoutes.js');
 
 app.use('/', indexRoutes);
 app.use('/articles', articleRoutes);
