@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon ./index.js --ignore public/",
+    "watch": "nodemon ./api/index.js --ignore public/",
     "buildbuild": "webpack --mode production",
-    "start": "node index.js"
+    "start": "node ./api/index.js"
   },
   "repository": {
     "type": "git",
