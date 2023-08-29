@@ -6,8 +6,8 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const helpers = require('../helpers/helpers.js');
-const errorHandlers = require('../handlers/errorHandler.js');
+const helpers = require('./helpers/helpers.js');
+const errorHandlers = require('./handlers/errorHandler.js');
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
@@ -20,10 +20,10 @@ mongoose.connection.on('error', (err) => {
 });
 
 // import all of our models:
-require('../models/Beer.js');
-require('../models/Brewery.js');
-require('../models/Article.js');
-require('../models/TriangleTest.js');
+require('./models/Beer.js');
+require('./models/Brewery.js');
+require('./models/Article.js');
+require('./models/TriangleTest.js');
 // require('./models/User');
 // require('./models/Review');
 
@@ -35,12 +35,12 @@ require('../models/TriangleTest.js');
 const app = express();
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
-app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(express.static(path.resolve(__dirname, 'public')));
 // app.use('/public', express.static('public'))
 // app.use("public", express.static(path.resolve(__dirname + 'public')));
 
 // view engine setup
-app.set('../views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
+app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
 app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work great too
 
 // Takes the raw requests and turns them into usable properties on req.body
@@ -76,10 +76,10 @@ app.use((req, res, next) => {
 
 // routes:
 // has to be after requiring the models:
-const indexRoutes = require('../routes/index');  
-const articleRoutes = require('../routes/articleRoutes.js');
-const reviewRoutes = require('../routes/reviewRoutes.js');
-const breweryRoutes = require('../routes/breweryRoutes.js');
+const indexRoutes = require('./routes/index');  
+const articleRoutes = require('./routes/articleRoutes.js');
+const reviewRoutes = require('./routes/reviewRoutes.js');
+const breweryRoutes = require('./routes/breweryRoutes.js');
 
 app.use('/', indexRoutes);
 app.use('/articles', articleRoutes);
