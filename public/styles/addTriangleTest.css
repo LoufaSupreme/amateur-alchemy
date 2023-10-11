@@ -286,6 +286,12 @@ input[type="range"]::-ms-fill-lower {
     text-align: center;
 }
 
+.range-input__label-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .range-input__beer-label {
     display: block;
     justify-content: center;
@@ -294,8 +300,27 @@ input[type="range"]::-ms-fill-lower {
     font-size: 0.9em;
 }
 
+.range-input__meter {
+    display: flex;
+    gap: 0.2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.meter-square {
+    height: 0.3rem;
+    flex: 1;
+    background-color: green;
+    opacity: 0.3;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.meter-square.active {
+    opacity: 1;
+}
+
 .range-input__subheading {
-    margin: 2rem 0 2rem 0;
+    margin: 1.5rem 0 1rem 0;
     text-align: center;
     font-size: 1.1em;
 }

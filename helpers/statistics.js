@@ -37,6 +37,7 @@ exports.calcBinomialDistribution = (num_trials, prob_success, prob_fail) => {
 // this assumes a right-tailed binomial distribution test
 // a p-value of 0.05 or smaller indicates statistical significance
 exports.calcP_val = (binomialDistribution, num_correct) => {
+  if (binomialDistribution.length <= 0) return 0;
   return 1 - binomialDistribution.reduce((acc, curr, idx) => {
     if (idx < num_correct) acc += curr;
     return acc;

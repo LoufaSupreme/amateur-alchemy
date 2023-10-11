@@ -197,31 +197,61 @@ function resetComparisonRangeSubheadings() {
 function handleRangeChange(e) {
     const inputParent = e.target.closest('.range-input');
     const subheading = inputParent.querySelector('.range-input__subheading');
+    const unique_meter = inputParent.querySelector('.unique-meter');
+    const other_meter = inputParent.querySelector('.other-meter');
 
     const letterOptions = ['A', 'B', 'C'];
     const uniqueBeer = subheading.dataset.unique;
     const otherBeers = letterOptions.filter(letter => letter != uniqueBeer).join(' & ');
 
-    // update subheading:
+    // update meter
+    function updateMeter(meter, level) {
+        if (!meter) return;
+        if (-2 <= level >= 2) return;
+        level = Math.abs(level);
+        const meter_squares = meter.querySelectorAll('.meter-square');
+        meter_squares.forEach((square, idx) => {
+            square.classList.remove('active');
+            if (idx <= level) square.classList.add('active');
+        })
+    }
+    
+    // update subheading & meter:
     switch(e.target.value) {
         case '2':
             subheading.innerText = `Beer ${uniqueBeer} is MUCH higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
+
+            updateMeter(unique_meter, 2);
+            updateMeter(other_meter, 0);
             break;
         case '1':
             subheading.innerText = `Beer ${uniqueBeer} is somewhat higher in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
+            
+            updateMeter(unique_meter, 1);
+            updateMeter(other_meter, 0);
             break;
         case '0':
             subheading.innerText = `The ${subheading.dataset.attr} is about equal.`;
+
+            updateMeter(unique_meter, 0);
+            updateMeter(other_meter, 0);
             break;
         case '-1':
             subheading.innerText =  `Beer ${uniqueBeer} is somewhat lower in ${subheading.dataset.attr} than Beers ${otherBeers}.`;
+
+            updateMeter(unique_meter, 0);
+            updateMeter(other_meter, 1);
             break;
         case '-2':
             subheading.innerText =  `Beer ${uniqueBeer} is MUCH lower in ${subheading.dataset.attr} than Beers ${otherBeers}.`
+
+            updateMeter(unique_meter, 0);
+            updateMeter(other_meter, 2);
             break;
         default:
             makeAlert('Something went wrong...');
     }
+
 }
 
 function validateForm(e) {

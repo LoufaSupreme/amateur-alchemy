@@ -76,58 +76,128 @@ mixin triangleTestForm()
 
             .range-input#maltiness-range 
                 h3.range-input__question-subtitle Maltiness
-                .range-input__range 
-                    .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                .range-input__range
+                    .range-input__label-container
+                      .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                      .range-input__meter.unique-meter
+                        .meter-square.active
+                        .meter-square  
+                        .meter-square 
                     input(type="range" id="malt_character" name="malt_character" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                      .range-input__meter.other-meter 
+                        .meter-square.active
+                        .meter-square
+                        .meter-square                
                 p.range-input__subheading(data-attr="maltiness" data-unique="unique") The maltiness is about equal. 
 
             .range-input#hoppiness-range
                 h3.range-input__question-subtitle Hoppiness
                 .range-input__range 
+                  .range-input__label-container
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
-                    input(type="range" id="hop_character" name="hop_character" min="-2" max="2" value="0" step="1")
+                    .range-input__meter.unique-meter 
+                      .meter-square.active
+                      .meter-square
+                      .meter-square 
+                  input(type="range" id="hop_character" name="hop_character" min="-2" max="2" value="0" step="1")
+                  .range-input__label-container
                     .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__meter.other-meter 
+                      .meter-square.active
+                      .meter-square
+                      .meter-square 
                 p.range-input__subheading(data-attr="hoppiness" data-unique="unique") The hoppiness is about equal.
 
             .range-input#yeast_character-range
                 h3.range-input__question-subtitle Yeast Character
                 .range-input__range 
+                  .range-input__label-container
                     .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
-                    input(type="range" id="yeast_character" name="yeast_character" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__meter.unique-meter 
+                      .meter-square.active
+                      .meter-square
+                      .meter-square 
+                  input(type="range" id="yeast_character" name="yeast_character" min="-2" max="2" value="0" step="1")
+                  .range-input__label-container
+                    .range-input__beer-label Other Beer <br>(<span class="not-unique-beer-letter">Other</span>)
+                    .range-input__meter.other-meter 
+                      .meter-square.active
+                      .meter-square
+                      .meter-square 
                 p.range-input__subheading(data-attr="yeast character" data-unique="unique") The yeast character is about equal.
 
             .range-input#bitterness-range
                 h3.range-input__question-subtitle Bitterness
                 .range-input__range 
-                    .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                      .range-input__meter.unique-meter
+                        .meter-square.active
+                        .meter-square  
+                        .meter-square 
                     input(type="range" id="bitterness" name="bitterness" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Other Beer <br>(<span class="not-unique-beer-letter">Other</span>)
+                      .range-input__meter.other-meter 
+                        .meter-square.active
+                        .meter-square
+                        .meter-square 
                 p.range-input__subheading(data-attr="bitterness" data-unique="unique") The bitterness is about equal.
 
             .range-input#carbonation-range
                 h3.range-input__question-subtitle Carbonation
                 .range-input__range 
-                    .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                      .range-input__meter.unique-meter
+                        .meter-square.active
+                        .meter-square  
+                        .meter-square 
                     input(type="range" id="carbonation" name="carbonation" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Other Beer <br>(<span class="not-unique-beer-letter">Other</span>)
+                      .range-input__meter.other-meter 
+                        .meter-square.active
+                        .meter-square
+                        .meter-square
                 p.range-input__subheading(data-attr="carbonation" data-unique="unique") The carbonation is about equal.
 
             .range-input#body-range
                 h3.range-input__question-subtitle Body
                 .range-input__range 
-                    .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                      .range-input__meter.unique-meter
+                        .meter-square.active
+                        .meter-square  
+                        .meter-square 
                     input(type="range" id="body" name="body" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Other Beer <br>(<span class="not-unique-beer-letter">Other</span>)
+                      .range-input__meter.other-meter 
+                        .meter-square.active
+                        .meter-square
+                        .meter-square
                 p.range-input__subheading(data-attr="body" data-unique="unique") The body is about equal.
  
             .range-input#balance-range
                 h3.range-input__question-subtitle Balance
                 .range-input__range 
-                    .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Unique Beer <br>(<span class="unique-beer-letter">UNIQUE</span>)
+                      .range-input__meter.unique-meter
+                        .meter-square.active
+                        .meter-square  
+                        .meter-square 
                     input(type="range" id="balance" name="balance" min="-2" max="2" value="0" step="1")
-                    .range-input__beer-label Other 2 Beers <br>(<span class="not-unique-beer-letter">OTHER</span>)
+                    .range-input__label-container
+                      .range-input__beer-label Other Beer <br>(<span class="not-unique-beer-letter">Other</span>)
+                      .range-input__meter.other-meter 
+                        .meter-square.active
+                        .meter-square
+                        .meter-square
                 p.range-input__subheading(data-attr="balance" data-unique="unique") The balance is about equal.
 
         fieldset#detect-flaws-container

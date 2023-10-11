@@ -51,10 +51,12 @@ function typeAhead(container, allData) {
     }
     // if user presses enter
     else if (e.keyCode === 13 && current) {
+      e.preventDefault();
       handleDropdownSelection(current)
       return;
     }
     else if (e.keyCode === 13 && !current) {
+      e.preventDefault();
       handleDropdownSelection(input.value);
       return;
     }

@@ -352,6 +352,7 @@ async function tagsTypeAhead() {
 
 // handles clicking or hitting enter on a selected dropdown suggestion
 function handleDropdownSelection(selected) {
+  
   // selected could be either a word or an html element
   let tagLabel = selected.innerText || selected;
   tagLabel = tagLabel.trim().toLowerCase();

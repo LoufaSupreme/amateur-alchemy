@@ -253,6 +253,7 @@ exports.articles = async (req, res, next) => {
             title: 'Articles',
             articles
         });
+        // res.redirect('/')
     }
     catch(err) {
         console.error(err);
@@ -364,7 +365,7 @@ exports.updateArticle = async (req, res, next) => {
         req.flash('success', `Successfully updated ${articleInfo.value.title}`);
 
         // res.redirect(`/articles/${articleInfo.value.slug}`)
-        res.redirect(req.originalUrl);
+        res.redirect('back');
     }
     catch(err) {
         console.log(err);
