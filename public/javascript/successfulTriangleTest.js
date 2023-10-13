@@ -51,6 +51,7 @@ function createCup(id, hasBall = false){
   return cup
 }
 
+// create label for each cup
 function createCupLabel(cup, idx) {
   const letters = ['A', 'B', 'C'];
   const label = document.createElement('div');
@@ -64,6 +65,7 @@ function createCupLabel(cup, idx) {
   return letters[idx];
 }
 
+// black sheep image under the cup to indicate it's the odd beer out
 function createUniqueMarker() {
   const unique = document.createElement('img');
   unique.classList.add('unique-marker');
@@ -162,14 +164,15 @@ function onResize(){
   buildCups()
 }
 
+// make the sheep say something when it's clicked
 function bahhh() {
   let count = 0;
   const sheepSounds = [
-    "Once you go black sheep you never go back sheep",
+    "Pasteurize?? No I said I'm a pasture guy.",
     "Why do the horses always get the blankets?? I feel fleeced.",
     "Don't hate me cause you ain't me",
     "What do these beers and my Friday night have in common? Barnyard funk.",
-    "Pasteurize?? No I said I'm a pasture guy.",
+    "Once you go black sheep you never go back sheep",
     "I'm getting a lot of grassy/vegetal notes... Fucking delicious."
   ];
 

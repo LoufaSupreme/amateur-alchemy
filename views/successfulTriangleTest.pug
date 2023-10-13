@@ -27,7 +27,6 @@ block content
       span You chose <span class="larger">Cup #{triangleTest.perceived_unique}</span> as the odd beer out.
       //- if they picked the right cup
       if triangleTest.perceived_unique === triangleKey.unique_cup
-        //- span.larger That is correct! 
         //- success checkmark
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.3 193.3">
           <circle class="cls-1 circle" cx="96.65" cy="96.65" r="94.15"/>
@@ -51,8 +50,41 @@ block content
     .app
       .cup-container 
 
-  p Stay tuned for a presentation about what this test was about, how these beers were made, and whether or not there was a statistically significant difference between them!
-  
+  //- p Stay tuned for a presentation about what this test was about, how these beers were made, and whether or not there was a statistically significant difference between them!
+
+  h2 What was in my cups?
+  p These beers were identical NEIPA recipes fermented with 2 different yeasts from Escarpment Labs. The first strain, Thiol Libre, is a well known strain that specializes in the biotransformation of thiols to create extra fruity aroma and flavor. The second, EL-1739, is a proprietary experimental strain based off of the classic American Ale strain, designed to biotransform hop terpenes for more citrus character.  While both strains "biotransform" the beers, they do so using different mechanisms.
+
+  .table 
+    .cell.headings Cup A 
+    .cell.headings Cup B
+    .cell.headings Cup C 
+    .cell= `${beers.unique.cups == 'A' ? beers.unique.beer : beers.other.beer}`
+    .cell= `${beers.unique.cups == 'B' ? beers.unique.beer : beers.other.beer}`
+    .cell= `${beers.unique.cups == 'C' ? beers.unique.beer : beers.other.beer}`
+
+  p The recipe and process were identical in each of the beers, even down to the pitch rate and viability of the yeast (verified with microscopy). Here's an overview of the recipe, if you're curious: 
+
+  .table.recipe-table 
+    .cell.headings Base Grains 
+    .cell 77%
+    .cell.headings Flaked Oats 
+    .cell 13%
+    .cell.headings Chit Malt 
+    .cell 10%
+    .cell.headings Mash Hop 
+    .cell 2oz Cascade
+    .cell.headings Late Boil Hop (10min)
+    .cell 1oz Idaho 7
+    .cell.headings Whirlpool Hops
+    .cell 6oz total Citra, Centennial, Galaxy
+    .cell.headings Biotrans Dry Hops
+    .cell 5oz total Citra, Mosaic, Galaxy
+    .cell.headings Post Ferm Dry Hops 
+    .cell 5oz total Citra, Mosaic, Nectaron
+
+  p Interested in learning more about biotransformation? Consider reading <a href="https://escarpmentlabs.com/blogs/resources/brewers-guide-to-yeast-flavour-biotransformation">THIS GUIDE</a> from Escarpment Labs on the subject!
+
 block scripts
   //- custom script file
   script(src="/javascript/successfulTriangleTest.js")

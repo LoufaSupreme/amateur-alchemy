@@ -94,10 +94,26 @@ exports.displaySuccessfulTriangleTest = async (req, res, next) => {
   
     const triangleKey = req.body.article.triangle_key.find(key => key.token === triangleTest.token);
 
+    const nonUniqueBeerColor = triangleTest.actual_unique.color == "yellow" ? "blue" : "yellow";
+
+    const cups = ['A', 'B', 'C'];
+
+    const beers = {
+      unique: {
+        beer: req.body.article.beer_key[triangleTest.actual_unique.color],
+        cups: triangleTest.actual_unique.cup
+      },
+      other: {
+        beer: req.body.article.beer_key[nonUniqueBeerColor],
+        cups: cups.filter(cup => cup !== triangleTest.actual_unique.cup).join(' & ')
+      }
+    }
+
     res.render('successfulTriangleTest', {
-      title: 'Success!',
+      title: 'Thank you!',
       triangleTest,
-      triangleKey
+      triangleKey, 
+      beers
     })
   }
   catch(err) {

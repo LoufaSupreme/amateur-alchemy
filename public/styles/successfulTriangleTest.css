@@ -13,6 +13,10 @@ h1 {
   color: rgb(var(--clr-accent));
 }
 
+h2 {
+  margin-bottom: 1rem;
+}
+
 .hl {
   color: rgb(var(--clr-accent));
   font-weight: bold;
@@ -25,6 +29,12 @@ h1 {
 
 .ul {
   text-decoration: underline;
+}
+
+a {
+  color: rgb(var(--clr-accent));
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 /* Checkmark Animation ******************/
@@ -184,4 +194,41 @@ ellipse, polyline{
 .flare {
   fill: white;
   stroke: none;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  margin: 1rem 0 2rem 0;
+}
+
+.recipe-table {
+  grid-template-columns: auto 1fr;
+}
+
+.cell.headings {
+  background-color: rgb(var(--clr-bg-darker));
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+.headings > .cell {
+  padding-inline: 1rem;
+  min-height: 3rem;
+}
+
+.cell {
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.cell.hl {
+  background-color: rgb(255 255 255 / 0.03);
 }
