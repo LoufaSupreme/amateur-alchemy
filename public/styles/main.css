@@ -97,7 +97,7 @@ a.custom-link > * {
 }
 
 .placeholder {
-    font-size: 10vw;
+    font-size: clamp(1rem, 10vw, 140px);
     margin: 20% auto;
 }
 
