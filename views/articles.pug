@@ -6,13 +6,14 @@ block stylesheets
   link(rel='stylesheet', href='/styles/articles.css')
 
 block content 
-  h1= title
-  .grid.article-grid
-    each article, idx in articles 
-      if idx === 0
-        +articleCard(article, true)
-      else 
-        +articleCard(article, false)
+  h1 There ain't nuthin here for you yet bruh, turn back. 
+  //- h1= title
+  //- .grid.article-grid
+  //-   each article, idx in articles 
+  //-     if idx === 0
+  //-       +articleCard(article, true)
+  //-     else 
+  //-       +articleCard(article, false)
 
 block scripts 
   script(src='/javascript/articles.js' type="module")

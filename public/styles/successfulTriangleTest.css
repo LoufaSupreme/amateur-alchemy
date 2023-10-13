@@ -31,7 +31,7 @@ h2 {
   text-decoration: underline;
 }
 
-a {
+a.inline {
   color: rgb(var(--clr-accent));
   text-decoration: underline;
   font-weight: bold;
