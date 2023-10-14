@@ -17,8 +17,12 @@ block content
       <i class="fa-solid fa-key"></i>
     a.btn.btn-edit(href=`/articles/${article.slug}/edit`) Edit
     button.btn.btn-delete(type="submit" formaction=`/articles/${article._id}/delete`) Delete
+  
   article
-    h3.date= h.moment(article.created).format("MMMM D, YYYY")
+    .top-matter
+      h4.date= `${h.moment(article.created).format("MMMM D, YYYY")} •`
+      h4.tags= `${article.tags.join(', ')} •`
+      h4.author Josh Davis
     h1= title 
     if article.showcase_img
       img(src=`/uploads/${article.showcase_img}`)

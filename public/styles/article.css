@@ -36,10 +36,15 @@
 }
 
 /* ELEMENT STYLES */
+.content {
+    display: block;
+    width: 100%;
+}
 
 article {
-    width: min(90vw, 900px);
+    max-width: 780px;
     margin-inline: auto;
+    padding: 0 3rem;
 }
 
 h1, h2, h3, h4 {
@@ -50,6 +55,8 @@ h1, h2, h3, h4 {
 
 h1 {
     font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    line-height: 0.9em;
 }
 
 h2 {
@@ -100,7 +107,7 @@ aside > p {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin: 0 0 1rem 0;
+    padding: 0 2rem;
     justify-content: flex-end;
 }
 

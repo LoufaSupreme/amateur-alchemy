@@ -393,6 +393,7 @@ function makeTag(label) {
 
 // tags the list of article tags and turns them into tag elements
 function initializeTags() {
+  if (tagsInput.trim() === "") return;
   tagsInput.value.split(', ').map(tag => {
     tagsHolder.appendChild(makeTag(tag));
   })

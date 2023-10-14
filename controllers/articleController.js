@@ -269,7 +269,7 @@ exports.addArticle = (req, res) => {
 
 // turn the text from the tags input into an array of tags
 function parseTags(rawTags) {
-    const tagsArray = rawTags !== "" ? rawTags.split(', ').map(tag => tag.toLowerCase()) : [];
+    const tagsArray = rawTags.trim() !== "" ? rawTags.split(', ').map(tag => tag.toLowerCase()) : [];
     return tagsArray;
 }
 
