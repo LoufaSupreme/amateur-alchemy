@@ -142,6 +142,13 @@ aside > p {
     background-color: #892be2;
 }
 
+/* top matter of article */
+.top-matter {
+    display: flex;
+    gap: 1rem;
+    font-weight: lighter;
+}
+
 /* image container with 2 images */
 
 .sidebyside {

@@ -20,9 +20,12 @@ block content
   
   article
     .top-matter
-      h4.date= `${h.moment(article.created).format("MMMM D, YYYY")} •`
-      h4.tags= `${article.tags.join(', ')} •`
-      h4.author Josh Davis
+      .date= h.moment(article.created).format("MMMM D, YYYY")
+      if article.tags.length 
+        .seperator •
+        .tags= article.tags.join(', ')
+      .seperator • 
+      .author Josh Davis
     h1= title 
     if article.showcase_img
       img(src=`/uploads/${article.showcase_img}`)
