@@ -2,19 +2,15 @@ const htmlPreview = `\
 <style>
 
 </style>
-<section>
-  <h1>Title</h1>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum lacinia dui at sagittis. Etiam suscipit erat 
-  </p>
-  <h2>Subtitle</h2>
-  <p>
-    Vivamus at tempor odio. Pellentesque posuere, mi in tempus vehicula, eros risus luctus dolor, condimentum commodo mauris 
-  </p>
-</section>
-<section>
-  <canvas id="chart1" class="chart" data-type="radar"></canvas> 
-</section>
+<h1>Title</h1>
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum lacinia dui at sagittis. Etiam suscipit erat 
+</p>
+<h2>Subtitle</h2>
+<p>
+  Vivamus at tempor odio. Pellentesque posuere, mi in tempus vehicula, eros risus luctus dolor, condimentum commodo mauris 
+</p>
+<canvas id="chart1" class="chart" data-type="radar"></canvas> 
 \ 
 `;
 // img modal elements
