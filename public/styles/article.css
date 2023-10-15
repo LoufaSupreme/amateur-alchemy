@@ -72,7 +72,7 @@ figcaption {
 
 blockquote {
     padding: 1rem 1.2rem;
-    margin: 0 1.5rem;
+    margin: 0 auto;
     background-color: rgb(255 255 255 / 0.05);
     border-radius: 0.4rem;
     color: rgb(var(--clr-text) / 0.9);
