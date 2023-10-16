@@ -49,11 +49,10 @@ async function updateImages() {
 async function getArticle() {
     try {
         const urlComponents = window.location.pathname.split('/');
-        const slug = urlComponents[urlComponents.length - 2];
+        const slug = urlComponents[urlComponents.length - 1];
         const response = await fetch(`/articles/api/get/${slug}`);
         const article = await response.json();
         return article;
-
     }
     catch(err) {
         console.error(err);
@@ -118,63 +117,64 @@ function gatherDemographics(triangleTests) {
 }
 
 // add demographics results top-matter
-function demographicSpecs(triangleTests) {
-    // set num-responses spans
-    const numResponsesSpans = document.querySelectorAll('.num-responses');
-    numResponsesSpans.forEach(span => span.innerText = triangleTests.length);
+// function demographicSpecs(triangleTests) {
+//     // set num-responses spans
+//     const numResponsesSpans = document.querySelectorAll('.num-responses');
+//     numResponsesSpans.forEach(span => span.innerText = triangleTests.length);
 
-    // add icons for each demographic credential
-    const icons = document.querySelector('.icons');
+//     // add icons for each demographic credential
+//     const icons = document.querySelector('.icons');
 
-    const cicerones = triangleTests.filter(test => {
-        return test.additional_training.includes('cicerone')
-    });
+//     const cicerones = triangleTests.filter(test => {
+//         return test.additional_training.includes('cicerone')
+//     });
 
-    const bjcp = triangleTests.filter(test => {
-        return test.additional_training.some(elem => elem.includes('bjcp'));
-    }); 
+//     const bjcp = triangleTests.filter(test => {
+//         return test.additional_training.some(elem => elem.includes('bjcp'));
+//     }); 
 
-    const sensory_training = triangleTests.filter(test => {
-        return test.additional_training.includes('sensory')
-    }); 
+//     const sensory_training = triangleTests.filter(test => {
+//         return test.additional_training.includes('sensory')
+//     }); 
 
-    if (cicerones.length) {
-        createDemoIcon(icons, 'cicerone', cicerones.length);
-    }
+//     if (cicerones.length) {
+//         createDemoIcon(icons, 'cicerone', cicerones.length);
+//     }
 
-    if (bjcp.length) {
-        createDemoIcon(icons, 'bjcp', bjcp.length);
-    }
+//     if (bjcp.length) {
+//         createDemoIcon(icons, 'bjcp', bjcp.length);
+//     }
 
-    if (sensory_training.length) {
-        createDemoIcon(icons, 'sensory_training', sensory_training.length);
-    }
-}
+//     if (sensory_training.length) {
+//         createDemoIcon(icons, 'sensory_training', sensory_training.length);
+//     }
+// }
 
 // create demographic credential icon
-function createDemoIcon(parent, type, num) {
-    const descriptor = type === 'cicerone' ? 'Cicerones' : type === 'bjcp' ? 'BJCP Judges' : 'With Sensory Training';
+// function createDemoIcon(parent, type, num) {
+//     const descriptor = type === 'cicerone' ? 'Cicerones' : type === 'bjcp' ? 'BJCP Judges' : 'With Sensory Training';
     
-    const iconContainer = document.createElement('div');
-    iconContainer.classList.add('icon-container');
+//     const iconContainer = document.createElement('div');
+//     iconContainer.classList.add('icon-container');
     
-    const iconImg = document.createElement('img');
-    iconImg.src = `/images/${type}_icon.png`;
+//     const iconImg = document.createElement('img');
+//     iconImg.src = `/images/${type}_icon.png`;
 
-    const iconText = document.createElement('span');
-    iconText.classList.add('smaller-text');
-    iconText.innerText = `${num} ${descriptor}`;
+//     const iconText = document.createElement('span');
+//     iconText.classList.add('smaller-text');
+//     iconText.innerText = `${num} ${descriptor}`;
 
-    iconContainer.appendChild(iconImg);
-    iconContainer.appendChild(iconText);
+//     iconContainer.appendChild(iconImg);
+//     iconContainer.appendChild(iconText);
 
-    parent.appendChild(iconContainer);
-}
+//     parent.appendChild(iconContainer);
+// }
 
 // make demographics chart
 function chartDemographics(article) {
     // find chart element
     const demographicsCanvas = document.getElementById("demographics");
+    if (!demographicsCanvas) return;
 
     // get demographics data
     const demographics = gatherDemographics(article.triangle_tests);
@@ -249,15 +249,268 @@ function chartDemographics(article) {
     };
 
     // add demographic chart top-matter / specs
-    demographicSpecs(article.triangle_tests);
+    // demographicSpecs(article.triangle_tests);
 
     // create the chart
     makeChart(demographicsCanvas, 'bar', demographicsChartData, demographicChartOptions);
 }
 
+// translate what "unique" and "other" mean for each triangle test, by comparing the triangle test's "actual_unique" beer color to the beer key
+function translateActualBeers(article, triangleTest) {
+    const actual_unique = article.beer_key[triangleTest.actual_unique.color];
+
+    const actual_other = triangleTest.actual_unique.color === 'yellow' ? article.beer_key["blue"] : article.beer_key["yellow"];
+
+    const isCorrect = triangleTest.perceived_unique === triangleTest.actual_unique.cup;
+
+    const perceived_unique = isCorrect ? actual_unique : actual_other;
+
+    const perceived_other = isCorrect ? actual_other : actual_unique;
+
+    return {
+        actual_unique,
+        actual_other,
+        perceived_unique,
+        perceived_other,
+        isCorrect
+    }
+}
+
+// reduce triangle test respondents preferences
+function gatherPreferences(article) {
+    const preferences = article.triangle_tests.reduce((acc, curr) => {
+        if (!curr.actual_unique) return acc;
+        
+        const { actual_unique, actual_other } = translateActualBeers(article, curr);
+
+        const isCorrect = curr.perceived_unique === curr.actual_unique.cup;
+
+        if (curr.preference === 'unique') {
+            isCorrect ? acc[actual_unique] += 1 : acc[actual_other] += 1;
+        }
+        else if (curr.preference === 'other') {
+            isCorrect ? acc[actual_other] += 1 : acc[actual_unique] += 1;
+        }
+        else {
+            acc["No Preference"] += 1;
+        }
+        return acc;
+
+    }, {
+        [ article["beer_key"]["blue"] ]: 0,
+        [ article["beer_key"]["yellow"] ]: 0,
+        "No Preference": 0,
+    });
+
+    return preferences;
+}
+
+// make preferences chart
+function chartPreferences(article) {
+    const preferences = gatherPreferences(article);
+    const preferencesSpan = document.getElementById('preferences-stmt');
+
+    const notNoPreference = Object.entries(preferences).filter(pref => pref[0] !== "No Preference");
+
+    const notNoPreferenceCount = notNoPreference.reduce((acc,curr) => acc += curr[1], 0);
+
+    const highestPref = notNoPreference[0][1] > notNoPreference[1][1] ? notNoPreference[0] : notNoPreference[1];
+
+    preferencesSpan.innerText = `Of the people who detected a difference, ${(highestPref[1] / notNoPreferenceCount * 100).toFixed(0)}% preferred the "${highestPref[0]}" beer`;
+
+    const preferencesCanvas = document.getElementById('preferences');
+    if (!preferencesCanvas) return;
+
+    const preferencesChartData = {
+        labels: Object.keys(preferences),
+        datasets: [{
+        label: 'Preferences',
+        display: true,
+        data: Object.values(preferences),
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+        ],
+        borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1,
+        hoverOffset: 20
+        }],
+    }
+
+    const preferencesChartOptions = {
+        clip: false,
+        responsive: true,
+        layout: {
+        padding: 30,
+        },
+        animation: {
+        animateScale: true
+        },
+        plugins: {
+        legend: {
+            display: true
+        },
+        deferred: {
+            xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+            yOffset: '50%',  // defer until 50% of the canvas height are inside the viewport
+            delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+        }
+        },
+    };
+
+    makeChart(preferencesCanvas, 'doughnut', preferencesChartData, preferencesChartOptions);
+}
+
+// reduce all the flaws from triangle tests into an object
+function gatherFlaws(article) {
+    const flaws = article.triangle_tests.reduce((acc, curr) => {
+        if (!curr.actual_unique) return acc;
+        if (!curr.flaws_detected) return acc;
+        
+        const { perceived_unique, perceived_other } = translateActualBeers(article, curr);
+
+        for (const [flaw, beers] of Object.entries(curr.flaws)) {
+        if (acc[flaw] === undefined && beers.length) acc[flaw] = {};
+        for (const beer of beers) {
+            if (beer.toLowerCase() === 'unique') {
+            if (acc[flaw][perceived_unique] === undefined) {
+                acc[flaw][perceived_unique] = 0;
+            }
+            acc[flaw][perceived_unique]++;
+            }
+            else if (beer.toLowerCase() === 'other') {
+            if (acc[flaw][perceived_other] === undefined) {
+                acc[flaw][perceived_other] = 0;
+            }
+            acc[flaw][perceived_other]++;
+            }
+            else {
+            makeAlert('Unknown beer label in flaws array');
+            }
+        }
+        }
+        return acc;
+    }, {});
+
+    return flaws;
+}
+
+// visualize off-flavours detected
+function chartFlaws(article) {
+    const flaws = gatherFlaws(article);
+    
+    const beer1 = Object.values(article.beer_key)[0];
+    const beer2 = Object.values(article.beer_key)[1];
+
+    const flawsCanvas = document.getElementById("flaws");
+    if (!flawsCanvas) return;
+
+    // flawsCanvas.style.height = `${(Object.keys(flaws).length*5)}rem`
+    flawsCanvas.style.height = `${flawsCanvas.parentElement.getBoundingClientRect().width}px`
+
+    const flawsChartData = {
+        labels: Object.keys(flaws).map(key => capitalizeFirst(key)),
+        datasets: [
+        {
+            label: beer1,
+            // xAxisID: 'top',
+            categoryPercentage: 0.5,
+            barPercentage: 0.9,
+            data: Object.values(flaws).map(elem => elem[beer1]),
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            ],
+            borderWidth: 0,
+            hoverOffset: 50
+        },
+        {
+            label: beer2,
+            // xAxisID: 'top',
+            categoryPercentage: 0.5,
+            barPercentage: 0.9,
+            data: Object.values(flaws).map(elem => elem[beer2]),
+            backgroundColor: [
+            'rgba(54, 162, 235, 0.6)',
+            ],
+            borderColor: [
+            'rgb(54, 162, 235)',
+            ],
+            borderWidth: 0,
+            hoverOffset: 50
+        }
+        ],
+    }
+
+    const flawsChartOptions = {
+        indexAxis: 'y',
+        maintainAspectRatio: false,
+        clip: false,
+        responsive: true,
+        layout: {
+        padding: 20,
+        },
+        animation: {
+        animateScale: true
+        },
+        scales: {
+        x: {
+            position: 'bottom',
+            title: {
+            display: true,
+            text: "# of People"
+            },
+            ticks: {
+            stepSize: 1
+            }
+        },
+        y: {
+            ticks: {
+            font: {
+                size: Math.min(window.innerWidth * 0.03, 22),
+                weight: 'bold'
+            }
+            }
+        }
+        },
+        plugins: {
+        legend: {
+            display: true,
+        },
+        deferred: {
+            xOffset: 150,  // defer until 150px of the canvas width are inside the viewport
+            yOffset: '25%',  // defer until 50% of the canvas height are inside the viewport
+            delay: 250  // delay of 500 ms after the canvas is considered inside the viewport
+        }
+        },
+    };
+
+    makeChart(flawsCanvas, 'bar', flawsChartData, flawsChartOptions);
+}
+
 async function displayResults() {
     const article = await getArticle();
+    if (!article) {
+        makeAlert("No article found!");
+        return;
+    }
+    if (!article.triangle_tests.length) return;
     chartDemographics(article);
+    chartPreferences(article);
+    chartFlaws(article);
 }
 
 // const chartContainers = document.querySelectorAll('.chart');

@@ -445,7 +445,7 @@ exports.appendTriangleTest = async (req, res, next) => {
 exports.displayArticle = async (req, res, next) => {
     console.log(`Running displayArticle on slug: ${req.params.slug}`)
     try {
-        const article = await Article.findOne({slug: req.params.slug});
+        const article = await Article.findOne({slug: req.params.slug}).populate('triangle_tests');;
         if (!article) {
             const err = new Error(`Article Not Found: ${req.path}`);
             err.status = 404;

@@ -478,36 +478,6 @@ function graphFlaws(article) {
   };
 
   makeChart(flawsCanvas, 'bar', flawsChartData, flawsChartOptions);
-
-  // console.log(flaws);
-  
-  // function makeTableCell(content, classNames=[]) {
-  //   const cell = document.createElement('div');
-  //   cell.classList.add('cell');
-  //   cell.innerText = content;
-  //   for (const name of classNames) {
-  //     cell.classList.add(name);
-  //   }
-  //   return cell;
-  // }
-
-  // const row = document.createElement('div');
-  // row.classList.add('row');
-  // row.classList.add('headings');
-  // row.appendChild(makeTableCell(""));
-  // row.appendChild(makeTableCell(Object.values(article.beer_key)[0]));
-  // row.appendChild(makeTableCell(Object.values(article.beer_key)[1]));
-  // flawsTable.appendChild(row);
-
-  
-  // for (const [flaw, beers] of Object.entries(flaws)) {
-  //   const row = document.createElement('div');
-  //   row.classList.add('row');
-  //   row.appendChild(makeTableCell(capitalizeFirst(flaw)));
-  //   row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[0]] || "-"))
-  //   row.appendChild(makeTableCell(beers[Object.values(article.beer_key)[1]] || "-"))
-  //   flawsTable.appendChild(row);
-  // }
 }
 
 // utility function to make a chart.js graph

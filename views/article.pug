@@ -4,6 +4,26 @@ block stylesheets
   link(rel='stylesheet', href='/styles/article.css')
 
 block content 
+
+  - 
+    const correct = article.triangle_tests.filter(test => {
+      if (test.actual_unique) {
+        return test.perceived_unique === test.actual_unique.cup
+      }
+    });
+
+    const cicerones = article.triangle_tests.filter(test => {
+      return test.additional_training.includes('cicerone')
+    });
+
+    const bjcp = article.triangle_tests.filter(test => {
+      return test.additional_training.some(elem => elem.includes('bjcp'));
+    }); 
+
+    const sensory = article.triangle_tests.filter(test => {
+      return test.additional_training.includes('sensory')
+    }); 
+
   //- pre= h.dump(article)
   form.control-panel(method="POST")
     a.btn.btn-other(href=`/articles/${article.article_num}/qr-code`) 
@@ -31,6 +51,65 @@ block content
       img(src=`/uploads/${article.showcase_img}`)
     p !{article.body}
 
+    if article.triangle_tests.length
+      section.results-section 
+        if article.stats.p_val <= 0.05
+          h3.section-title Statistically Significant!
+          .results-container
+            h4.big
+              span.green= `${correct.length}` 
+              span= ` / ${article.triangle_tests.length}`
+              p.larger-text correct responses (p-value = 
+                span.green= `${article.stats.p_val.toFixed(2)}`
+                | )
+        else 
+          h3.section-title Not Statistically Significant
+          .results-container
+            h4.big
+              span.red= `${correct.length}` 
+              span= ` / ${article.triangle_tests.length}`
+            p.larger-text correct responses (p-value = 
+              span= `${article.stats.p_val.toFixed(2)}`
+              | )
+        if article.stats.significance_threshold.p_val > -1
+          p.padded.smaller-text= `${article.stats.significance_threshold.num_correct} correct responses needed for statistical significance (p-value ≤ 0.05)`
+        else
+          p.padded.smaller-text There are not enough responses yet to do a proper statistical analysis.
+
+      section.results-section 
+        h3.section-title Demographics
+        span.smaller-text= `${article.triangle_tests.length} responses submitted`
+        .icons 
+          if cicerones.length
+            .icon-container 
+              img(src="/images/cicerone_icon.png")
+              span.smaller-text= `${cicerones.length} Cicerone(s)`
+          if bjcp.length
+            .icon-container 
+              img(src="/images/bjcp_icon.png")
+              span.smaller-text= `${bjcp.length} BJCP Judge(s)`
+          if sensory.length
+            .icon-container 
+              img(src="/images/sensory_training_icon.png")
+              span.smaller-text= `${sensory.length} With Sensory Training`
+        .results-container
+          .chart-wrapper
+            canvas.chart#demographics 
+
+      section.results-section
+        h3.section-title Preferences 
+        span#preferences-stmt.smaller-text
+        .results-container
+          .chart-wrapper
+            canvas.chart#preferences 
+
+      section.results-section
+        h3.section-title Off Flavours 
+        .results-container
+          .chart-wrapper
+            //- #flaws-table
+            canvas#flaws
+    
 block scripts 
   //- chart.js
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
