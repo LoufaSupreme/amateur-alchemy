@@ -447,6 +447,43 @@ function chartFlaws(article) {
     makeChart(flawsCanvas, 'bar', flawsChartData, flawsChartOptions);
 }
 
+// reduce triangle test comparison data for the 2 beers
+function gatherComparisonData(article) {
+    // collect the relative scores for each descriptor for each beer
+    // 4 means way more of that descriptor for that beer.  
+    // 0 means way more of that descriptor for THE OTHER beer.
+    // baseline is 2.  2 === the beers are equal
+    const comparisons = article.triangle_tests.reduce((acc, curr) => {
+        // if (curr.preference === 'none') return acc;
+        const { perceived_unique, perceived_other } = translateActualBeers(article, curr);
+        const descriptors = ["balance", "bitterness", "malt_character", "yeast_character", "hop_character", "body", "carbonation"];
+        
+        acc[perceived_unique] = acc[perceived_unique] || {};
+        acc[perceived_other] = acc[perceived_other] || {};
+
+        // loop descriptors 
+        descriptors.forEach(descriptor => {
+            acc[perceived_unique][descriptor] = acc[perceived_unique][descriptor] || [];
+            acc[perceived_other][descriptor] = acc[perceived_other][descriptor] || [];
+
+            if (curr[descriptor] > 2) {
+                acc[perceived_unique][descriptor].push(curr[descriptor]);
+            }
+            else if (curr[descriptor] < 2) {
+                acc[perceived_other][descriptor].push(Math.abs(curr[descriptor]));
+            }
+            else if (curr[descriptor] === 2) {
+                acc[perceived_unique][descriptor].push(curr[descriptor]);
+
+                acc[perceived_other][descriptor].push(Math.abs(curr[descriptor]));
+            }
+        })
+        return acc;
+    },{})
+
+    return comparisons;
+}
+
 async function displayResults() {
     const article = await getArticle();
     if (!article) {
@@ -457,6 +494,7 @@ async function displayResults() {
     chartDemographics(article);
     chartPreferences(article);
     chartFlaws(article);
+    gatherComparisonData(article);
 }
 
 window.onload = displayResults;
