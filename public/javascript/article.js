@@ -116,60 +116,6 @@ function gatherDemographics(triangleTests) {
     return sortedDemos;
 }
 
-// add demographics results top-matter
-// function demographicSpecs(triangleTests) {
-//     // set num-responses spans
-//     const numResponsesSpans = document.querySelectorAll('.num-responses');
-//     numResponsesSpans.forEach(span => span.innerText = triangleTests.length);
-
-//     // add icons for each demographic credential
-//     const icons = document.querySelector('.icons');
-
-//     const cicerones = triangleTests.filter(test => {
-//         return test.additional_training.includes('cicerone')
-//     });
-
-//     const bjcp = triangleTests.filter(test => {
-//         return test.additional_training.some(elem => elem.includes('bjcp'));
-//     }); 
-
-//     const sensory_training = triangleTests.filter(test => {
-//         return test.additional_training.includes('sensory')
-//     }); 
-
-//     if (cicerones.length) {
-//         createDemoIcon(icons, 'cicerone', cicerones.length);
-//     }
-
-//     if (bjcp.length) {
-//         createDemoIcon(icons, 'bjcp', bjcp.length);
-//     }
-
-//     if (sensory_training.length) {
-//         createDemoIcon(icons, 'sensory_training', sensory_training.length);
-//     }
-// }
-
-// create demographic credential icon
-// function createDemoIcon(parent, type, num) {
-//     const descriptor = type === 'cicerone' ? 'Cicerones' : type === 'bjcp' ? 'BJCP Judges' : 'With Sensory Training';
-    
-//     const iconContainer = document.createElement('div');
-//     iconContainer.classList.add('icon-container');
-    
-//     const iconImg = document.createElement('img');
-//     iconImg.src = `/images/${type}_icon.png`;
-
-//     const iconText = document.createElement('span');
-//     iconText.classList.add('smaller-text');
-//     iconText.innerText = `${num} ${descriptor}`;
-
-//     iconContainer.appendChild(iconImg);
-//     iconContainer.appendChild(iconText);
-
-//     parent.appendChild(iconContainer);
-// }
-
 // make demographics chart
 function chartDemographics(article) {
     // find chart element
@@ -513,7 +459,4 @@ async function displayResults() {
     chartFlaws(article);
 }
 
-// const chartContainers = document.querySelectorAll('.chart');
-// chartContainers.forEach(chartContainer => {
-//     createChart(chartContainer, chartContainer.dataset.type)
-// })
+window.onload = displayResults;
