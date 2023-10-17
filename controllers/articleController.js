@@ -364,8 +364,7 @@ exports.updateArticle = async (req, res, next) => {
         console.log(`Updated ${articleInfo.value.title}`);
         req.flash('success', `Successfully updated ${articleInfo.value.title}`);
 
-        // res.redirect(`/articles/${articleInfo.value.slug}`)
-        res.redirect('back');
+        res.redirect(`/articles/${articleInfo.value.slug}`)
     }
     catch(err) {
         console.log(err);
