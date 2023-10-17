@@ -422,7 +422,7 @@ exports.deletePhotos = async (req, res, next) => {
 // add a triangleTest to an existing article
 // needs to have article_id in req.params
 exports.appendTriangleTest = async (req, res, next) => {
-    console.log(`Running appendTriangleTest to article ${req.params.article.article_num}`);
+    console.log(`Running appendTriangleTest to article ${req.params.article_id}`);
     try {
         const article = await Article.findOneAndUpdate(
             { _id: req.params.article_id },
