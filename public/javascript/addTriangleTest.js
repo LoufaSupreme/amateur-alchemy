@@ -182,7 +182,7 @@ function resetFlaws() {
 }
 
 // reset all range inputs back to default
-function resetComparisonRanges(val = 2) {
+function resetComparisonRanges(val = 0) {
     rangeInputs.forEach(input => input.value = val);
 }
 

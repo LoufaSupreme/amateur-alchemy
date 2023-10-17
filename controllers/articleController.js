@@ -422,7 +422,7 @@ exports.deletePhotos = async (req, res, next) => {
 // add a triangleTest to an existing article
 // needs to have article_id in req.params
 exports.appendTriangleTest = async (req, res, next) => {
-    console.log(`Running appendTriangleTest to article ${req.params.article_num}`);
+    console.log(`Running appendTriangleTest to article ${req.params.article.article_num}`);
     try {
         const article = await Article.findOneAndUpdate(
             { _id: req.params.article_id },
@@ -434,7 +434,7 @@ exports.appendTriangleTest = async (req, res, next) => {
         req.body.article = article;
 
         // next();
-        res.redirect(`/articles/${article.article_num}/triangle-tests/${req.body.triangleTest.token}/thanks`);
+        res.redirect(`/articles/${article.article_num}/triangle-test/${req.body.triangleTest.token}/thanks`);
     }
     catch(err) {
         console.log(err);
