@@ -25,18 +25,18 @@ block content
     }); 
 
   //- pre= h.dump(article)
-  form.control-panel(method="POST")
-    a.btn.btn-other(href=`/articles/${article.article_num}/qr-code`) 
-      <i class="fa-solid fa-qrcode"></i>
-    a.btn.btn-other(href=`/articles/${article.slug}/test-results`) 
-      <i class="fa-solid fa-square-poll-vertical"></i>
-    a.btn.btn-other(href=`/articles/${article._id}/beer-key`) 
-      <i class="fa-solid fa-beer-mug-empty"></i> 
-      <i class="fa-solid fa-key"></i>
-    a.btn.btn-other(href=`/articles/${article.article_num}/triangle-test-key`) △ 
-      <i class="fa-solid fa-key"></i>
-    a.btn.btn-edit(href=`/articles/${article.slug}/edit`) Edit
-    button.btn.btn-delete(type="submit" formaction=`/articles/${article._id}/delete`) Delete
+  //- form.control-panel(method="POST")
+  //-   a.btn.btn-other(href=`/articles/${article.article_num}/qr-code`) 
+  //-     <i class="fa-solid fa-qrcode"></i>
+  //-   a.btn.btn-other(href=`/articles/${article.slug}/test-results`) 
+  //-     <i class="fa-solid fa-square-poll-vertical"></i>
+  //-   a.btn.btn-other(href=`/articles/${article._id}/beer-key`) 
+  //-     <i class="fa-solid fa-beer-mug-empty"></i> 
+  //-     <i class="fa-solid fa-key"></i>
+  //-   a.btn.btn-other(href=`/articles/${article.article_num}/triangle-test-key`) △ 
+  //-     <i class="fa-solid fa-key"></i>
+  //-   a.btn.btn-edit(href=`/articles/${article.slug}/edit`) Edit
+  //-   button.btn.btn-delete(type="submit" formaction=`/articles/${article._id}/delete`) Delete
   
   article
     .top-matter
