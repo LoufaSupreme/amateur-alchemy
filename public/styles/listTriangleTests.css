@@ -25,6 +25,11 @@ p {
 
 /* tables */
 
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .styled-table {
   border-collapse: collapse;
   margin: 2rem auto;
@@ -56,4 +61,14 @@ p {
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid rgb(var(--clr-article-accent) / 0.5);
+}
+
+@media (max-width: 500px) {
+  .content {
+    width: 95%;
+  }
+
+  h1, p {
+    margin-inline: 0.5rem;
+  }
 }
