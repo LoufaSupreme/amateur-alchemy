@@ -157,3 +157,27 @@ exports.addUniqueBeer = async (req, res, next) => {
     next(err);
   }
 }
+
+// render a list of triangle tests for a given article
+// requires article instance on req.body.article
+exports.listTriangleTests = async (req, res, next) => {
+  console.log('Running listTriangleTests');
+  try {
+    if (!req.body.article) throw new Error('No article slug passed in!');
+
+    const triangleTests = await TriangleTest.find({ article: req.body.article }).sort({ token: 1 });
+
+    if (!triangleTests) throw new Error(`No triangle tests found for article ${article.slug}`);
+
+    res.render('listTriangleTests', {
+      title: `Triangle Tests: ${req.body.article.title}`,
+      triangleTests,
+      article_num: req.body.article.article_num,
+      article_slug: req.body.article.slug
+    })
+  }
+  catch(err) {
+      console.log(err);
+      next(err);
+  }
+}

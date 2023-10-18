@@ -274,11 +274,19 @@ function parseTags(rawTags) {
 }
 
 // displays the edit article page
+// requires article slug to be in req.params.slug
 exports.editArticle = async (req, res, next) => {
     console.log(`Running editArticle on ${req.params.slug}`);
     try {
         const slug = req.params.slug;
         const article = await Article.findOne({ slug: slug });
+        
+        if (!article) {
+            const err = new Error(`Article Not Found: ${req.path}`);
+            err.status = 404;
+            throw err;
+        }
+
         res.render('addArticle', {
             title: 'Update Article', 
             article: article 
@@ -700,6 +708,7 @@ exports.qrCode = (req, res) => {
 }
 
 // @param req.params.slug
+// adds article instance to req.body.article
 exports.findArticleBySlug = async (req, res, next) => {
     console.log(`Running findArticleBySlug for ${req.params.slug}`);
     try {
@@ -753,3 +762,4 @@ exports.getUniqueTagList = async (req, res, next) => {
         next(err);
     }
 }
+

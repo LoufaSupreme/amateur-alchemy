@@ -58,7 +58,7 @@ router.post('/:id/delete',
 );
 
 // request a list of existing tags
-router.get('/api/tags', articleController.getUniqueTagList)
+router.get('/api/tags', articleController.getUniqueTagList);
 
 //// TRIANGLE TEST KEYS, QR CODE, RESULTS ROUTES //////////////////
 
@@ -121,5 +121,10 @@ router.get('/:article_num/triangle-test/:token/thanks',
     triangleTestController.displaySuccessfulTriangleTest
 )
 
+// show a summary page of every triangle test
+router.get('/:slug/triangle-tests',
+    articleController.findArticleBySlug,    
+    triangleTestController.listTriangleTests
+)
 
 module.exports = router;

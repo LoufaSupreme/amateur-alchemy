@@ -1,0 +1,28 @@
+extends layout 
+
+block stylesheets 
+  link(rel='stylesheet', href='/styles/listTriangleTests.css')
+
+block content 
+  h1= title
+  
+  table.styled-table
+    thead 
+      tr
+        th ID# 
+        th Name
+        th Results
+    each ttest in triangleTests
+      if ttest.name !== undefined
+        tr
+          td= ttest.token 
+          td= ttest.name
+          td
+            a.inline-link(href=`/articles/${article_num}/triangle-test/${ttest.token}/thanks`) View Results
+
+  p Check out the full breakdown of results for this exBEERiment by 
+    a.inline-link.pink(href=`/articles/${article_slug}/test-results`) CLICKING HERE.
+
+
+//- block scripts 
+//-   script(src='/javascript/articles.js' type="module")
