@@ -24,7 +24,7 @@ require('./models/Beer.js');
 require('./models/Brewery.js');
 require('./models/Article.js');
 require('./models/TriangleTest.js');
-// require('./models/User');
+require('./models/User.js');
 // require('./models/Review');
 
 // const MongoStore = require('connect-mongo');
