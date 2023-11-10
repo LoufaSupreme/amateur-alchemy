@@ -9,6 +9,11 @@ const session = require('express-session');
 const helpers = require('./helpers/helpers.js');
 const errorHandlers = require('./handlers/errorHandler.js');
 
+// const expressValidator = require('express-validator');
+// const MongoStore = require('connect-mongo');
+// const passport = require('passport');
+// const promisify = require('es6-promisify');
+
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 
@@ -27,11 +32,6 @@ require('./models/TriangleTest.js');
 require('./models/User.js');
 // require('./models/Review');
 
-// const MongoStore = require('connect-mongo');
-// const passport = require('passport');
-// const promisify = require('es6-promisify');
-// const expressValidator = require('express-validator');
-
 const app = express();
 
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
@@ -47,6 +47,9 @@ app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work gr
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Exposes a bunch of methods for validating data. Used heavily on userController.validateRegister
+// app.use(expressValidator());
+
 // populates req.cookies with any cookies that came along with the request
 // needed to use flash messages
 app.use(cookieParser());
@@ -54,8 +57,8 @@ app.use(cookieParser());
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 app.use(session({
-  secret: process.env.SECRET,
-  key: process.env.KEY,
+  secret: process.env.SESSION_SECRET,
+  key: process.env.SESSION_KEY,
   resave: false,
   saveUninitialized: false,
   // store: new MongoStore({ mongoUrl: process.env.DATABASE })
@@ -80,11 +83,13 @@ const indexRoutes = require('./routes/index');
 const articleRoutes = require('./routes/articleRoutes.js');
 const reviewRoutes = require('./routes/reviewRoutes.js');
 const breweryRoutes = require('./routes/breweryRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 
 app.use('/', indexRoutes);
 app.use('/articles', articleRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/breweries', breweryRoutes);
+app.use('/user', userRoutes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
