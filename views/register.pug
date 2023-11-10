@@ -1,0 +1,10 @@
+extends layout 
+
+include mixins/_registerForm
+
+block stylesheets 
+    link(rel='stylesheet', href='/styles/register.css')
+
+block content 
+  h1.content--title Register
+  +registerForm()

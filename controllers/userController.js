@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 // const promisify = require('es6-promisify');
-// const { body, check } = require('express-validator');
-const { body, validationResult, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 exports.loginForm = (req, res) => {
-  console.log(check, body, validationResult)
   res.render('login', { title: 'Login' });
 }
 
@@ -16,12 +14,10 @@ exports.registerForm = (req, res) => {
 exports.validateRegisterChain = [
   body('name', 'Name must be between 2 and 35 characters!')
     .trim()  
-    .notEmpty()
     .escape()
     .isLength({min: 2, max: 35}),
   body('email', 'That email is not valid!')
     .trim()
-    .notEmpty()
     .escape()
     .normalizeEmail({
       remove_dots: false,
@@ -50,9 +46,10 @@ exports.validateRegisterChain = [
 exports.checkValidationErrors = (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    req.flash('error', validationErrors.array().map(err => err.msg));
+    req.flash('error', validationErrors.errors.map(err => err.msg));
+    console.log(validationErrors)
     // must pass in flashes manually here because they are being added all on one request... or something
-    res.render('back', { body: req.body, flashes: req.flash() });
+    res.render(req.originalUrl.split('/')[1], { body: req.body, flashes: req.flash() });
     return;
   }
 

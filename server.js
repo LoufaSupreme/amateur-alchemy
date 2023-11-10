@@ -86,10 +86,10 @@ const breweryRoutes = require('./routes/breweryRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 
 app.use('/', indexRoutes);
+app.use('/', userRoutes);
 app.use('/articles', articleRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/breweries', breweryRoutes);
-app.use('/user', userRoutes);
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);
