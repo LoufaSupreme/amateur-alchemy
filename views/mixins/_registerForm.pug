@@ -1,12 +1,52 @@
 mixin registerForm()
-  form.form(action="/register" method="POST")
-    label(for="name") Name
-    input(type="text" name="name")
-    label(for="email") Email Address
-    input(type="email" name="email")
-    label(for="password") Password
-    input(type="password" name="password")
-    label(for="password-confirm") Confirm Password
-    input(type="password" name="password-confirm")
-    input.button(type="submit" value="Register")
-    
+  .form-container
+    h2 REGISTER
+    form.form(action="/register" method="POST")
+      .input-container 
+        label(for="first-name") First Name
+        .icon
+          <i class="fa-solid fa-user-large"></i>
+        input(type="text" name="first-name" placeholder="First Name")
+      .input-container
+        label(for="last-name") Last Name
+        .icon
+          <i class="fa-solid fa-user-large"></i>
+        input(type="text" name="last-name" placeholder="Last Name")
+      .input-container
+        label(for="email") Email Address
+        .icon
+          <i class="fa-regular fa-envelope"></i>
+        input(type="email" name="email" placeholder="Email")
+      .input-container
+        label(for="password") Password
+        .icon
+          <i class="fa-solid fa-lock"></i>
+        input(type="password" name="password" placeholder="Password")
+      .password-validation  
+        .validator-container
+          .validator-icon 
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          .validator(data-type="length") Must be atleast 6 characters long
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="lower") Must contain atleast one lowercase letter
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="upper") Must contain atleast one uppercase letter
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="num") Must container atleast one number 
+      .input-container
+        label(for="password-confirm") Confirm Password
+        .icon
+          <i class="fa-solid fa-lock"></i>
+        input(type="password" name="password-confirm" placeholder="Confirm Password")
+      button(type="button") Register
+      .password-confirm-validation
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="match") Passwords must match

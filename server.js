@@ -5,12 +5,12 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const helpers = require('./helpers/helpers.js');
 const errorHandlers = require('./handlers/errorHandler.js');
 
 // const expressValidator = require('express-validator');
-// const MongoStore = require('connect-mongo');
 // const passport = require('passport');
 // const promisify = require('es6-promisify');
 
@@ -61,7 +61,7 @@ app.use(session({
   key: process.env.SESSION_KEY,
   resave: false,
   saveUninitialized: false,
-  // store: new MongoStore({ mongoUrl: process.env.DATABASE })
+  store: new MongoStore({ mongoUrl: process.env.DATABASE })
 }));
 
 // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests

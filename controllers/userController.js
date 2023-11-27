@@ -12,10 +12,14 @@ exports.registerForm = (req, res) => {
 }
 
 exports.validateRegisterChain = [
-  body('name', 'Name must be between 2 and 35 characters!')
+  body('first-name', 'First name must be between 2 and 35 characters!')
     .trim()  
     .escape()
     .isLength({min: 2, max: 35}),
+  body('last-name')
+    .trim()  
+    .escape()
+    .optional(),
   body('email', 'That email is not valid!')
     .trim()
     .escape()
@@ -31,7 +35,6 @@ exports.validateRegisterChain = [
       minLowercase: 1, 
       minUppercase: 1,
       minNumbers: 1, 
-      minSymbols: 1
     }),
   body('password-confirm')
     .custom((value, { req }) => {
@@ -42,14 +45,15 @@ exports.validateRegisterChain = [
     })
 ];
 
-// methods are from express-validator
 exports.checkValidationErrors = (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     req.flash('error', validationErrors.errors.map(err => err.msg));
-    console.log(validationErrors)
     // must pass in flashes manually here because they are being added all on one request... or something
-    res.render(req.originalUrl.split('/')[1], { body: req.body, flashes: req.flash() });
+
+    const route = req.originalUrl.split('/')[1];
+    const capitalized = route.charAt(0).toUpperCase() + route.slice(1);
+    res.render(route, { title: capitalized, body: req.body, flashes: req.flash() });
     return;
   }
 
