@@ -8,18 +8,15 @@ exports.loginForm = (req, res) => {
 }
 
 exports.registerForm = (req, res) => {
+  console.log("Running registerForm");
   res.render('register', { title: 'Register' });
 }
 
 exports.validateRegisterChain = [
-  body('first-name', 'First name must be between 2 and 35 characters!')
+  body('name', 'Name must be between 2 and 35 characters!')
     .trim()  
     .escape()
     .isLength({min: 2, max: 35}),
-  body('last-name')
-    .trim()  
-    .escape()
-    .optional(),
   body('email', 'That email is not valid!')
     .trim()
     .escape()
@@ -29,7 +26,7 @@ exports.validateRegisterChain = [
       gmail_remove_sebaddress: false
     })
     .isEmail(),
-  body('password', 'Password must be atleast 6 characters long and contain a lowercase letter uppercase letter, number and symbol.')
+  body('password', 'Password must be atleast 6 characters long and contain a lowercase letter, uppercase letter, and a number.')
     .isStrongPassword({
       minLength: 6,
       minLowercase: 1, 
