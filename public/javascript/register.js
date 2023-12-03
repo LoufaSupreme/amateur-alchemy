@@ -132,30 +132,30 @@ eyeIcons.forEach(eye => eye.addEventListener('click', () => {
   const parentInputField = eye.parentElement.querySelector('input');
   
   if (eye.dataset.active === "false") {
-    eye.classList.remove("fa-eye-slash");
-    eye.classList.add("fa-eye");
+    eye.classList.add("fa-eye-slash");
+    eye.classList.remove("fa-eye");
     parentInputField.type = 'text';
     eye.dataset.active = "true"
   }
   else {
-    eye.classList.add("fa-eye-slash");
-    eye.classList.remove("fa-eye");
+    eye.classList.remove("fa-eye-slash");
+    eye.classList.add("fa-eye");
     parentInputField.type = 'password';
     eye.dataset.active = "false"
   }
 }))
 
 // client side validate form before submitting
-registerBtn.addEventListener('click', (e) => {
-  if (!isNotBlankForm(form)) return e.preventDefault();
-  if (!isValidName(nameInput.value.trim())) return e.preventDefault();
-  if (isValidPassword(passwordInput.value.trim()) !== true) {
-    const errors = isValidPassword(passwordInput.value.trim());
-    errors.map(err => makeAlert(err, 3000));
-    return e.preventDefault();
-  }
-  if (!isValidPasswordConfirm(passwordConfirmInput.value.trim())) {
-    makeAlert("Passwords must match", 3000);
-    return e.preventDefault();
-  }
-})
+// registerBtn.addEventListener('click', (e) => {
+//   if (!isNotBlankForm(form)) return e.preventDefault();
+//   if (!isValidName(nameInput.value.trim())) return e.preventDefault();
+//   if (isValidPassword(passwordInput.value.trim()) !== true) {
+//     const errors = isValidPassword(passwordInput.value.trim());
+//     errors.map(err => makeAlert(err, 3000));
+//     return e.preventDefault();
+//   }
+//   if (!isValidPasswordConfirm(passwordConfirmInput.value.trim())) {
+//     makeAlert("Passwords must match", 3000);
+//     return e.preventDefault();
+//   }
+// })

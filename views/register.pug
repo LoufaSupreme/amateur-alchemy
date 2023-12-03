@@ -6,8 +6,11 @@ block stylesheets
     link(rel='stylesheet', href='/styles/register.css')
 
 block content 
-  //- h1.content--title Register
-  +registerForm()
+  //- check if validation error has re-rendered the form with previous data
+  if body
+    +registerForm(body)
+  else 
+    +registerForm()
 
 block scripts 
   //- custom script file

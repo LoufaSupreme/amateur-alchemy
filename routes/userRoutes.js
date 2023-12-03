@@ -11,6 +11,7 @@ router.get('/register',
 router.post('/register', 
   userController.validateRegisterChain,
   userController.checkValidationErrors,
+  userController.registerUser,
 );
 
 router.get('/login',

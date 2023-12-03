@@ -1,4 +1,4 @@
-mixin registerForm()
+mixin registerForm(form = {})
   .form-container
     h2 REGISTER
     form.form(action="/register" method="POST")
@@ -6,17 +6,17 @@ mixin registerForm()
         label(for="name") Name
         .icon
           <i class="fa-solid fa-user-large"></i>
-        input(type="text" name="name" placeholder="Name" required autocomplete="name")
+        input(type="text" name="name" placeholder="Name" required autocomplete="name" value=form.name)
       .input-container
         label(for="email") Email Address
         .icon
           <i class="fa-regular fa-envelope"></i>
-        input(type="email" name="email" placeholder="Email" required autocomplete="email")
+        input(type="email" name="email" placeholder="Email" required autocomplete="email" value=form.email)
       .input-container
         label(for="password") Password
         .icon
           <i class="fa-solid fa-lock"></i>
-        input(type="password" name="password" placeholder="Password" required autocomplete="new-password")
+        input(type="password" name="password" placeholder="Password" required autocomplete="new-password" value=form.password)
         <i class="eye-icon fa-solid fa-eye" data-active="false"></i>
       .password-validation  
         .validator-container
@@ -39,7 +39,7 @@ mixin registerForm()
         label(for="password-confirm") Confirm Password
         .icon
           <i class="fa-solid fa-lock"></i>
-        input(type="password" name="password-confirm" placeholder="Confirm Password" required autocomplete="new-password")
+        input(type="password" name="password-confirm" placeholder="Confirm Password" required autocomplete="new-password" value=form["password-confirm"])
         <i class="eye-icon fa-solid fa-eye" data-active="false"></i>
       .password-confirm-validation
         .validator-container 

@@ -22,9 +22,10 @@ const userSchema = new Schema({
   }
 });
 
+// exposes the "register" method on the User schema
+userSchema.plugin(passportLocalMongoose, { usernameField: 'email'});
+
 // improves error messages, particularly for unique:true errors
 userSchema.plugin(mongodbErrorHandler);
-
-userSchema.plugin(passportLocalMongoose, { usernameField: 'email'});
 
 module.exports = mongoose.model('User', userSchema);
