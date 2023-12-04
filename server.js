@@ -11,7 +11,13 @@ const helpers = require('./helpers/helpers.js');
 const errorHandlers = require('./handlers/errorHandler.js');
 
 // const expressValidator = require('express-validator');
-// const passport = require('passport');
+
+const passport = require('passport');
+
+// our custom handler to configure the passport library
+// the require statement invokes (runs) the code in ./handlers/passports
+require('./handlers/passport.js');
+
 // const promisify = require('es6-promisify');
 
 // import environmental variables from our variables.env file
@@ -64,6 +70,10 @@ app.use(session({
   store: new MongoStore({ mongoUrl: process.env.DATABASE })
 }));
 
+// Passport JS handles logins
+app.use(passport.initialize());
+app.use(passport.session());
+
 // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
 app.use(flash());
 
@@ -76,6 +86,12 @@ app.use((req, res, next) => {
   res.locals.currentPath = req.path;
   next();
 });
+
+// promisify some callback based APIs
+// app.use((req, res, next) => {
+//   req.login = promisify(req.login, req);
+//   next();
+// });
 
 // routes:
 // has to be after requiring the models:

@@ -1,7 +1,12 @@
 extends layout 
 
+include mixins/_loginForm
+
 block stylesheets 
     link(rel='stylesheet', href='/styles/login.css')
 
 block content 
-    h1.content--title Login
+    +loginForm()
+
+block scripts 
+  script(src="/javascript/login.js")

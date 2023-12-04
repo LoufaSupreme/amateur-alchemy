@@ -1,8 +1,49 @@
-mixin registerForm()
-  form.form(action="/login" method="POST")
-    label(for="email") Email Address
-    input(type="email" name="email")
-    label(for="password") Password
-    input(type="password" name="password")
-    input.button(type="submit" value="Register")
-    
+mixin loginForm(form = {})
+  .form-container
+    h2 REGISTER
+    form.form(action="/register" method="POST")
+      .input-container 
+        label(for="name") Name
+        .icon
+          <i class="fa-solid fa-user-large"></i>
+        input(type="text" name="name" placeholder="Name" required autocomplete="name" value=form.name)
+      .input-container
+        label(for="email") Email Address
+        .icon
+          <i class="fa-regular fa-envelope"></i>
+        input(type="email" name="email" placeholder="Email" required autocomplete="email" value=form.email)
+      .input-container
+        label(for="password") Password
+        .icon
+          <i class="fa-solid fa-lock"></i>
+        input(type="password" name="password" placeholder="Password" required autocomplete="new-password" value=form.password)
+        <i class="eye-icon fa-solid fa-eye" data-active="false"></i>
+      .password-validation  
+        .validator-container
+          .validator-icon 
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          .validator(data-type="length") Must be at least 6 characters long
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="lower") Must contain at least one lowercase letter
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="upper") Must contain at least one uppercase letter
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="num") Must container at least one number 
+      .input-container
+        label(for="password-confirm") Confirm Password
+        .icon
+          <i class="fa-solid fa-lock"></i>
+        input(type="password" name="password-confirm" placeholder="Confirm Password" required autocomplete="new-password" value=form["password-confirm"])
+        <i class="eye-icon fa-solid fa-eye" data-active="false"></i>
+      .password-confirm-validation
+        .validator-container 
+          .validator-icon
+            <i class="fa-solid fa-triangle-exclamation"></i> 
+          .validator(data-type="match") Passwords must match
+      button#register-btn(type="submit") Register

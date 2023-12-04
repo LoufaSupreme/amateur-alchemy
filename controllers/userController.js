@@ -72,8 +72,7 @@ exports.registerUser = async (req, res, next) => {
   // the "passportLocalMongoose" plugin in the User schema exposes a "register" method
   await User.register(user, req.body.password)
 
-  res.send('it worked');
-  // next();
+  next();
 }
 
 
