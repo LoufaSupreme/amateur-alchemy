@@ -8,7 +8,10 @@ exports.login = passport.authenticate('local', {
 })
 
 exports.logout = (req, res) => {
-  req.logout();
-  req.flash('success', 'You have successfully logged out!');
-  res.redirect('/');
+  console.log(`Logging out ${req.user.email}`);
+  req.logout((err) => {
+    if (err) return next(err);
+    req.flash('success', 'You have successfully logged out!');
+    res.redirect('/');
+  });
 }

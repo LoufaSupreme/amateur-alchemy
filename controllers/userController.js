@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 
 // show the login form page
 exports.loginForm = (req, res) => {
+  console.log("Running loginForm");
   res.render('login', { title: 'Login' });
 }
 

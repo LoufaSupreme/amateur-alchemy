@@ -6,7 +6,10 @@ block stylesheets
     link(rel='stylesheet', href='/styles/login.css')
 
 block content 
-    +loginForm()
+    if body 
+      +loginForm(body)
+    else
+      +loginForm()
 
 block scripts 
   script(src="/javascript/login.js")
