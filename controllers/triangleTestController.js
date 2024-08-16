@@ -113,7 +113,8 @@ exports.displaySuccessfulTriangleTest = async (req, res, next) => {
       title: 'Thank you!',
       triangleTest,
       triangleKey, 
-      beers
+      beers,
+      article: req.body.article,
     })
   }
   catch(err) {

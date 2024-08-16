@@ -58,6 +58,12 @@ const articleSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    triangle_test_explanation: {
+        intro: String,
+        recipe_preamble: String,
+        recipe: [String],
+        outro: String,
+    },
     // author: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'User',

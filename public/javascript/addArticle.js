@@ -27,6 +27,11 @@ const tagsHolder = tagsContainer.querySelector('.tags__holder');
 // content btns
 const contentBtns = document.querySelectorAll(".btn-catalogue__btn");
 
+// recipe section
+const addIngredientBtn = document.querySelector('#recipe-table__btn');
+const recipeTable = document.querySelector('#recipe-table');
+const recipeHiddenInput = document.querySelector('#recipe');
+
 const contentBtnsDict = {
   "img-left": `\
 <figure class="float-left fig-small">
@@ -387,9 +392,9 @@ function makeTag(label) {
   return tag;
 }
 
-// tags the list of article tags and turns them into tag elements
+// takes the list of article tags and turns them into tag elements
 function initializeTags() {
-  if (tagsInput.trim() === "") return;
+  if (tagsInput.value.trim() === "") return;
   tagsInput.value.split(', ').map(tag => {
     tagsHolder.appendChild(makeTag(tag));
   })
@@ -427,6 +432,64 @@ function configureContentBtns() {
   });
 }
 
+function addToRecipeHiddenInput() {
+  // clear the recipe hidden input:
+  recipeHiddenInput.value = "";
+  
+  // add an ingredient:amount for each table row to the hidden input
+  const tableRows = recipeTable.querySelectorAll('tr');
+  for (const row of tableRows) {
+    const ingredientName = row.querySelector(".headings").innerText;
+    const amount = row.querySelector(".amount").innerText;
+    const ingredient = `${ingredientName}:${amount}`;
+    
+    if (recipeHiddenInput.value === "") recipeHiddenInput.value = ingredient;
+    else recipeHiddenInput.value += `, ${ingredient}`;
+  }
+}
+
+// takes the list of ingredients (ingredientName:amount) in the hidden recipe input and turns them into table elements
+function initializeRecipeTable() {
+  if (recipeHiddenInput.value.trim() === "") return;
+  recipeHiddenInput.value.split(', ').map(ingredientPair => {
+    addIngredientRow(ingredientPair);
+  })
+}
+
+function addIngredientRow(ingredientPair=undefined) {
+  const newRow = document.createElement("tr");
+
+  const ingredient = document.createElement("td");
+  ingredient.classList.add("headings");
+  ingredient.contentEditable = true;
+  ingredient.innerText = "Ingredient Name";
+  ingredient.addEventListener("input", () => {
+    addToRecipeHiddenInput();
+  })
+
+  const amount = document.createElement("td");
+  amount.classList.add("amount")
+  amount.contentEditable = true;
+  amount.innerText = "Amount (% or measurement)";
+  amount.addEventListener("input", () => {
+    addToRecipeHiddenInput();
+  })
+
+  if (ingredientPair) {
+    ingredient.innerText = ingredientPair.split(":")[0];
+    amount.innerText = ingredientPair.split(":")[1];
+  }
+
+  newRow.appendChild(ingredient);
+  newRow.appendChild(amount);
+
+  recipeTable.appendChild(newRow);
+}
+
 tagsTypeAhead();
 initializeTags();
+initializeRecipeTable();
 configureContentBtns();
+addIngredientBtn.addEventListener('click', () => {
+  addIngredientRow();
+})

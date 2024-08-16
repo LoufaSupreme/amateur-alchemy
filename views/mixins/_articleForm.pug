@@ -45,6 +45,23 @@ mixin articleForm(article = {})
 
             input(type="submit" value="Save Images" class="button")
 
+        //- triangle test explanation text
+        .form-card__section.explanation
+          h2.form-card__section--heading Triangle Test Explanation 
+          
+          label(for="intro") Introduction 
+          textarea(name="intro" id="intro") #{article.triangle_test_explanation ? article.triangle_test_explanation.intro : undefined}
+
+          label(for="recipe_preamble") Recipe Preamble 
+          textarea(name="recipe_preamble" id="recipe_preamble") #{article.triangle_test_explanation ? article.triangle_test_explanation.recipe_preamble : undefined}
+
+          label(for="recipe") Recipe 
+          table#recipe-table 
+          button(type="button" id="recipe-table__btn") Add Ingredient
+          input(type="hidden" name="recipe" id="recipe" value=article.triangle_test_explanation && article.triangle_test_explanation.recipe.join(', '))
+          
+          label(for="outro") Outro 
+          textarea(name="outro" id="outro") #{article.triangle_test_explanation ? article.triangle_test_explanation.outro : undefined}
 
         //- main content
         .form-card__section.body

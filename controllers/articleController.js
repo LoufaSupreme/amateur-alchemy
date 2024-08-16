@@ -273,6 +273,12 @@ function parseTags(rawTags) {
     return tagsArray;
 }
 
+// turn the text from the recipe input into an array of "ingredientName:amount" strings
+function parseRecipe(rawRecipe) {
+    const recipeArray = rawRecipe.trim() !== "" ? rawRecipe.split(', ') : [];
+    return recipeArray;
+}
+
 // displays the edit article page
 // requires article slug to be in req.params.slug
 exports.editArticle = async (req, res, next) => {
@@ -303,7 +309,13 @@ exports.createArticle = async (req, res, next) => {
     try {
         req.body.slug = slug(req.body.title);
         req.body.tags = parseTags(req.body.tags);
+        // create article
         const article = new Article(req.body);
+        // set triangle test explanation values
+        article.triangle_test_explanation.recipe = parseRecipe(req.body.recipe);
+        article.triangle_test_explanation.intro = req.body.intro;
+        article.triangle_test_explanation.recipe_preamble = req.body.recipe_preamble;
+        article.triangle_test_explanation.outro = req.body.outro;
         await article.save();
 
         // celebrate
@@ -368,6 +380,13 @@ exports.updateArticle = async (req, res, next) => {
                 runValidators: true,
             }
         ).exec();
+
+        const article = articleInfo.value;
+        article.triangle_test_explanation.recipe = parseRecipe(req.body.recipe);
+        article.triangle_test_explanation.intro = req.body.intro;
+        article.triangle_test_explanation.recipe_preamble = req.body.recipe_preamble;
+        article.triangle_test_explanation.outro = req.body.outro;
+        await article.save();
         
         console.log(`Updated ${articleInfo.value.title}`);
         req.flash('success', `Successfully updated ${articleInfo.value.title}`);
